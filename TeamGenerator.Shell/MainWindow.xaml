@@ -1,0 +1,127 @@
+﻿<Window x:Class="TeamGenerator.Shell.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TeamGenerator.Shell"
+        xmlns:model="clr-namespace:TeamGenerator.Model;assembly=TeamGenerator.Model"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Team Generator" 
+        Height="600" 
+        Width="1000"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="ranksFromEnum"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:Rank"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Add player"
+                  Grid.Row="0"
+                  Grid.ColumnSpan="3"
+                  Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <!--Nick-->
+                    <ColumnDefinition/>
+                    <!--Rank-->
+                    <ColumnDefinition/>
+                    <!--Add button-->
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Grid.Row="0"
+                         Text="{Binding NewPlayerName}"
+                         Margin="0 0 5 0"/>
+                <ComboBox Grid.Column="1"
+                          Grid.Row="0"
+                          ItemsSource="{Binding Source={StaticResource ranksFromEnum}}"
+                          SelectedItem="{Binding NewPlayerRank}"
+                          Margin="0 0 5 0"/>
+                <Button Grid.Column="2"
+                        Grid.Row="0"
+                        Content="Add"
+                        Command="{Binding AddAvailablePlayerCommand}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Available players"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  Margin="5 0 5 5">
+            <ListView ItemsSource="{Binding AvailablePlayers}"
+                      SelectedItem="{Binding SelectedAvailablePlayer}">
+                <ListView.InputBindings>
+                    <KeyBinding Key="Delete"
+                                Command="{Binding DeleteAvailablePlayerCommand}"/>
+                </ListView.InputBindings>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Nick" Width="100" DisplayMemberBinding="{Binding Nick}"/>
+                        <GridViewColumn Header="Rank" Width="200" DisplayMemberBinding="{Binding Rank}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+
+        <Button Grid.Column="1"
+                Grid.Row="1"
+                Height="30"
+                Width="150"
+                Content="Generate teams"
+                Command="{Binding GenerateTeamsCommand}"/>
+
+        <Grid Grid.Row="1"
+              Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Counter Terrorists"
+                  Grid.Row="0"
+                  Grid.Column="0">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding CounterTerroristsProbability}"/>
+                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding CounterTerrorists}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nick}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+            </GroupBox>
+            <GroupBox Header="Terrorists"
+                  Grid.Row="1"
+                  Grid.Column="0">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding TerroristsProbability}"/>
+                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Terrorists}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nick}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>
