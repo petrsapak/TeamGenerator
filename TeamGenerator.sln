@@ -5,13 +5,17 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamGenerator.Shell", "TeamGenerator.Shell\TeamGenerator.Shell.csproj", "{ED87FBFB-21A3-4F3B-B18C-0D241E3D2C08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamGenerator.Model", "TeamGenerator.Model\TeamGenerator.Model.csproj", "{A2B432CB-0B38-4426-AC49-5AA0E6096F79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamGenerator.Model", "TeamGenerator.Model\TeamGenerator.Model.csproj", "{A2B432CB-0B38-4426-AC49-5AA0E6096F79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamGenerator.Core", "TeamGenerator.Core\TeamGenerator.Core.csproj", "{AA8E144C-A668-48D2-91E8-7ED620D806D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamGenerator.Core", "TeamGenerator.Core\TeamGenerator.Core.csproj", "{AA8E144C-A668-48D2-91E8-7ED620D806D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamGenerator.Core.Tests", "TeamGenerator.Core.Test\TeamGenerator.Core.Tests.csproj", "{C6E62D54-E70A-422F-8852-D56DBF823076}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamGenerator.Core.Tests", "TeamGenerator.Core.Test\TeamGenerator.Core.Tests.csproj", "{C6E62D54-E70A-422F-8852-D56DBF823076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamGenerator.Model.Tests", "TeamGenerator.Model.Tests\TeamGenerator.Model.Tests.csproj", "{C21554B4-2CE6-4C61-8780-7D4970AD6AF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamGenerator.Model.Tests", "TeamGenerator.Model.Tests\TeamGenerator.Model.Tests.csproj", "{C21554B4-2CE6-4C61-8780-7D4970AD6AF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamGenerator.Infrastructure", "TeamGenerator.Infrastructure\TeamGenerator.Infrastructure.csproj", "{BAB005A6-347E-4D35-BEAA-81CF3FBCE8CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamGenerator.Infrastructure.Tests", "TeamGenerator.Infrastructure.Tests\TeamGenerator.Infrastructure.Tests.csproj", "{C1692379-D677-487C-BE0E-CB2E86F145A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{C21554B4-2CE6-4C61-8780-7D4970AD6AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C21554B4-2CE6-4C61-8780-7D4970AD6AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C21554B4-2CE6-4C61-8780-7D4970AD6AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAB005A6-347E-4D35-BEAA-81CF3FBCE8CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAB005A6-347E-4D35-BEAA-81CF3FBCE8CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAB005A6-347E-4D35-BEAA-81CF3FBCE8CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAB005A6-347E-4D35-BEAA-81CF3FBCE8CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1692379-D677-487C-BE0E-CB2E86F145A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1692379-D677-487C-BE0E-CB2E86F145A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1692379-D677-487C-BE0E-CB2E86F145A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1692379-D677-487C-BE0E-CB2E86F145A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
