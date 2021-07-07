@@ -1,5 +1,5 @@
 # Random team generator
-- Wpf application which takes in account the rank of the player and tries to create balanced teams.
+- Wpf application which takes in account the ranks of the players and tries to create balanced teams.
 
 ## Instalation
 - Download TeamGenerator.zip archive from this repository
