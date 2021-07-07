@@ -54,7 +54,7 @@ namespace TeamGenerator.Shell.ViewModels
         private void GenerateTeams(object parameters)
         {
             IEvaluate evaluator = new BasicEvaluator();
-            IGenerate generator = new BasicGenerator(evaluator, AvailablePlayers, new Random());
+            IGenerate generator = new BestComplementGenerator(evaluator, AvailablePlayers, new Random());
             (Team, Team) teams = generator.GenerateTeams();
 
             CounterTerrorists = new ObservableCollection<Player>(teams.Item1.Players.Values);

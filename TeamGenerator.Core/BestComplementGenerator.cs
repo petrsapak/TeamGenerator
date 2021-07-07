@@ -6,17 +6,17 @@ using TeamGenerator.Model;
 
 namespace TeamGenerator.Core
 {
-    public class BasicGenerator : IGenerate
+    public class BestComplementGenerator : IGenerate
     {
         private readonly List<Player> availablePlayerPool;
-        private List<Player> availablePlayerPoolBackup;
+        private readonly List<Player> availablePlayerPoolBackup;
         private readonly IEvaluate evaluator;
         private readonly Random random;
 
         private Team teamCounterTerroristBuffer;
         private Team teamTerroristBuffer;
 
-        public BasicGenerator(IEvaluate evaluator, IEnumerable<Player> availablePlayers, Random random)
+        public BestComplementGenerator(IEvaluate evaluator, IEnumerable<Player> availablePlayers, Random random)
         {
             this.availablePlayerPool = availablePlayers.ToList();
             this.availablePlayerPoolBackup = availablePlayers.ToList();
