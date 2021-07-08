@@ -11,7 +11,7 @@ namespace TeamGenerator.Core.Test
         [Test]
         public void GenerateTeams_ReturnsCorrectlyNamedEmptyTeams_WhenNoPlayersAreProvided()
         {
-            IGenerate basicGenerator = new BasicGenerator(new BasicEvaluator(), new List<Player>(), new Random());
+            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator(), new List<Player>(), new Random());
             (Team, Team) teams = basicGenerator.GenerateTeams();
 
             Assert.Multiple(() =>
@@ -33,7 +33,7 @@ namespace TeamGenerator.Core.Test
                 new Player("3", Rank.Silver2),
                 new Player("4", Rank.Silver1)
             };
-            IGenerate basicGenerator = new BasicGenerator(new BasicEvaluator(), availablePlayers, new Random());
+            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator(), availablePlayers, new Random());
             (Team, Team) teams = basicGenerator.GenerateTeams();
 
             Assert.Multiple(() =>
@@ -61,7 +61,7 @@ namespace TeamGenerator.Core.Test
                 new Player("David", Rank.Silver3)
             };
             Random random = new Random();
-            IGenerate basicGenerator = new BasicGenerator(evaluator, availablePlayers, random);
+            IGenerate basicGenerator = new BestComplementGenerator(evaluator, availablePlayers, random);
 
             for (int i = 0; i < 100; i++)
             {
