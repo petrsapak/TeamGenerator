@@ -4,7 +4,7 @@ namespace TeamGenerator.Core.Interfaces
 {
     public interface IEvaluate
     {
-        int EvaluatePlayer(Player player);
-        int EvaluateTeam(Team team);
+        double EvaluatePlayer(Player player);
+        double EvaluateTeam(Team team);
     }
 }

@@ -1,10 +1,13 @@
 ﻿using NUnit.Framework;
+using System.Linq;
+using TeamGenerator.Model.Interfaces;
 
 namespace TeamGenerator.Model.Tests
 {
     public class TeamTests
     {
         private Team team;
+        private IRanks csgoRanks = new CSGORanks();
 
         [SetUp]
         public void SetUp()
@@ -15,7 +18,7 @@ namespace TeamGenerator.Model.Tests
         [Test]
         public void AddPlayer_PlayerAdded_WhenPlayerIsValid()
         {
-            Player player = new Player("Nick", Rank.Silver1);
+            Player player = new Player("Nick", csgoRanks.Ranks.First(rank => rank.Name == "Silver 1"));
             team.AddPlayer(player);
 
             Assert.That(team.Players.ContainsKey("Nick"));
@@ -24,8 +27,8 @@ namespace TeamGenerator.Model.Tests
         [Test]
         public void AddPlayer_PlayerNotAdded_WhenPlayerIsAlreadyInTeam()
         {
-            Player player = new Player("Nick", Rank.Silver1);
-            Player theSamePlayer = new Player("Nick", Rank.Silver1);
+            Player player = new Player("Nick", csgoRanks.Ranks.First(rank => rank.Name == "Silver 1"));
+            Player theSamePlayer = new Player("Nick", csgoRanks.Ranks.First(rank => rank.Name == "Silver 1"));
             team.AddPlayer(player);
             team.AddPlayer(theSamePlayer);
 
@@ -45,7 +48,7 @@ namespace TeamGenerator.Model.Tests
         [Test]
         public void RemovePlayer_PlayerRemoved_WhenPlayerIsInTeam()
         {
-            Player player = new Player("Nick", Rank.Silver1);
+            Player player = new Player("Nick", csgoRanks.Ranks.First(rank => rank.Name == "Silver 1"));
             team.RemovePlayer(player);
 
             Assert.That(team.Players.ContainsKey(player.Nick), Is.False);

@@ -1,5 +1,6 @@
 ﻿using System;
 using TeamGenerator.Model;
+using TeamGenerator.Model.Interfaces;
 
 namespace TeamGenerator.Core.Tests
 {
@@ -9,14 +10,14 @@ namespace TeamGenerator.Core.Tests
         {
             Random random = new Random();
             Team team = new Team("Test");
-            Array rankValues = Enum.GetValues(typeof(Rank));
+            IRanks ranks = new CSGORanks();
 
             int teamSize = random.Next(3, 9);
 
             for (int i = 0; i < teamSize; i++)
             {
                 string name = $"Player{i}";
-                Rank rank = (Rank)rankValues.GetValue(random.Next(rankValues.Length));
+                IRank rank = ranks.Ranks[random.Next(ranks.Ranks.Count)];
                 Player player = new Player(name, rank);
 
                 team.AddPlayer(player);
@@ -25,14 +26,13 @@ namespace TeamGenerator.Core.Tests
             return team;
         }
 
-        public static int GetSumOfIndividualEvaluations(Team team)
+        public static double GetSumOfIndividualEvaluations(Team team)
         {
-            int rankCounter = 0;
+            double rankCounter = 0;
 
             foreach (Player player in team.Players.Values)
             {
-                //enum enumeration starts at 0
-                rankCounter += (int)player.Rank + 1;
+                rankCounter += player.Rank.Value;
             }
 
             return rankCounter;
