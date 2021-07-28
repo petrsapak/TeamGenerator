@@ -78,9 +78,9 @@ namespace TeamGenerator.Core
 
         private void AddNextPlayer()
         {
-            int teamCounterTerroristEvaluation = evaluator.EvaluateTeam(teamCounterTerroristBuffer);
-            int teamTerroristEvaluation = evaluator.EvaluateTeam(teamTerroristBuffer);
-            int evaluationDifference = teamCounterTerroristEvaluation - teamTerroristEvaluation;
+            double teamCounterTerroristEvaluation = evaluator.EvaluateTeam(teamCounterTerroristBuffer);
+            double teamTerroristEvaluation = evaluator.EvaluateTeam(teamTerroristBuffer);
+            double evaluationDifference = teamCounterTerroristEvaluation - teamTerroristEvaluation;
 
             if (evaluationDifference == 0)
             {
@@ -105,7 +105,7 @@ namespace TeamGenerator.Core
             return randomPlayer;
         }
 
-        private Player GetBestComplementPlayerFromPool(int evaluationDifference)
+        private Player GetBestComplementPlayerFromPool(double evaluationDifference)
         {
             Player bestComplementPlayer = null;
 
@@ -117,8 +117,8 @@ namespace TeamGenerator.Core
                 }
                 else
                 {
-                    int bestComplementPlayerDifferenceAbs =  Math.Abs(evaluator.EvaluatePlayer(bestComplementPlayer) - evaluationDifference);
-                    int currentPlayerDifferenceAbs = Math.Abs(evaluator.EvaluatePlayer(player) - evaluationDifference);
+                    double bestComplementPlayerDifferenceAbs =  Math.Abs(evaluator.EvaluatePlayer(bestComplementPlayer) - evaluationDifference);
+                    double currentPlayerDifferenceAbs = Math.Abs(evaluator.EvaluatePlayer(player) - evaluationDifference);
                     if (currentPlayerDifferenceAbs < bestComplementPlayerDifferenceAbs)
                     {
                         bestComplementPlayer = player;

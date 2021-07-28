@@ -12,7 +12,7 @@ namespace TeamGenerator.Core.Tests
         public void EvaluateTeam_ReturnsSumOfIndividualTeamMembersEvaluations()
         {
             Team team = EvaluatorTestHelper.GenerateRandomTeam();
-            int sumOfIndividualEvaluations = EvaluatorTestHelper.GetSumOfIndividualEvaluations(team);
+            double sumOfIndividualEvaluations = EvaluatorTestHelper.GetSumOfIndividualEvaluations(team);
 
             Assert.That(evaluator.EvaluateTeam(team), Is.EqualTo(sumOfIndividualEvaluations));
         }

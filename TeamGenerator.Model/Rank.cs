@@ -1,24 +1,16 @@
-﻿namespace TeamGenerator.Model
+﻿using TeamGenerator.Model.Interfaces;
+
+namespace TeamGenerator.Model
 {
-    public enum Rank
+    public class Rank : IRank
     {
-        Silver1,
-        Silver2,
-        Silver3,
-        Silver4,
-        SilverElite,
-        SilverEliteMaster,
-        GoldNova1,
-        GoldNova2,
-        GoldNova3,
-        GoldNovaMaster,
-        MasterGuardian1,
-        MasterGuardian2,
-        MasterGuardianElite,
-        DistinguishedMasterGuardian,
-        LegendaryEagle,
-        LegendaryEagleMaster,
-        SupremeMasterFirstClass,
-        GlobalElite
+        public string Name { get; private set; }
+        public double Value { get; private set; }
+
+        public Rank(string name, double value)
+        {
+            Name = name;
+            Value = value;
+        }
     }
 }

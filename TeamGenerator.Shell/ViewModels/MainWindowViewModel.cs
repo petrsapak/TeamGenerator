@@ -6,6 +6,8 @@ using TeamGenerator.Core.Interfaces;
 using TeamGenerator.Model;
 using System;
 using System.Linq;
+using TeamGenerator.Model.Interfaces;
+using System.Collections.Generic;
 
 namespace TeamGenerator.Shell.ViewModels
 {
@@ -14,6 +16,7 @@ namespace TeamGenerator.Shell.ViewModels
         public MainWindowViewModel()
         {
             availablePlayers = new ObservableCollection<Player>();
+            ranks = new CSGORanks().Ranks;
             AddAvailablePlayerCommand = new Command(AddAvailablePlayer, CanAddNewPlayer);
             DeleteAvailablePlayerCommand = new Command(DeleteAvailablePlayer, CanDeletePlayer);
             GenerateTeamsCommand = new Command(GenerateTeams, CanGenerateTeams);
@@ -60,12 +63,12 @@ namespace TeamGenerator.Shell.ViewModels
             CounterTerrorists = new ObservableCollection<Player>(teams.Item1.Players.Values);
             Terrorists = new ObservableCollection<Player>(teams.Item2.Players.Values);
 
-            int counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
-            int terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
-            int sumOfEvaluations = counterTerroristTeamEvaluation + terroristTeamEvaluation;
+            double counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
+            double terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
+            double sumOfEvaluations = counterTerroristTeamEvaluation + terroristTeamEvaluation;
             double evaluationPointToPercent = (double)100 / (double)sumOfEvaluations;
-            int counterTerroristsChanceOfWinning = (int)Math.Floor(counterTerroristTeamEvaluation * evaluationPointToPercent);
-            int terroristsChanceOfWinning = (int)Math.Floor(terroristTeamEvaluation * evaluationPointToPercent);
+            double counterTerroristsChanceOfWinning = (int)Math.Round(counterTerroristTeamEvaluation * evaluationPointToPercent);
+            double terroristsChanceOfWinning = (int)Math.Round(terroristTeamEvaluation * evaluationPointToPercent);
 
             CounterTerroristsProbability = $"Estimated chance to win {counterTerroristsChanceOfWinning}%";
             TerroristsProbability = $"Estimated chance to win {terroristsChanceOfWinning}%";
@@ -87,9 +90,9 @@ namespace TeamGenerator.Shell.ViewModels
             }
         }
 
-        private Rank newPlayerRank;
+        private IRank newPlayerRank;
 
-        public Rank NewPlayerRank
+        public IRank NewPlayerRank
         {
             get => newPlayerRank;
             set
@@ -168,6 +171,18 @@ namespace TeamGenerator.Shell.ViewModels
             {
                 counterTerroristsProbability = value;
                 RaisePropertyChanged(nameof(CounterTerroristsProbability));
+            }
+        }
+
+        private List<IRank> ranks;
+
+        public List<IRank> Ranks
+        {
+            get => ranks;
+            set
+            {
+                ranks = value;
+                RaisePropertyChanged(nameof(Ranks));
             }
         }
         #endregion

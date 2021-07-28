@@ -5,15 +5,14 @@ namespace TeamGenerator.Core
 {
     public class BasicEvaluator : IEvaluate
     {
-        public int EvaluatePlayer(Player player)
+        public double EvaluatePlayer(Player player)
         {
-            //enum enumeration starts at 0
-            return (int)player.Rank + 1;
+            return player.Rank.Value;
         }
 
-        public int EvaluateTeam(Team team)
+        public double EvaluateTeam(Team team)
         {
-            int rankCounter = 0;
+            double rankCounter = 0;
 
             foreach (Player player in team.Players.Values)
             {
