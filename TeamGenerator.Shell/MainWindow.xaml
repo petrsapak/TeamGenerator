@@ -27,7 +27,7 @@
                   Margin="5">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -39,6 +39,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
                          Grid.Row="0"
+                         Padding="5"
                          Text="{Binding NewPlayerName}"
                          Margin="0 0 5 0"/>
                 <ComboBox Grid.Column="1"
@@ -48,13 +49,14 @@
                           Margin="0 0 5 0">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Name}" Padding="5"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Button Grid.Column="2"
                         Grid.Row="0"
                         Content="Add"
+                        Padding="5"
                         Command="{Binding AddAvailablePlayerCommand}"/>
             </Grid>
         </GroupBox>
@@ -63,19 +65,34 @@
                   Grid.Row="1"
                   Grid.Column="0"
                   Margin="5 0 5 5">
-            <ListView ItemsSource="{Binding AvailablePlayers}"
-                      SelectedItem="{Binding SelectedAvailablePlayer}">
-                <ListView.InputBindings>
-                    <KeyBinding Key="Delete"
-                                Command="{Binding DeleteAvailablePlayerCommand}"/>
-                </ListView.InputBindings>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Nick" Width="100" DisplayMemberBinding="{Binding Nick}"/>
-                        <GridViewColumn Header="Rank" Width="200" DisplayMemberBinding="{Binding Rank.Name}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListView ItemsSource="{Binding AvailablePlayers}"
+                          SelectedItem="{Binding SelectedAvailablePlayer}"
+                          Grid.Row ="0">
+                    <ListView.InputBindings>
+                        <KeyBinding Key="Delete"
+                                    Command="{Binding DeleteAvailablePlayerCommand}"/>
+                    </ListView.InputBindings>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Nick" Width="100" DisplayMemberBinding="{Binding Nick}"/>
+                            <GridViewColumn Header="Rank" Width="200" DisplayMemberBinding="{Binding Rank.Name}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Grid Grid.Row="1" Margin="0 5 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="Save player pool" Margin="0 0 5 0" Padding="5"/>
+                    <Button Grid.Column="1"  Content="Load player pool" Padding="5"/>
+                </Grid>
+            </Grid>
         </GroupBox>
 
         <Button Grid.Column="1"
