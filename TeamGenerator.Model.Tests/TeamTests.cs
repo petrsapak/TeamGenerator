@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System.Linq;
-using TeamGenerator.Model.Interfaces;
 
 namespace TeamGenerator.Model.Tests
 {
@@ -8,7 +7,7 @@ namespace TeamGenerator.Model.Tests
     public class TeamTests
     {
         private Team team;
-        private IRanks csgoRanks = new CSGORanks();
+        private CSGORanks csgoRanks = new CSGORanks();
 
         [SetUp]
         public void SetUp()

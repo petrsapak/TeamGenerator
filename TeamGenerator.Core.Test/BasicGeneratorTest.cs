@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TeamGenerator.Core.Interfaces;
 using TeamGenerator.Model;
-using TeamGenerator.Model.Interfaces;
 
 namespace TeamGenerator.Core.Test
 {
     class BasicGeneratorTest
     {
-        private IRanks csgoRanks = new CSGORanks();
+        private CSGORanks csgoRanks = new CSGORanks();
 
         [Test]
         public void GenerateTeams_ReturnsCorrectlyNamedEmptyTeams_WhenNoPlayersAreProvided()

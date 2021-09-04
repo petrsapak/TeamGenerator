@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using TeamGenerator.Model.Interfaces;
 
 namespace TeamGenerator.Model
 {
-    public class CSGORanks : IRanks
+    public class CSGORanks
     {
-        public List<IRank> Ranks { get; private set; }
+        public List<Rank> Ranks { get; private set; }
 
         public CSGORanks()
         {
-            Ranks = new List<IRank>
+            Ranks = new List<Rank>
             {
                 new Rank("Silver 1", 1),
                 new Rank("Silver 2", 2),
