@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TeamGenerator.Core\TeamGenerator.Core.csproj" />
+    <ProjectReference Include="..\TeamGenerator.Infrastructure\TeamGenerator.Infrastructure.csproj" />
     <ProjectReference Include="..\TeamGenerator.Model\TeamGenerator.Model.csproj" />
   </ItemGroup>
 </Project>

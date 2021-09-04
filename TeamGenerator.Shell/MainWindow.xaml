@@ -89,8 +89,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Content="Save player pool" Margin="0 0 5 0" Padding="5"/>
-                    <Button Grid.Column="1"  Content="Load player pool" Padding="5"/>
+                    <Button Grid.Column="0" Content="Save player pool" Margin="0 0 5 0" Padding="5" Command="{Binding SavePlayerPoolCommand}"/>
+                    <Button Grid.Column="1"  Content="Load player pool" Padding="5" Command="{Binding LoadPlayerPoolCommand}"/>
                 </Grid>
             </Grid>
         </GroupBox>
