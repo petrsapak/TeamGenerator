@@ -4,6 +4,7 @@ using TeamGenerator.Model.Interfaces;
 
 namespace TeamGenerator.Model.Tests
 {
+    [TestFixture]
     public class TeamTests
     {
         private Team team;

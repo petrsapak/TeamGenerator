@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Platform>x64</Platform>
+    <AssemblyTitle>TeamGenerator.Infrastructure</AssemblyTitle>
+    <Product>TeamGenerator.Infrastructure</Product>
+    <Copyright>Copyright © 2021</Copyright>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutputPath>..\bin\</OutputPath>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

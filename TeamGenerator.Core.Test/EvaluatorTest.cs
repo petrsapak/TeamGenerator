@@ -4,7 +4,8 @@ using TeamGenerator.Model;
 
 namespace TeamGenerator.Core.Tests
 {
-    class EvaluatorTest
+    [TestFixture]
+    public class EvaluatorTest
     {
         private readonly IEvaluate evaluator = new BasicEvaluator();
 
