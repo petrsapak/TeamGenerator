@@ -7,11 +7,16 @@ using TeamGenerator.Model;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using TeamGenerator.Infrastructure;
+using Microsoft.Win32;
+using System.IO;
 
 namespace TeamGenerator.Shell.ViewModels
 {
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
+        private PlayerDataManager playerDataManager = new PlayerDataManager();
+
         public MainWindowViewModel()
         {
             availablePlayers = new ObservableCollection<Player>();
@@ -39,9 +44,21 @@ namespace TeamGenerator.Shell.ViewModels
             AddAvailablePlayerCommand = new Command(AddAvailablePlayer, CanAddNewPlayer);
             DeleteAvailablePlayerCommand = new Command(DeleteAvailablePlayer, CanDeletePlayer);
             GenerateTeamsCommand = new Command(GenerateTeams, CanGenerateTeams);
+            LoadPlayerPoolCommand = new Command(LoadPlayerPool, CanLoadPlayers);
+            SavePlayerPoolCommand = new Command(SavePlayerPool, CanSavePlayers);
         }
 
         #region Commands
+
+        private bool CanLoadPlayers(object parameters)
+        {
+            return true;
+        }
+
+        private bool CanSavePlayers(object parameters)
+        {
+            return true;
+        }
 
         private bool CanAddNewPlayer(object parameters)
         {
@@ -61,6 +78,8 @@ namespace TeamGenerator.Shell.ViewModels
         public ICommand AddAvailablePlayerCommand { get; set; }
         public ICommand GenerateTeamsCommand { get; set; }
         public ICommand DeleteAvailablePlayerCommand { get; set; }
+        public ICommand LoadPlayerPoolCommand { get; set; }
+        public ICommand SavePlayerPoolCommand { get; set; }
 
         private void AddAvailablePlayer(object parameters)
         {
@@ -91,6 +110,33 @@ namespace TeamGenerator.Shell.ViewModels
 
             CounterTerroristsProbability = $"Estimated chance to win {counterTerroristsChanceOfWinning}%";
             TerroristsProbability = $"Estimated chance to win {terroristsChanceOfWinning}%";
+        }
+
+        private void LoadPlayerPool(object parameters)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.DefaultExt = ".tgpp";
+            openFileDialog.Title = "Select your saved player pool";
+            string selectedFileContent = string.Empty;
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                selectedFileContent = File.ReadAllText(openFileDialog.FileName);
+            }
+
+            AvailablePlayers = new ObservableCollection<Player>(playerDataManager.DeserializePlayerPool(selectedFileContent));
+        }
+
+        private void SavePlayerPool(object parameters)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.DefaultExt = ".tgpp";
+            saveFileDialog.Title = "Save you player pool";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, playerDataManager.SerializePlayerPool(AvailablePlayers.ToList<Player>()));
+            }
         }
 
         #endregion
