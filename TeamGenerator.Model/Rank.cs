@@ -1,8 +1,6 @@
-﻿using TeamGenerator.Model.Interfaces;
-
-namespace TeamGenerator.Model
+﻿namespace TeamGenerator.Model
 {
-    public class Rank : IRank
+    public class Rank
     {
         public string Name { get; private set; }
         public double Value { get; private set; }
