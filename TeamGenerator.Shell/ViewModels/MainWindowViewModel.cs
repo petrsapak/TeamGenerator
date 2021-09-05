@@ -10,12 +10,14 @@ using System.Collections.Generic;
 using TeamGenerator.Infrastructure;
 using Microsoft.Win32;
 using System.IO;
+using System.Windows;
+using System.Text.Json;
 
 namespace TeamGenerator.Shell.ViewModels
 {
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
-        private PlayerDataManager playerDataManager = new PlayerDataManager();
+        private readonly PlayerDataManager playerDataManager = new PlayerDataManager();
 
         public MainWindowViewModel()
         {
@@ -124,7 +126,14 @@ namespace TeamGenerator.Shell.ViewModels
                 selectedFileContent = File.ReadAllText(openFileDialog.FileName);
             }
 
-            AvailablePlayers = new ObservableCollection<Player>(playerDataManager.DeserializePlayerPool(selectedFileContent));
+            try
+            {
+                AvailablePlayers = new ObservableCollection<Player>(playerDataManager.DeserializePlayerPool(selectedFileContent));
+            }
+            catch (JsonException exception)
+            {
+                MessageBox.Show($"The selected file could not be loaded.", "Loading error");
+            }
         }
 
         private void SavePlayerPool(object parameters)
@@ -132,11 +141,23 @@ namespace TeamGenerator.Shell.ViewModels
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.DefaultExt = ".tgpp";
             saveFileDialog.Title = "Save you player pool";
+            string serializedPlayerPool = string.Empty;
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                File.WriteAllText(saveFileDialog.FileName, playerDataManager.SerializePlayerPool(AvailablePlayers.ToList<Player>()));
+                try
+                {
+                    serializedPlayerPool = playerDataManager.SerializePlayerPool(AvailablePlayers.ToList<Player>());
+                }
+                catch (JsonException exception)
+                {
+                    MessageBox.Show($"Current player pool could not be saved.", "Saving error");
+                    return;
+                }
+
+                File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
             }
+
         }
 
         #endregion
