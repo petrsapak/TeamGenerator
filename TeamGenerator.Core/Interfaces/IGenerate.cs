@@ -1,9 +1,10 @@
-﻿using TeamGenerator.Model;
+﻿using System.Collections.Generic;
+using TeamGenerator.Model;
 
 namespace TeamGenerator.Core.Interfaces
 {
     public interface IGenerate
     {
-        (Team, Team) GenerateTeams();
+        (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers);
     }
 }

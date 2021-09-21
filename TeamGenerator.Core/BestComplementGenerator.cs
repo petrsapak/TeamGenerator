@@ -8,52 +8,47 @@ namespace TeamGenerator.Core
 {
     public class BestComplementGenerator : IGenerate
     {
-        private readonly List<Player> availablePlayerPool;
-        private readonly List<Player> availablePlayerPoolBackup;
+        private List<Player> availablePlayerPool;
+        private List<Player> availablePlayerPoolBackup;
         private readonly IEvaluate evaluator;
         private readonly Random random;
+        private Team team1Buffer;
+        private Team team2Buffer;
 
-        private Team teamCounterTerroristBuffer;
-        private Team teamTerroristBuffer;
-
-        public BestComplementGenerator(IEvaluate evaluator, IEnumerable<Player> availablePlayers, Random random)
+        public BestComplementGenerator(IEvaluate evaluator)
         {
-            this.availablePlayerPool = availablePlayers.ToList();
-            this.availablePlayerPoolBackup = availablePlayers.ToList();
             this.evaluator = evaluator;
-            this.random = random;
-
-            teamTerroristBuffer = new Team("T");
-            teamCounterTerroristBuffer = new Team("CT");
+            this.random = new Random();
         }
 
-        public (Team, Team) GenerateTeams()
+        public (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers)
         {
-            try
+            availablePlayerPool = availablePlayers.ToList();
+            availablePlayerPoolBackup = availablePlayerPool.ToList();
+            team1Buffer = new Team("1");
+            team2Buffer = new Team("2");
+
+            if (availablePlayerPool.Count != 0)
             {
                 Player initialRandomCoutnerTerroristPlayer = GetRandomPlayerFromPool();
-                MovePlayerFromPoolToBuffer(initialRandomCoutnerTerroristPlayer, teamCounterTerroristBuffer);
+                MovePlayerFromPoolToBuffer(initialRandomCoutnerTerroristPlayer, team1Buffer);
 
                 Player initialRandomTerroristPlayer = GetRandomPlayerFromPool();
-                MovePlayerFromPoolToBuffer(initialRandomTerroristPlayer, teamTerroristBuffer);
+                MovePlayerFromPoolToBuffer(initialRandomTerroristPlayer, team2Buffer);
 
-                while(availablePlayerPool.Count > 0)
+                while (availablePlayerPool.Count > 0)
                 {
                     AddNextPlayer();
                 }
             }
-            catch (ArgumentOutOfRangeException exception)
-            {
-                //TODO log
-            }
 
-            Team teamCounterTerrorist = (Team)teamCounterTerroristBuffer.Clone();
-            Team teamTerrorist = (Team)teamTerroristBuffer.Clone();
+            Team team1 = (Team)team1Buffer.Clone();
+            Team team2 = (Team)team2Buffer.Clone();
 
             CleanBuffers();
             RefreshAvailablePlayerPool();
 
-            return (teamCounterTerrorist, teamTerrorist);
+            return (team1, team2);
         }
 
         private void RefreshAvailablePlayerPool()
@@ -66,8 +61,8 @@ namespace TeamGenerator.Core
 
         private void CleanBuffers()
         {
-            teamTerroristBuffer = new Team("T");
-            teamCounterTerroristBuffer = new Team("CT");
+            team1Buffer = new Team("1");
+            team2Buffer = new Team("2");
         }
 
         private void MovePlayerFromPoolToBuffer(Player player, Team buffer)
@@ -78,24 +73,24 @@ namespace TeamGenerator.Core
 
         private void AddNextPlayer()
         {
-            double teamCounterTerroristEvaluation = evaluator.EvaluateTeam(teamCounterTerroristBuffer);
-            double teamTerroristEvaluation = evaluator.EvaluateTeam(teamTerroristBuffer);
+            double teamCounterTerroristEvaluation = evaluator.EvaluateTeam(team1Buffer);
+            double teamTerroristEvaluation = evaluator.EvaluateTeam(team2Buffer);
             double evaluationDifference = teamCounterTerroristEvaluation - teamTerroristEvaluation;
 
             if (evaluationDifference == 0)
             {
                 Player randomPlayer = GetRandomPlayerFromPool();
-                MovePlayerFromPoolToBuffer(randomPlayer, teamTerroristBuffer);
+                MovePlayerFromPoolToBuffer(randomPlayer, team2Buffer);
             }
             else if (evaluationDifference > 0)
             {
                 Player bestComplementPlayer = GetBestComplementPlayerFromPool(evaluationDifference);
-                MovePlayerFromPoolToBuffer(bestComplementPlayer, teamTerroristBuffer);
+                MovePlayerFromPoolToBuffer(bestComplementPlayer, team2Buffer);
             }
             else
             {
                 Player bestComplementPlayer = GetBestComplementPlayerFromPool(evaluationDifference);
-                MovePlayerFromPoolToBuffer(bestComplementPlayer, teamCounterTerroristBuffer);
+                MovePlayerFromPoolToBuffer(bestComplementPlayer, team1Buffer);
             }
         }
 

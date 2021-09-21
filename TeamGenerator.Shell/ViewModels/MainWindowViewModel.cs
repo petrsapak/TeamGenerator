@@ -18,6 +18,8 @@ namespace TeamGenerator.Shell.ViewModels
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly PlayerDataManager playerDataManager = new PlayerDataManager();
+        private readonly IGenerate bestComplementTeamGenerator;
+        private readonly IEvaluate evaluator;
 
         public MainWindowViewModel()
         {
@@ -43,14 +45,23 @@ namespace TeamGenerator.Shell.ViewModels
                 new Rank("Supreme Master First Class", 17),
                 new Rank("Global Elite", 18),
             };
+
+            InitializeCommands();
+
+            evaluator = new BasicEvaluator();
+            bestComplementTeamGenerator = new BestComplementGenerator(evaluator);
+        }
+
+        #region Commands
+
+        private void InitializeCommands()
+        {
             AddAvailablePlayerCommand = new Command(AddAvailablePlayer, CanAddNewPlayer);
             DeleteAvailablePlayerCommand = new Command(DeleteAvailablePlayer, CanDeletePlayer);
             GenerateTeamsCommand = new Command(GenerateTeams, CanGenerateTeams);
             LoadPlayerPoolCommand = new Command(LoadPlayerPool, CanLoadPlayers);
             SavePlayerPoolCommand = new Command(SavePlayerPool, CanSavePlayers);
         }
-
-        #region Commands
 
         private bool CanLoadPlayers(object parameters)
         {
@@ -96,9 +107,7 @@ namespace TeamGenerator.Shell.ViewModels
 
         private void GenerateTeams(object parameters)
         {
-            IEvaluate evaluator = new BasicEvaluator();
-            IGenerate generator = new BestComplementGenerator(evaluator, AvailablePlayers, new Random());
-            (Team, Team) teams = generator.GenerateTeams();
+            (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers);
 
             CounterTerrorists = new ObservableCollection<Player>(teams.Item1.Players.Values);
             Terrorists = new ObservableCollection<Player>(teams.Item2.Players.Values);

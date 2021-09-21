@@ -34,13 +34,13 @@ namespace TeamGenerator.Core.Test
         [Test]
         public void GenerateTeams_ReturnsCorrectlyNamedEmptyTeams_WhenNoPlayersAreProvided()
         {
-            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator(), new List<Player>(), new Random());
-            (Team, Team) teams = basicGenerator.GenerateTeams();
+            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator());
+            (Team, Team) teams = basicGenerator.GenerateTeams(new List<Player>());
 
             Assert.Multiple(() =>
             {
-                Assert.That(teams.Item1.Name, Is.EqualTo("CT"));
-                Assert.That(teams.Item2.Name, Is.EqualTo("T"));
+                Assert.That(teams.Item1.Name, Is.EqualTo("1"));
+                Assert.That(teams.Item2.Name, Is.EqualTo("2"));
                 Assert.That(teams.Item1.Players.Count, Is.EqualTo(0));
                 Assert.That(teams.Item2.Players.Count, Is.EqualTo(0));
             });
@@ -56,8 +56,8 @@ namespace TeamGenerator.Core.Test
                 new Player("3", csgoRanks.First(rank => rank.Name == "Silver 2")),
                 new Player("4", csgoRanks.First(rank => rank.Name == "Silver 1"))
             };
-            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator(), availablePlayers, new Random());
-            (Team, Team) teams = basicGenerator.GenerateTeams();
+            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator());
+            (Team, Team) teams = basicGenerator.GenerateTeams(availablePlayers);
 
             Assert.Multiple(() =>
             {
