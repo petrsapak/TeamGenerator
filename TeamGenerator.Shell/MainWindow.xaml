@@ -108,12 +108,13 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <GroupBox Header="Counter Terrorists"
+            <GroupBox Header="Team 1"
                   Grid.Row="0"
-                  Grid.Column="0">
+                  Grid.Column="0"
+                  Margin="0 0 5 0">
                 <DockPanel>
-                    <TextBlock DockPanel.Dock="Top" Text="{Binding CounterTerroristsProbability}"/>
-                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding CounterTerrorists}">
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Team1Probability}"/>
+                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Team1}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Nick}"/>
@@ -122,12 +123,13 @@
                     </ListView>
                 </DockPanel>
             </GroupBox>
-            <GroupBox Header="Terrorists"
+            <GroupBox Header="Team 2"
                   Grid.Row="1"
-                  Grid.Column="0">
+                  Grid.Column="0"
+                  Margin="0 0 5 5">
                 <DockPanel>
-                    <TextBlock DockPanel.Dock="Top" Text="{Binding TerroristsProbability}"/>
-                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Terrorists}">
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Team2Probability}"/>
+                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Team2}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Nick}"/>

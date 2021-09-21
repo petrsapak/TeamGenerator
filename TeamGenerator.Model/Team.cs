@@ -16,14 +16,7 @@ namespace TeamGenerator.Model
 
         public void AddPlayer(Player player)
         {
-            try
-            {
-                Players.Add(player.Nick, player);
-            }
-            catch (ArgumentException argumentException)
-            {
-                //TODO log and iform
-            }
+            Players.Add(player.Nick, player);
         }
 
         public void RemovePlayer(Player player)
