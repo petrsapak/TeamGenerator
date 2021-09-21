@@ -16,7 +16,10 @@ namespace TeamGenerator.Model
 
         public void AddPlayer(Player player)
         {
-            Players.Add(player.Nick, player);
+            if (!Players.ContainsKey(player.Nick))
+            {
+                Players.Add(player.Nick, player);
+            }
         }
 
         public void RemovePlayer(Player player)
