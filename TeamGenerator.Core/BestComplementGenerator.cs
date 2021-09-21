@@ -15,8 +15,13 @@ namespace TeamGenerator.Core
         private Team team1Buffer;
         private Team team2Buffer;
 
-        public BestComplementGenerator(IEvaluate evaluator)
+        private bool fillTeamsWithBots;
+        private int maxPlayerCount;
+
+        public BestComplementGenerator(IEvaluate evaluator, bool fillTeamsWithBots, int maxPlayerCount)
         {
+            this.maxPlayerCount = maxPlayerCount;
+            this.fillTeamsWithBots = fillTeamsWithBots;
             this.evaluator = evaluator;
             this.random = new Random();
         }
@@ -39,6 +44,41 @@ namespace TeamGenerator.Core
                 while (availablePlayerPool.Count > 0)
                 {
                     AddNextPlayer();
+                }
+
+                int counter = 0;
+
+                while (fillTeamsWithBots && team1Buffer.Players.Count + team2Buffer.Players.Count < maxPlayerCount)
+                {
+                    double botCoefficient = 0.7;
+
+                    double team1Evaluation = evaluator.EvaluateTeam(team1Buffer);
+                    double team1EvaluationWithoutBots = evaluator.EvaluateTeamWithoutBots(team1Buffer);
+                    double team2Evaluation = evaluator.EvaluateTeam(team2Buffer);
+                    double team2EvaluationWithoutBots = evaluator.EvaluateTeamWithoutBots(team2Buffer);
+
+                    double team1RankAverage = team1EvaluationWithoutBots / (double)team1Buffer.Players.Count;
+                    double team1BotEvaluation = team1RankAverage * botCoefficient;
+
+                    double team2RankAverage = team2EvaluationWithoutBots / (double)team2Buffer.Players.Count;
+                    double team2BotEvaluation = team2RankAverage * botCoefficient;
+
+                    double evaluationDifference = team1Evaluation - team2Evaluation;
+
+                    if (evaluationDifference > 2)
+                    {
+                        team2Buffer.AddPlayer(new Player($"Bot {counter}", new Rank("Bot", team2BotEvaluation), bot: true));
+                    }
+                    else if (evaluationDifference < -2)
+                    {
+                        team1Buffer.AddPlayer(new Player($"Bot {counter}", new Rank("Bot", team1BotEvaluation), bot: true));
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                    counter++;
                 }
             }
 

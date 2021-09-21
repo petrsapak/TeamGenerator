@@ -6,5 +6,6 @@ namespace TeamGenerator.Core.Interfaces
     {
         double EvaluatePlayer(Player player);
         double EvaluateTeam(Team team);
+        double EvaluateTeamWithoutBots(Team team);
     }
 }

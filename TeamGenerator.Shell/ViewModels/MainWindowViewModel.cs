@@ -49,7 +49,7 @@ namespace TeamGenerator.Shell.ViewModels
             InitializeCommands();
 
             evaluator = new BasicEvaluator();
-            bestComplementTeamGenerator = new BestComplementGenerator(evaluator);
+            bestComplementTeamGenerator = new BestComplementGenerator(evaluator, true, 10);
         }
 
         #region Commands
