@@ -34,3 +34,13 @@ jobs:
         
       - name: Build the solution
         run: msbuild TeamGenerator.sln
+        
+      - name: Publish artifacts
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          # Artifact name
+          name: TeamGenerator
+          # A file, directory or wildcard pattern that describes what to upload
+          path: bin/**
+          # The desired behavior if no files are found using the provided path.
+          retention-days: 30
