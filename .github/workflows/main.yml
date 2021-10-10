@@ -34,16 +34,7 @@ jobs:
         
       - name: Build the solution
         run: msbuild TeamGenerator.sln
-        
-      - name: Run Core tests
-        run: packages\nunit.consolerunner.3.12.0\tools\nunit3-console.exe bin\TeamGenerator.Core.Tests.dll
-        
-      - name: Run Infrastructure tests
-        run: packages\nunit.consolerunner.3.12.0\tools\nunit3-console.exe bin\TeamGenerator.Infrastructure.Tests.dll
-        
-      - name: Run Model tests
-        run: packages\nunit.consolerunner.3.12.0\tools\nunit3-console.exe bin\TeamGenerator.Model.Tests.dll
-        
+
       - name: Publish artifacts
         uses: actions/upload-artifact@v2.2.4
         with:
