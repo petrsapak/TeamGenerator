@@ -44,6 +44,5 @@ jobs:
           path: |
                 bin/**[.dll]
                 bin/**[.json]
-                !bin/**[test]*
           # The desired behavior if no files are found using the provided path.
           retention-days: 30
