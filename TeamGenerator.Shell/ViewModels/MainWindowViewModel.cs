@@ -49,7 +49,7 @@ namespace TeamGenerator.Shell.ViewModels
             InitializeCommands();
 
             evaluator = new BasicEvaluator();
-            bestComplementTeamGenerator = new BestComplementGenerator(evaluator, true, 10);
+            bestComplementTeamGenerator = new BestComplementGenerator(evaluator, 10);
         }
 
         #region Commands
@@ -107,7 +107,7 @@ namespace TeamGenerator.Shell.ViewModels
 
         private void GenerateTeams(object parameters)
         {
-            (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers);
+            (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers, FillWithBots);
 
             Team1 = new ObservableCollection<Player>(teams.Item1.Players.Values);
             Team2 = new ObservableCollection<Player>(teams.Item2.Players.Values);
@@ -206,6 +206,18 @@ namespace TeamGenerator.Shell.ViewModels
             {
                 selectedAvailablePlayer = value;
                 RaisePropertyChanged(nameof(SelectedAvailablePlayer));
+            }
+        }
+
+        private bool fillWithBots;
+
+        public bool FillWithBots
+        {
+            get => fillWithBots;
+            set
+            {
+                fillWithBots = value;
+                RaisePropertyChanged(nameof(fillWithBots));
             }
         }
 

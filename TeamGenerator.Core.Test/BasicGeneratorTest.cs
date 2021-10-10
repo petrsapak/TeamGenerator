@@ -31,11 +31,14 @@ namespace TeamGenerator.Core.Test
                 new Rank("Global Elite", 18),
             };
 
+        private int maxPlayerCount = 10;
+        private bool fillTeamsWithBots = false;
+
         [Test]
         public void GenerateTeams_ReturnsCorrectlyNamedEmptyTeams_WhenNoPlayersAreProvided()
         {
-            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator());
-            (Team, Team) teams = basicGenerator.GenerateTeams(new List<Player>());
+            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator(), maxPlayerCount);
+            (Team, Team) teams = basicGenerator.GenerateTeams(new List<Player>(), fillTeamsWithBots);
 
             Assert.Multiple(() =>
             {
@@ -56,8 +59,8 @@ namespace TeamGenerator.Core.Test
                 new Player("3", csgoRanks.First(rank => rank.Name == "Silver 2")),
                 new Player("4", csgoRanks.First(rank => rank.Name == "Silver 1"))
             };
-            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator());
-            (Team, Team) teams = basicGenerator.GenerateTeams(availablePlayers);
+            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator(), maxPlayerCount);
+            (Team, Team) teams = basicGenerator.GenerateTeams(availablePlayers, fillTeamsWithBots);
 
             Assert.Multiple(() =>
             {

@@ -15,18 +15,16 @@ namespace TeamGenerator.Core
         private Team team1Buffer;
         private Team team2Buffer;
 
-        private bool fillTeamsWithBots;
         private int maxPlayerCount;
 
-        public BestComplementGenerator(IEvaluate evaluator, bool fillTeamsWithBots, int maxPlayerCount)
+        public BestComplementGenerator(IEvaluate evaluator, int maxPlayerCount)
         {
             this.maxPlayerCount = maxPlayerCount;
-            this.fillTeamsWithBots = fillTeamsWithBots;
             this.evaluator = evaluator;
             this.random = new Random();
         }
 
-        public (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers)
+        public (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers, bool fillWithBots)
         {
             availablePlayerPool = availablePlayers.ToList();
             availablePlayerPoolBackup = availablePlayerPool.ToList();
@@ -48,7 +46,7 @@ namespace TeamGenerator.Core
 
                 int counter = 0;
 
-                while (fillTeamsWithBots && team1Buffer.Players.Count + team2Buffer.Players.Count < maxPlayerCount)
+                while (fillWithBots && team1Buffer.Players.Count + team2Buffer.Players.Count < maxPlayerCount)
                 {
                     double botCoefficient = 0.7;
 
