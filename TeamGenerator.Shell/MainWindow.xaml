@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:validators="clr-namespace:TeamGenerator.Shell.Validators"
         xmlns:local="clr-namespace:TeamGenerator.Shell"
         xmlns:model="clr-namespace:TeamGenerator.Model;assembly=TeamGenerator.Model"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -64,7 +65,7 @@
         <GroupBox Header="Available players"
                   Grid.Row="1"
                   Grid.Column="0"
-                  Margin="5 0 5 5">
+                  Margin="5 0 0 5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -81,6 +82,7 @@
                         <GridView>
                             <GridViewColumn Header="Nick" Width="100" DisplayMemberBinding="{Binding Nick}"/>
                             <GridViewColumn Header="Rank" Width="200" DisplayMemberBinding="{Binding Rank.Name}"/>
+                            <GridViewColumn Header="Value" Width="50" DisplayMemberBinding="{Binding Rank.Value}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -95,12 +97,59 @@
             </Grid>
         </GroupBox>
 
-        <Button Grid.Column="1"
-                Grid.Row="1"
-                Height="30"
-                Width="150"
-                Content="Generate teams"
-                Command="{Binding GenerateTeamsCommand}"/>
+        <Grid Grid.Column="1"
+              Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0"
+                    Grid.Row="0"
+                    Height="30"
+                    Width="150"
+                    Content="Generate teams"
+                    Command="{Binding GenerateTeamsCommand}"
+                    Margin="0 20 0 0"/>
+            <GroupBox Header="Settings"
+                      Margin="5"
+                      Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0"
+                              Content="Fill teams with bots"
+                              Margin="5"
+                              IsChecked="{Binding FillWithBots}"/>
+
+                    <StackPanel Orientation="Vertical"
+                                Grid.Row="1"
+                                Margin="5 0 5 0">
+                        <TextBlock Text="Max player count"/>
+                        <TextBox IsEnabled="{Binding FillWithBots}">
+                            <TextBox.Text>
+                                <Binding Path="MaxPlayerCount"
+                                         Mode="TwoWay"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <validators:NumericValidator ValidationType="{x:Type sys:Int32}"
+                                                                     ValidatesOnTargetUpdated="True"/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
 
         <Grid Grid.Row="1"
               Grid.Column="2">
@@ -108,12 +157,13 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <GroupBox Header="Counter Terrorists"
+            <GroupBox Header="Team 1"
                   Grid.Row="0"
-                  Grid.Column="0">
+                  Grid.Column="0"
+                  Margin="0 0 5 0">
                 <DockPanel>
-                    <TextBlock DockPanel.Dock="Top" Text="{Binding CounterTerroristsProbability}"/>
-                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding CounterTerrorists}">
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Team1Probability}"/>
+                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Team1}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Nick}"/>
@@ -122,12 +172,13 @@
                     </ListView>
                 </DockPanel>
             </GroupBox>
-            <GroupBox Header="Terrorists"
+            <GroupBox Header="Team 2"
                   Grid.Row="1"
-                  Grid.Column="0">
+                  Grid.Column="0"
+                  Margin="0 0 5 5">
                 <DockPanel>
-                    <TextBlock DockPanel.Dock="Top" Text="{Binding TerroristsProbability}"/>
-                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Terrorists}">
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Team2Probability}"/>
+                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Team2}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Nick}"/>

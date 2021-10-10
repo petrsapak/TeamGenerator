@@ -5,6 +5,6 @@ namespace TeamGenerator.Core.Interfaces
 {
     public interface IGenerate
     {
-        (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers);
+        (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers, bool fillWithBots, int maxPlayerCount);
     }
 }

@@ -6,14 +6,14 @@ namespace TeamGenerator.Infrastructure.Tests
 {
     public class PlayerDataManagerTest
     {
-        string validTestPlayerPoolSerialization = 
-            "[{\"Nick\":\"John\",\"Rank\":{\"Name\":\"Master\",\"Value\":3}}," +
-            "{\"Nick\":\"Doe\",\"Rank\":{\"Name\":\"Blaster\",\"Value\":5}}," +
-            "{\"Nick\":\"Johnny\",\"Rank\":{\"Name\":\",.l;op[\",\"Value\":6}}," +
-            "{\"Nick\":\"Long\",\"Rank\":{\"Name\":\"1234567890\",\"Value\":9}}," +
-            "{\"Nick\":\"Silver\",\"Rank\":{\"Name\":\"1234asdf,.l;\",\"Value\":13}}]";
+        readonly string validTestPlayerPoolSerialization = 
+            "[{\"Nick\":\"John\",\"Rank\":{\"Name\":\"Master\",\"Value\":3},\"Bot\":false}," +
+            "{\"Nick\":\"Doe\",\"Rank\":{\"Name\":\"Blaster\",\"Value\":5},\"Bot\":false}," +
+            "{\"Nick\":\"Johnny\",\"Rank\":{\"Name\":\",.l;op[\",\"Value\":6},\"Bot\":false}," +
+            "{\"Nick\":\"Long\",\"Rank\":{\"Name\":\"1234567890\",\"Value\":9},\"Bot\":false}," +
+            "{\"Nick\":\"Silver\",\"Rank\":{\"Name\":\"1234asdf,.l;\",\"Value\":13},\"Bot\":false}]";
 
-        List<Player> validTestPlayerPool = new List<Player>
+        readonly List<Player> validTestPlayerPool = new List<Player>
         {
             new Player("John", new Rank("Master", 3)),
             new Player("Doe", new Rank("Blaster", 5)),
@@ -25,7 +25,7 @@ namespace TeamGenerator.Infrastructure.Tests
         [Test]
         public void PlayerPoolIsSerializedCorrectly()
         {
-            var playerDataManager = new PlayerDataManager();
+            PlayerDataManager playerDataManager = new PlayerDataManager();
             string actualPlayerPoolSerialization = playerDataManager.SerializePlayerPool(validTestPlayerPool);
 
             Assert.That(actualPlayerPoolSerialization == validTestPlayerPoolSerialization);

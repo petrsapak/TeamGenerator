@@ -23,8 +23,8 @@ namespace TeamGenerator.Shell.ViewModels
 
         public MainWindowViewModel()
         {
-            availablePlayers = new ObservableCollection<Player>();
-            ranks = new List<Rank>
+            AvailablePlayers = new ObservableCollection<Player>();
+            Ranks = new List<Rank>
             {
                 new Rank("Silver 1", 1),
                 new Rank("Silver 2", 2),
@@ -45,6 +45,7 @@ namespace TeamGenerator.Shell.ViewModels
                 new Rank("Supreme Master First Class", 17),
                 new Rank("Global Elite", 18),
             };
+            MaxPlayerCount = "10";
 
             InitializeCommands();
 
@@ -75,7 +76,7 @@ namespace TeamGenerator.Shell.ViewModels
 
         private bool CanAddNewPlayer(object parameters)
         {
-            return AvailablePlayers.All(player => player.Nick != NewPlayerName) && !string.IsNullOrEmpty(NewPlayerName);
+            return AvailablePlayers.All(player => player.Nick != NewPlayerName) && !string.IsNullOrEmpty(NewPlayerName) && NewPlayerName.Any(char.IsLetterOrDigit);
         }
 
         private bool CanDeletePlayer(object parameters)
@@ -107,10 +108,11 @@ namespace TeamGenerator.Shell.ViewModels
 
         private void GenerateTeams(object parameters)
         {
-            (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers);
+            int maxPlayerCountInt = int.Parse(MaxPlayerCount);
+            (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers, FillWithBots, maxPlayerCountInt);
 
-            CounterTerrorists = new ObservableCollection<Player>(teams.Item1.Players.Values);
-            Terrorists = new ObservableCollection<Player>(teams.Item2.Players.Values);
+            Team1 = new ObservableCollection<Player>(teams.Item1.Players.Values);
+            Team2 = new ObservableCollection<Player>(teams.Item2.Players.Values);
 
             double counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
             double terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
@@ -119,8 +121,8 @@ namespace TeamGenerator.Shell.ViewModels
             double counterTerroristsChanceOfWinning = (int)Math.Round(counterTerroristTeamEvaluation * evaluationPointToPercent);
             double terroristsChanceOfWinning = (int)Math.Round(terroristTeamEvaluation * evaluationPointToPercent);
 
-            CounterTerroristsProbability = $"Estimated chance to win {counterTerroristsChanceOfWinning}%";
-            TerroristsProbability = $"Estimated chance to win {terroristsChanceOfWinning}%";
+            Team1Probability = $"Estimated chance to win {counterTerroristsChanceOfWinning}%";
+            Team2Probability = $"Estimated chance to win {terroristsChanceOfWinning}%";
         }
 
         private void LoadPlayerPool(object parameters)
@@ -209,6 +211,31 @@ namespace TeamGenerator.Shell.ViewModels
             }
         }
 
+        private bool fillWithBots;
+
+        public bool FillWithBots
+        {
+            get => fillWithBots;
+            set
+            {
+                fillWithBots = value;
+                RaisePropertyChanged(nameof(fillWithBots));
+            }
+        }
+
+        private string maxPlayerCount;
+
+        public string MaxPlayerCount 
+        {
+            get => maxPlayerCount;
+            set
+            {
+                maxPlayerCount = value;
+                RaisePropertyChanged(nameof(MaxPlayerCount));
+            }
+        }
+
+
         private ObservableCollection<Player> availablePlayers;
 
         public ObservableCollection<Player> AvailablePlayers
@@ -221,51 +248,51 @@ namespace TeamGenerator.Shell.ViewModels
             }
         }
 
-        private ObservableCollection<Player> terrorists;
+        private ObservableCollection<Player> team2;
 
-        public ObservableCollection<Player> Terrorists
+        public ObservableCollection<Player> Team2
         {
-            get => terrorists;
+            get => team2;
             set
             {
-                terrorists = value;
-                RaisePropertyChanged(nameof(Terrorists));
+                team2 = value;
+                RaisePropertyChanged(nameof(Team2));
             }
         }
 
-        private ObservableCollection<Player> counterTerrorists;
+        private ObservableCollection<Player> team1;
 
-        public ObservableCollection<Player> CounterTerrorists
+        public ObservableCollection<Player> Team1
         {
-            get => counterTerrorists;
+            get => team1;
             set
             {
-                counterTerrorists = value;
-                RaisePropertyChanged(nameof(CounterTerrorists));
+                team1 = value;
+                RaisePropertyChanged(nameof(Team1));
             }
         }
 
-        private string terroristsProbability;
+        private string team2Probability;
 
-        public string TerroristsProbability
+        public string Team2Probability
         {
-            get => terroristsProbability;
+            get => team2Probability;
             set
             {
-                terroristsProbability = value;
-                RaisePropertyChanged(nameof(TerroristsProbability));
+                team2Probability = value;
+                RaisePropertyChanged(nameof(Team2Probability));
             }
         }
 
-        private string counterTerroristsProbability;
+        private string team1Probability;
 
-        public string CounterTerroristsProbability
+        public string Team1Probability
         {
-            get => counterTerroristsProbability;
+            get => team1Probability;
             set
             {
-                counterTerroristsProbability = value;
-                RaisePropertyChanged(nameof(CounterTerroristsProbability));
+                team1Probability = value;
+                RaisePropertyChanged(nameof(Team1Probability));
             }
         }
 

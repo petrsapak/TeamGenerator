@@ -16,13 +16,9 @@ namespace TeamGenerator.Model
 
         public void AddPlayer(Player player)
         {
-            try
+            if (!Players.ContainsKey(player.Nick))
             {
                 Players.Add(player.Nick, player);
-            }
-            catch (ArgumentException argumentException)
-            {
-                //TODO log and iform
             }
         }
 
