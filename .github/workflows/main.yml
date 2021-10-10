@@ -41,6 +41,9 @@ jobs:
           # Artifact name
           name: TeamGenerator
           # A file, directory or wildcard pattern that describes what to upload
-          path: bin/**[.dll]
+          path: |
+                bin/**[.dll]
+                bin/**[.json]
+                !bin/**[test]*
           # The desired behavior if no files are found using the provided path.
           retention-days: 30
