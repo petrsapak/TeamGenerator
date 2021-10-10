@@ -15,16 +15,13 @@ namespace TeamGenerator.Core
         private Team team1Buffer;
         private Team team2Buffer;
 
-        private int maxPlayerCount;
-
-        public BestComplementGenerator(IEvaluate evaluator, int maxPlayerCount)
+        public BestComplementGenerator(IEvaluate evaluator)
         {
-            this.maxPlayerCount = maxPlayerCount;
             this.evaluator = evaluator;
             this.random = new Random();
         }
 
-        public (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers, bool fillWithBots)
+        public (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers, bool fillWithBots, int maxPlayerCount)
         {
             availablePlayerPool = availablePlayers.ToList();
             availablePlayerPoolBackup = availablePlayerPool.ToList();

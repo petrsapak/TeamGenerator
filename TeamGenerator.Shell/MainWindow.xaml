@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:validators="clr-namespace:TeamGenerator.Shell.Validators"
         xmlns:local="clr-namespace:TeamGenerator.Shell"
         xmlns:model="clr-namespace:TeamGenerator.Model;assembly=TeamGenerator.Model"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -116,9 +117,37 @@
             <GroupBox Header="Settings"
                       Margin="5"
                       Grid.Row="1">
-                <CheckBox Content="Fill teams with bots"
-                          Margin="5"
-                          IsChecked="{Binding FillWithBots}"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0"
+                              Content="Fill teams with bots"
+                              Margin="5"
+                              IsChecked="{Binding FillWithBots}"/>
+
+                    <StackPanel Orientation="Vertical"
+                                Grid.Row="1"
+                                Margin="5 0 5 0">
+                        <TextBlock Text="Max player count"/>
+                        <TextBox IsEnabled="{Binding FillWithBots}">
+                            <TextBox.Text>
+                                <Binding Path="MaxPlayerCount"
+                                         Mode="TwoWay"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <validators:NumericValidator ValidationType="{x:Type sys:Int32}"
+                                                                     ValidatesOnTargetUpdated="True"/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                </Grid>
             </GroupBox>
         </Grid>
 

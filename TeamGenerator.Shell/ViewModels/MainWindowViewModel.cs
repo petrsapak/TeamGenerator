@@ -23,8 +23,8 @@ namespace TeamGenerator.Shell.ViewModels
 
         public MainWindowViewModel()
         {
-            availablePlayers = new ObservableCollection<Player>();
-            ranks = new List<Rank>
+            AvailablePlayers = new ObservableCollection<Player>();
+            Ranks = new List<Rank>
             {
                 new Rank("Silver 1", 1),
                 new Rank("Silver 2", 2),
@@ -45,11 +45,12 @@ namespace TeamGenerator.Shell.ViewModels
                 new Rank("Supreme Master First Class", 17),
                 new Rank("Global Elite", 18),
             };
+            MaxPlayerCount = "10";
 
             InitializeCommands();
 
             evaluator = new BasicEvaluator();
-            bestComplementTeamGenerator = new BestComplementGenerator(evaluator, 10);
+            bestComplementTeamGenerator = new BestComplementGenerator(evaluator);
         }
 
         #region Commands
@@ -107,7 +108,8 @@ namespace TeamGenerator.Shell.ViewModels
 
         private void GenerateTeams(object parameters)
         {
-            (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers, FillWithBots);
+            int maxPlayerCountInt = int.Parse(MaxPlayerCount);
+            (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers, FillWithBots, maxPlayerCountInt);
 
             Team1 = new ObservableCollection<Player>(teams.Item1.Players.Values);
             Team2 = new ObservableCollection<Player>(teams.Item2.Players.Values);
@@ -220,6 +222,19 @@ namespace TeamGenerator.Shell.ViewModels
                 RaisePropertyChanged(nameof(fillWithBots));
             }
         }
+
+        private string maxPlayerCount;
+
+        public string MaxPlayerCount 
+        {
+            get => maxPlayerCount;
+            set
+            {
+                maxPlayerCount = value;
+                RaisePropertyChanged(nameof(MaxPlayerCount));
+            }
+        }
+
 
         private ObservableCollection<Player> availablePlayers;
 
