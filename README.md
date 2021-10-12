@@ -47,3 +47,13 @@ which contains all your players.
 - Sometimes there is not enough live players and you need to add some bots.
 - If you enable this feature the algorithm will try to add bots into one or both teams to find the most fair evaluation.
 - The "Max player count" parameter is there just for bot evaluation calculations and if you have the "Max player count" or more live player, then no bots will be added.
+
+
+![image](https://user-images.githubusercontent.com/9948892/137007523-4b89ec5f-271d-483b-aa57-f47def1ba3c0.png)
+
+
+![image](https://user-images.githubusercontent.com/9948892/137007574-99a7f802-fbf6-4449-b773-a8f9a36e82fc.png)
+
+
+![image](https://user-images.githubusercontent.com/9948892/137007637-d1bb11ee-cc8f-4bfe-b37a-ee2da2b0b88b.png)
+
