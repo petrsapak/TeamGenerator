@@ -28,53 +28,50 @@ namespace TeamGenerator.Core
             team1Buffer = new Team("1");
             team2Buffer = new Team("2");
 
-            if (availablePlayerPool.Count != 0)
+            Player initialRandomCoutnerTerroristPlayer = GetRandomPlayerFromPool();
+            MovePlayerFromPoolToBuffer(initialRandomCoutnerTerroristPlayer, team1Buffer);
+
+            Player initialRandomTerroristPlayer = GetRandomPlayerFromPool();
+            MovePlayerFromPoolToBuffer(initialRandomTerroristPlayer, team2Buffer);
+
+            while (availablePlayerPool.Count > 0)
             {
-                Player initialRandomCoutnerTerroristPlayer = GetRandomPlayerFromPool();
-                MovePlayerFromPoolToBuffer(initialRandomCoutnerTerroristPlayer, team1Buffer);
+                AddNextPlayer();
+            }
 
-                Player initialRandomTerroristPlayer = GetRandomPlayerFromPool();
-                MovePlayerFromPoolToBuffer(initialRandomTerroristPlayer, team2Buffer);
+            int counter = 0;
 
-                while (availablePlayerPool.Count > 0)
+            while (fillWithBots && team1Buffer.Players.Count + team2Buffer.Players.Count < maxPlayerCount)
+            {
+                double botCoefficient = 0.7;
+
+                double team1Evaluation = evaluator.EvaluateTeam(team1Buffer);
+                double team1EvaluationWithoutBots = evaluator.EvaluateTeamWithoutBots(team1Buffer);
+                double team2Evaluation = evaluator.EvaluateTeam(team2Buffer);
+                double team2EvaluationWithoutBots = evaluator.EvaluateTeamWithoutBots(team2Buffer);
+
+                double team1RankAverage = team1EvaluationWithoutBots / (double)team1Buffer.Players.Count;
+                double team1BotEvaluation = team1RankAverage * botCoefficient;
+
+                double team2RankAverage = team2EvaluationWithoutBots / (double)team2Buffer.Players.Count;
+                double team2BotEvaluation = team2RankAverage * botCoefficient;
+
+                double evaluationDifference = team1Evaluation - team2Evaluation;
+
+                if (evaluationDifference > 2)
                 {
-                    AddNextPlayer();
+                    team2Buffer.AddPlayer(new Player($"Bot {counter}", new Rank("Bot", team2BotEvaluation), bot: true));
+                }
+                else if (evaluationDifference < -2)
+                {
+                    team1Buffer.AddPlayer(new Player($"Bot {counter}", new Rank("Bot", team1BotEvaluation), bot: true));
+                }
+                else
+                {
+                    break;
                 }
 
-                int counter = 0;
-
-                while (fillWithBots && team1Buffer.Players.Count + team2Buffer.Players.Count < maxPlayerCount)
-                {
-                    double botCoefficient = 0.7;
-
-                    double team1Evaluation = evaluator.EvaluateTeam(team1Buffer);
-                    double team1EvaluationWithoutBots = evaluator.EvaluateTeamWithoutBots(team1Buffer);
-                    double team2Evaluation = evaluator.EvaluateTeam(team2Buffer);
-                    double team2EvaluationWithoutBots = evaluator.EvaluateTeamWithoutBots(team2Buffer);
-
-                    double team1RankAverage = team1EvaluationWithoutBots / (double)team1Buffer.Players.Count;
-                    double team1BotEvaluation = team1RankAverage * botCoefficient;
-
-                    double team2RankAverage = team2EvaluationWithoutBots / (double)team2Buffer.Players.Count;
-                    double team2BotEvaluation = team2RankAverage * botCoefficient;
-
-                    double evaluationDifference = team1Evaluation - team2Evaluation;
-
-                    if (evaluationDifference > 2)
-                    {
-                        team2Buffer.AddPlayer(new Player($"Bot {counter}", new Rank("Bot", team2BotEvaluation), bot: true));
-                    }
-                    else if (evaluationDifference < -2)
-                    {
-                        team1Buffer.AddPlayer(new Player($"Bot {counter}", new Rank("Bot", team1BotEvaluation), bot: true));
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                    counter++;
-                }
+                counter++;
             }
 
             Team team1 = (Team)team1Buffer.Clone();
