@@ -86,7 +86,7 @@ namespace TeamGenerator.Shell.ViewModels
 
         private bool CanGenerateTeams(object parameters)
         {
-            return AvailablePlayers.Count > 0;
+            return AvailablePlayers.Count >= 2;
         }
 
         public ICommand AddAvailablePlayerCommand { get; set; }
@@ -109,6 +109,7 @@ namespace TeamGenerator.Shell.ViewModels
         private void GenerateTeams(object parameters)
         {
             int maxPlayerCountInt = int.Parse(MaxPlayerCount);
+
             (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers, FillWithBots, maxPlayerCountInt);
 
             Team1 = new ObservableCollection<Player>(teams.Item1.Players.Values);
