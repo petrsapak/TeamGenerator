@@ -46,6 +46,7 @@ namespace TeamGenerator.Shell.ViewModels
                 new Rank("Global Elite", 18),
             };
             MaxPlayerCount = "10";
+            NewPlayerRank = Ranks[0];
 
             InitializeCommands();
 
@@ -137,6 +138,10 @@ namespace TeamGenerator.Shell.ViewModels
             {
                 selectedFileContent = File.ReadAllText(openFileDialog.FileName);
             }
+            else
+            {
+                return;
+            }
 
             try
             {
@@ -169,7 +174,6 @@ namespace TeamGenerator.Shell.ViewModels
 
                 File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
             }
-
         }
 
         #endregion
