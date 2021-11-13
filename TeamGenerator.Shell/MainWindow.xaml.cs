@@ -13,5 +13,10 @@ namespace TeamGenerator.Shell
             InitializeComponent();
             DataContext = new MainWindowViewModel();
         }
+
+        private void TopBarControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 }

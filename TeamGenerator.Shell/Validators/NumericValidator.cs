@@ -20,20 +20,16 @@ namespace TeamGenerator.Shell.Validators
             switch (ValidationType.Name)
             {
                 case "Boolean":
-                    bool boolVal = false;
-                    canConvert = bool.TryParse(strValue, out boolVal);
+                    canConvert = bool.TryParse(strValue, out bool boolVal);
                     return canConvert ? new ValidationResult(true, null) : new ValidationResult(false, $"Input should be type of boolean");
                 case "Int32":
-                    int intVal = 0;
-                    canConvert = int.TryParse(strValue, out intVal);
+                    canConvert = int.TryParse(strValue, out int intValue);
                     return canConvert ? new ValidationResult(true, null) : new ValidationResult(false, $"Input should be type of Int32");
                 case "Double":
-                    double doubleVal = 0;
-                    canConvert = double.TryParse(strValue, out doubleVal);
+                    canConvert = double.TryParse(strValue, out double doubleValue);
                     return canConvert ? new ValidationResult(true, null) : new ValidationResult(false, $"Input should be type of Double");
                 case "Int64":
-                    long longVal = 0;
-                    canConvert = long.TryParse(strValue, out longVal);
+                    canConvert = long.TryParse(strValue, out long longValue);
                     return canConvert ? new ValidationResult(true, null) : new ValidationResult(false, $"Input should be type of Int64");
                 default:
                     throw new InvalidCastException($"{ValidationType.Name} is not supported");

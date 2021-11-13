@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:TeamGenerator.Shell"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <FontFamily x:Key="ChakraPetchMedium">pack://application:,,,/Fonts/#Chakra Petch Medium</FontFamily>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/DefaultStyles.xaml"/>
+                <ResourceDictionary Source="Styles/ListViewStyle.xaml"/>
+                <ResourceDictionary Source="Styles/ListViewItemStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

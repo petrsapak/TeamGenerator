@@ -12,6 +12,8 @@ using Microsoft.Win32;
 using System.IO;
 using System.Windows;
 using System.Text.Json;
+using System.Windows.Controls;
+using TeamGenerator.Shell.Controls;
 
 namespace TeamGenerator.Shell.ViewModels
 {
@@ -50,6 +52,9 @@ namespace TeamGenerator.Shell.ViewModels
 
             InitializeCommands();
 
+            ApplicationTitle = "Team Generator";
+            CurrentView = new DashboardControl();
+
             evaluator = new BasicEvaluator();
             bestComplementTeamGenerator = new BestComplementGenerator(evaluator);
         }
@@ -63,31 +68,9 @@ namespace TeamGenerator.Shell.ViewModels
             GenerateTeamsCommand = new Command(GenerateTeams, CanGenerateTeams);
             LoadPlayerPoolCommand = new Command(LoadPlayerPool, CanLoadPlayers);
             SavePlayerPoolCommand = new Command(SavePlayerPool, CanSavePlayers);
-        }
-
-        private bool CanLoadPlayers(object parameters)
-        {
-            return true;
-        }
-
-        private bool CanSavePlayers(object parameters)
-        {
-            return true;
-        }
-
-        private bool CanAddNewPlayer(object parameters)
-        {
-            return AvailablePlayers.All(player => player.Nick != NewPlayerName) && !string.IsNullOrEmpty(NewPlayerName) && NewPlayerName.Any(char.IsLetterOrDigit);
-        }
-
-        private bool CanDeletePlayer(object parameters)
-        {
-            return SelectedAvailablePlayer != null;
-        }
-
-        private bool CanGenerateTeams(object parameters)
-        {
-            return AvailablePlayers.Count >= 2;
+            CloseApplicationCommand = new Command(CloseApplication, CanCloseApplication);
+            MinimizeApplicationCommand = new Command(MinimizeApplication, CanMinimizeApplication);
+            SwitchViewCommand = new Command(SwitchView, CanSwitchView);
         }
 
         public ICommand AddAvailablePlayerCommand { get; set; }
@@ -95,6 +78,9 @@ namespace TeamGenerator.Shell.ViewModels
         public ICommand DeleteAvailablePlayerCommand { get; set; }
         public ICommand LoadPlayerPoolCommand { get; set; }
         public ICommand SavePlayerPoolCommand { get; set; }
+        public ICommand CloseApplicationCommand { get; set; }
+        public ICommand MinimizeApplicationCommand { get; set; }
+        public ICommand SwitchViewCommand { get; set; }
 
         private void AddAvailablePlayer(object parameters)
         {
@@ -174,6 +160,77 @@ namespace TeamGenerator.Shell.ViewModels
 
                 File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
             }
+        }
+
+        private void CloseApplication(object parameters)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MinimizeApplication(object parameters)
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        }
+
+        private void SwitchView(object parameters)
+        {
+            switch (parameters as string)
+            {
+                case "Dashboard":
+                    CurrentView = new DashboardControl();
+                    break;
+                case "Settings":
+                    CurrentView = new SettingsControl();
+                    break;
+                case "Statistics":
+                    CurrentView = new StatisticsControl();
+                    break;
+                case "About":
+                    CurrentView = new AboutControl();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private bool CanLoadPlayers(object parameters)
+        {
+            return true;
+        }
+
+        private bool CanSavePlayers(object parameters)
+        {
+            return true;
+        }
+
+        private bool CanAddNewPlayer(object parameters)
+        {
+            return AvailablePlayers.All(player => player.Nick != NewPlayerName) && !string.IsNullOrEmpty(NewPlayerName) && NewPlayerName.Any(char.IsLetterOrDigit);
+        }
+
+        private bool CanDeletePlayer(object parameters)
+        {
+            return SelectedAvailablePlayer != null;
+        }
+
+        private bool CanGenerateTeams(object parameters)
+        {
+            return AvailablePlayers.Count >= 2;
+        }
+
+        private bool CanMinimizeApplication(object parameters)
+        {
+            return true;
+        }
+
+        private bool CanCloseApplication(object parameters)
+        {
+            return true;
+        }
+
+        private bool CanSwitchView(object parameters)
+        {
+            return true;
         }
 
         #endregion
@@ -310,6 +367,29 @@ namespace TeamGenerator.Shell.ViewModels
             {
                 ranks = value;
                 RaisePropertyChanged(nameof(Ranks));
+            }
+        }
+
+        private string applicationTitle;
+        public string ApplicationTitle
+        {
+            get => applicationTitle;
+            set
+            {
+                applicationTitle = value;
+                RaisePropertyChanged(nameof(ApplicationTitle));
+            }
+        }
+
+        private UserControl currentView;
+
+        public UserControl CurrentView
+        {
+            get => currentView;
+            set
+            {
+                currentView = value;
+                RaisePropertyChanged(nameof(CurrentView));
             }
         }
         #endregion
