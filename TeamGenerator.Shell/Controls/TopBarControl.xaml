@@ -27,35 +27,13 @@
                 Content="Minimize"
                 MinHeight="30"
                 MinWidth="60"
-                Margin="5 10 0 0">
-            <!--<Line  X1="9" Y1="20"
-                   X2="24" Y2="20"
-                   Stroke="{StaticResource ForegroundColor}"
-                   StrokeThickness="1"/>-->
-        </Button>
+                Margin="5 10 0 0"/>
         <Label Grid.Column="2"/>
         <Button Grid.Column="4"
                 Command="{Binding CloseApplicationCommand}"
                 Content="Close"
                 MinHeight="30"
                 MinWidth="40"
-                Margin="5 10 5 0">
-            <!--<Button.Content>
-                <Border Background="{StaticResource BackgroundColor}">
-                    <StackPanel>
-                        <Line X1="9" Y1="5"
-                              X2="24" Y2="20"
-                              Stroke="{StaticResource ForegroundColor}"
-                              StrokeThickness="1"
-                              x:Name="line1"/>
-                        <Line X1="24" Y1="5"
-                              X2="9" Y2="20"
-                              Stroke="{StaticResource ForegroundColor}"
-                              StrokeThickness="1"
-                              x:Name="line2"/>
-                    </StackPanel>
-                </Border>
-            </Button.Content>-->
-        </Button>
+                Margin="5 10 5 0"/>
     </Grid>
 </UserControl>
