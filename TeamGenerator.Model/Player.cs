@@ -1,16 +1,20 @@
-﻿namespace TeamGenerator.Model
+﻿using System;
+using TeamGenerator.Model.Validators;
+
+namespace TeamGenerator.Model
 {
     public class Player
     {
         public string Nick { get; private set; }
         public Rank Rank { get; private set; }
-        public bool Bot { get; private set; }
+        public bool? Bot { get; private set; }
 
-        public Player(string nick, Rank rank, bool bot = false)
+        public Player(string nick, Rank rank, bool? bot = false)
         {
+            Validator.ValidateString(nick);
             Nick = nick;
-            Rank = rank;
-            Bot = bot;
+            Rank = rank ?? throw new ArgumentNullException(nameof(rank));
+            Bot = bot ?? throw new ArgumentNullException(nameof(bot));
         }
     }
 }

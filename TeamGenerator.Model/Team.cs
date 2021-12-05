@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TeamGenerator.Model.Validators;
 
 namespace TeamGenerator.Model
 {
@@ -10,6 +11,7 @@ namespace TeamGenerator.Model
 
         public Team(string name)
         {
+            Validator.ValidateString(name);
             Name = name;
             Players = new Dictionary<string, Player>();
         }

@@ -1,4 +1,6 @@
-﻿namespace TeamGenerator.Model
+﻿using TeamGenerator.Model.Validators;
+
+namespace TeamGenerator.Model
 {
     public class Rank
     {
@@ -7,7 +9,9 @@
 
         public Rank(string name, double value)
         {
+            Validator.ValidateString(name);
             Name = name;
+            Validator.ValidateDouble(value);
             Value = value;
         }
     }

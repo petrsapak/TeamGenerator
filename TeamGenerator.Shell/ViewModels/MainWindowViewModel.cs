@@ -135,7 +135,15 @@ namespace TeamGenerator.Shell.ViewModels
             }
             catch (JsonException exception)
             {
-                MessageBox.Show($"The selected file could not be loaded.", "Loading error");
+                MessageBox.Show($"The selected file could not be loaded.\nException message: \n{exception.Message}", "Loading error");
+            }
+            catch (ArgumentNullException argumentNullException)
+            {
+                MessageBox.Show($"An exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentNullException.Message}", "Loading error");
+            }
+            catch (ArgumentException argumentException)
+            {
+                MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
             }
         }
 
@@ -154,7 +162,7 @@ namespace TeamGenerator.Shell.ViewModels
                 }
                 catch (JsonException exception)
                 {
-                    MessageBox.Show($"Current player pool could not be saved.", "Saving error");
+                    MessageBox.Show($"Current player pool could not be saved. \nException message: \n{exception.Message}", "Saving error");
                     return;
                 }
 

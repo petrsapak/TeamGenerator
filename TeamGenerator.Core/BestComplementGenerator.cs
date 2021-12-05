@@ -28,6 +28,11 @@ namespace TeamGenerator.Core
             team1Buffer = new Team("1");
             team2Buffer = new Team("2");
 
+            if (availablePlayerPool.Count == 0)
+            {
+                return (new Team("1"), new Team("2"));
+            }
+
             Player initialRandomCoutnerTerroristPlayer = GetRandomPlayerFromPool();
             MovePlayerFromPoolToBuffer(initialRandomCoutnerTerroristPlayer, team1Buffer);
 
