@@ -48,7 +48,7 @@
             <Grid Grid.Row="0"
                   Grid.Column="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="110"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5">
@@ -64,7 +64,7 @@
                                 Command="{Binding SavePlayerPoolCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="10">
+                                Margin="5 10">
                             <Button.Content>
                                 <TextBlock Text="Save player pool" TextWrapping="Wrap"/>
                             </Button.Content>
@@ -74,7 +74,7 @@
                                 Command="{Binding LoadPlayerPoolCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="10 0">
+                                Margin="5 0">
                             <Button.Content>
                                 <TextBlock Text="Load player pool" TextWrapping="Wrap"/>
                             </Button.Content>
@@ -84,7 +84,7 @@
                                 Command="{Binding GenerateTeamsCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="10">
+                                Margin="5 10">
                             <Button.Content>
                                 <TextBlock Text="Generate teams" TextWrapping="Wrap"/>
                             </Button.Content>
