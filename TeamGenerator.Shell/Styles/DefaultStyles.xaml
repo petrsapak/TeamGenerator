@@ -5,6 +5,7 @@
 
     <!--Colors-->
     <SolidColorBrush x:Key="BackgroundColor" Color="#393B41"/>
+    <SolidColorBrush x:Key="DisabledBackgroudColor" Color="#747882"/>
     <SolidColorBrush x:Key="PanelBackgroundColor" Color="#44464d"/>
     <SolidColorBrush x:Key="ForegroundColor" Color="#B1AFB3"/>
     <SolidColorBrush x:Key="BackgroundIsMouseOverColor" Color="#B1AFB3"/>
@@ -40,8 +41,7 @@
                 <Setter Property="Foreground" Value="{StaticResource ForegroundIsMouseOverColor}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{StaticResource BackgroundIsMouseOverColor}"/>
-                <Setter Property="Foreground" Value="{StaticResource ForegroundIsMouseOverColor}"/>
+                <Setter Property="Background" Value="{StaticResource DisabledBackgroudColor}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
