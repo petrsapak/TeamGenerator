@@ -6,7 +6,12 @@
              xmlns:local="clr-namespace:TeamGenerator.Shell.Controls"
              xmlns:validators="clr-namespace:TeamGenerator.Shell.Validators"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:TeamGenerator.Shell.Converters"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ProbabilityToMessageConverter x:Key="ProbabilityToMessageConverter"/>
+        <converters:ProbabilityToColorConverter x:Key="ProbabilityToColorConverter"/>
+    </UserControl.Resources>
     <Border Background="{StaticResource BackgroundColor}"
             CornerRadius="0 0 10 10">
         <Grid>
@@ -133,7 +138,11 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Team 1" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Team1Probability}" Margin="0 10 10 0" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding Team1Probability, Converter={StaticResource ProbabilityToMessageConverter}}"
+                                   Foreground="{Binding Team1Probability, Converter={StaticResource ProbabilityToColorConverter}}"
+                                   Margin="0 10 10 0"
+                                   HorizontalAlignment="Right"/>
                     </Grid>
                     <ListView Grid.Row="1" ItemsSource="{Binding Team1}" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                         <ListView.ItemContainerStyle>
@@ -164,7 +173,11 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Team 2" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Team2Probability}" Margin="0 10 10 0" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="1" 
+                                   Text="{Binding Team2Probability, Converter={StaticResource ProbabilityToMessageConverter}}"
+                                   Foreground="{Binding Team2Probability, Converter={StaticResource ProbabilityToColorConverter}}"
+                                   Margin="0 10 10 0"
+                                   HorizontalAlignment="Right"/>
                     </Grid>
                     <ListView Grid.Row="1" ItemsSource="{Binding Team2}" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                         <ListView.ItemContainerStyle>

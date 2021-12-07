@@ -109,8 +109,8 @@ namespace TeamGenerator.Shell.ViewModels
             double counterTerroristsChanceOfWinning = (int)Math.Round(counterTerroristTeamEvaluation * evaluationPointToPercent);
             double terroristsChanceOfWinning = (int)Math.Round(terroristTeamEvaluation * evaluationPointToPercent);
 
-            Team1Probability = $"Estimated chance to win {counterTerroristsChanceOfWinning}%";
-            Team2Probability = $"Estimated chance to win {terroristsChanceOfWinning}%";
+            Team1Probability = (int)counterTerroristsChanceOfWinning;
+            Team2Probability = (int)terroristsChanceOfWinning;
         }
 
         private void LoadPlayerPool(object parameters)
@@ -342,9 +342,9 @@ namespace TeamGenerator.Shell.ViewModels
             }
         }
 
-        private string team2Probability;
+        private int team2Probability;
 
-        public string Team2Probability
+        public int Team2Probability
         {
             get => team2Probability;
             set
@@ -354,9 +354,9 @@ namespace TeamGenerator.Shell.ViewModels
             }
         }
 
-        private string team1Probability;
+        private int team1Probability;
 
-        public string Team1Probability
+        public int Team1Probability
         {
             get => team1Probability;
             set
