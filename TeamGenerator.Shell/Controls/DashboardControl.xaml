@@ -21,7 +21,8 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"
+                               MaxHeight="300"/>
             </Grid.RowDefinitions>
             <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5">
                 <Grid>
@@ -44,7 +45,7 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="200" DisplayMemberBinding="{Binding Nick}"/>
-                                <GridViewColumn Width="170" DisplayMemberBinding="{Binding Rank.Name}"/>
+                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding Rank.Name}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -126,11 +127,12 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="0" Grid.Row="2" Height="300">
+            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="0" Grid.Row="2" Height="290">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"
+                                       MaxHeight="250"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -161,11 +163,12 @@
                     </ListView>
                 </Grid>
             </Border>
-            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="1" Grid.Row="2">
+            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="1" Grid.Row="2" Height="290">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"
+                                       MaxHeight="250"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
