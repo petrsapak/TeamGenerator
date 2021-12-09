@@ -49,16 +49,6 @@ namespace TeamGenerator.Shell.ViewModels
             };
             MaxPlayerCount = "10";
             NewPlayerRank = Ranks[0];
-
-            Team testTeam = new Team("a");
-            for (int i = 0; i < 30; i++)
-            {
-                Player p = new Player(i.ToString(), new Rank("a", 1));
-                testTeam.AddPlayer(p);
-            }
-
-            Team2 = new ObservableCollection<Player>(testTeam.Players.Values);
-
             InitializeCommands();
 
             ApplicationTitle = "Team Generator";
@@ -232,7 +222,7 @@ namespace TeamGenerator.Shell.ViewModels
 
         private bool CanGenerateTeams(object parameters)
         {
-            return AvailablePlayers.Count >= 2;
+            return AvailablePlayers.Count > 1;
         }
 
         private bool CanMinimizeApplication(object parameters)
