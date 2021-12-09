@@ -49,6 +49,7 @@
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource ForegroundColor}"/>
+        <Setter Property="FontFamily" Value="{StaticResource ChakraPetchMedium}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
@@ -140,52 +141,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="CheckBoxFocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border>
-                        <Rectangle 
-            Margin="15,0,0,0"
-            StrokeThickness="1"
-            Stroke="#60000000"
-            StrokeDashArray="1 2"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource ForegroundColor}"/>
-        
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border BorderBrush="White" BorderThickness="1">
-                        <Grid Width="15" Height="15" >
-                            <Rectangle Fill="{TemplateBinding Background}"/>
-                            <TextBlock Foreground="{TemplateBinding Foreground}" Margin="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="√"/>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        
-        <Style.Triggers>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource ForegroundColor}"/>
-            </Trigger>
-
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Red"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
