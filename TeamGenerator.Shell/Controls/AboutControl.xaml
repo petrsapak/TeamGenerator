@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TeamGenerator.Shell.Controls"
              mc:Ignorable="d">
-    <Border CornerRadius="0 0 20 20"
-            Background="{StaticResource SelectedBackgroundBrush}">
-        <TextBlock Text="ABOUT"
-                   FontSize="64"/>
+    <Border CornerRadius="0 0 10 10"
+            Background="{StaticResource BackgroundColor}">
+        <Grid Height="500">
+            <TextBlock Text="https://github.com/petrsapak/TeamGenerator" Foreground="{StaticResource ForegroundColor}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
     </Border>
 </UserControl>
