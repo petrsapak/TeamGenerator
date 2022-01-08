@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 using TeamGenerator.Core;
 using TeamGenerator.Core.Interfaces;
@@ -14,10 +13,11 @@ using System.Windows;
 using System.Text.Json;
 using System.Windows.Controls;
 using TeamGenerator.Shell.Controls;
+using TeamGenerator.Shell.Views;
 
 namespace TeamGenerator.Shell.ViewModels
 {
-    internal class MainWindowViewModel : INotifyPropertyChanged
+    internal class MainWindowViewModel : ViewModelBase
     {
         private readonly PlayerDataManager playerDataManager = new PlayerDataManager();
         private readonly IGenerate bestComplementTeamGenerator;
@@ -52,7 +52,7 @@ namespace TeamGenerator.Shell.ViewModels
             InitializeCommands();
 
             ApplicationTitle = "Team Generator";
-            CurrentView = new DashboardControl();
+            CurrentView = new DashboardView();
 
             evaluator = new BasicEvaluator();
             bestComplementTeamGenerator = new BestComplementGenerator(evaluator);
@@ -184,19 +184,19 @@ namespace TeamGenerator.Shell.ViewModels
             switch (parameters as string)
             {
                 case "Dashboard":
-                    CurrentView = new DashboardControl();
+                    CurrentView = new DashboardView();
                     break;
                 case "Settings":
-                    CurrentView = new SettingsControl();
+                    CurrentView = new SettingsView();
                     break;
                 case "Statistics":
-                    CurrentView = new StatisticsControl();
+                    CurrentView = new StatisticsView();
                     break;
                 case "About":
-                    CurrentView = new AboutControl();
+                    CurrentView = new AboutView();
                     break;
                 default:
-                    break;
+                    throw new ArgumentException($"The view name {parameters as string} is incorrect", "parameters");
             }
         }
 
@@ -398,17 +398,6 @@ namespace TeamGenerator.Shell.ViewModels
                 currentView = value;
                 RaisePropertyChanged(nameof(CurrentView));
             }
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion
