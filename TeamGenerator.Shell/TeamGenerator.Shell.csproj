@@ -10,12 +10,6 @@
     <Platforms>x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Views\**" />
-    <EmbeddedResource Remove="Views\**" />
-    <None Remove="Views\**" />
-    <Page Remove="Views\**" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Fonts\Chakra Petch Medium.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -35,26 +29,26 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Controls\StatisticsControl.xaml.cs">
+    <Compile Update="Views\StatisticsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\AboutControl.xaml.cs">
+    <Compile Update="Views\AboutView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\SettingsControl.xaml.cs">
+    <Compile Update="Views\SettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\StatisticsControl.xaml">
+    <Page Update="Views\StatisticsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\AboutControl.xaml">
+    <Page Update="Views\AboutView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\SettingsControl.xaml">
+    <Page Update="Views\SettingsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
