@@ -12,7 +12,6 @@ using System.IO;
 using System.Windows;
 using System.Text.Json;
 using System.Windows.Controls;
-using TeamGenerator.Shell.Controls;
 using TeamGenerator.Shell.Views;
 
 namespace TeamGenerator.Shell.ViewModels
