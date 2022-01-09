@@ -8,7 +8,7 @@
     <Border CornerRadius="0 0 10 10"
             Background="{StaticResource BackgroundColor}">
         <Grid Height="500">
-            <TextBlock Text="https://github.com/petrsapak/TeamGenerator" Foreground="{StaticResource ForegroundColor}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding AboutMessage}" Foreground="{StaticResource ForegroundColor}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>
