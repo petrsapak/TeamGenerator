@@ -1,8 +1,8 @@
 ﻿using System.Windows.Input;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using TeamGenerator.Shell.Views;
+using TeamGenerator.Shell.Commands;
 
 namespace TeamGenerator.Shell.ViewModels
 {
@@ -23,55 +23,9 @@ namespace TeamGenerator.Shell.ViewModels
 
         private void InitializeCommands()
         {
-            CloseApplicationCommand = new Command(CloseApplication, CanCloseApplication);
-            MinimizeApplicationCommand = new Command(MinimizeApplication, CanMinimizeApplication);
-            SwitchViewCommand = new Command(SwitchView, CanSwitchView);
-        }
-
-        private void CloseApplication(object parameters)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void MinimizeApplication(object parameters)
-        {
-            Application.Current.MainWindow.WindowState = WindowState.Minimized;
-        }
-
-        private void SwitchView(object parameters)
-        {
-            switch (parameters as string)
-            {
-                case "Dashboard":
-                    CurrentView = new DashboardView();
-                    break;
-                case "Settings":
-                    CurrentView = new SettingsView();
-                    break;
-                case "Statistics":
-                    CurrentView = new StatisticsView();
-                    break;
-                case "About":
-                    CurrentView = new AboutView();
-                    break;
-                default:
-                    throw new ArgumentException($"The view name {parameters as string} is incorrect", "parameters");
-            }
-        }
-
-        private bool CanMinimizeApplication(object parameters)
-        {
-            return true;
-        }
-
-        private bool CanCloseApplication(object parameters)
-        {
-            return true;
-        }
-
-        private bool CanSwitchView(object parameters)
-        {
-            return true;
+            CloseApplicationCommand = new CloseApplicationCommand(Application.Current);
+            MinimizeApplicationCommand = new MinimizeApplicationCommand(Application.Current);
+            SwitchViewCommand = new SwitchViewCommand(this);
         }
 
         #endregion
