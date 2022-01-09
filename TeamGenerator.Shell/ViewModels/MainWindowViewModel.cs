@@ -17,16 +17,16 @@ namespace TeamGenerator.Shell.ViewModels
 
         #region Commands
 
+        public ICommand CloseApplicationCommand { get; set; }
+        public ICommand MinimizeApplicationCommand { get; set; }
+        public ICommand SwitchViewCommand { get; set; }
+
         private void InitializeCommands()
         {
             CloseApplicationCommand = new Command(CloseApplication, CanCloseApplication);
             MinimizeApplicationCommand = new Command(MinimizeApplication, CanMinimizeApplication);
             SwitchViewCommand = new Command(SwitchView, CanSwitchView);
         }
-
-        public ICommand CloseApplicationCommand { get; set; }
-        public ICommand MinimizeApplicationCommand { get; set; }
-        public ICommand SwitchViewCommand { get; set; }
 
         private void CloseApplication(object parameters)
         {
