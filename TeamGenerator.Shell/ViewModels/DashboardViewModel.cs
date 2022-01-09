@@ -1,25 +1,15 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Windows;
 using System.Windows.Input;
 using TeamGenerator.Core;
-using TeamGenerator.Core.Interfaces;
 using TeamGenerator.Infrastructure;
 using TeamGenerator.Model;
+using TeamGenerator.Shell.Commands;
 
 namespace TeamGenerator.Shell.ViewModels
 {
     internal class DashboardViewModel : ViewModelBase
     {
-        private readonly PlayerDataManager playerDataManager = new PlayerDataManager();
-        private readonly IGenerate bestComplementTeamGenerator;
-        private readonly IEvaluate evaluator;
-
         public DashboardViewModel()
         {
             AvailablePlayers = new ObservableCollection<Player>();
@@ -47,8 +37,6 @@ namespace TeamGenerator.Shell.ViewModels
             MaxPlayerCount = "10";
             NewPlayerRank = Ranks[0];
             InitializeCommands();
-            evaluator = new BasicEvaluator();
-            bestComplementTeamGenerator = new BestComplementGenerator(evaluator);
         }
 
         #region Properties
@@ -192,11 +180,11 @@ namespace TeamGenerator.Shell.ViewModels
 
         private void InitializeCommands()
         {
-            AddAvailablePlayerCommand = new Command(AddAvailablePlayer, CanAddNewPlayer);
-            DeleteAvailablePlayerCommand = new Command(DeleteAvailablePlayer, CanDeletePlayer);
-            GenerateTeamsCommand = new Command(GenerateTeams, CanGenerateTeams);
-            LoadPlayerPoolCommand = new Command(LoadPlayerPool, CanLoadPlayers);
-            SavePlayerPoolCommand = new Command(SavePlayerPool, CanSavePlayers);
+            AddAvailablePlayerCommand = new AddAvailablePlayerCommand(this);
+            DeleteAvailablePlayerCommand = new DeleteAvailablePlayerCommand(this);
+            GenerateTeamsCommand = new GenerateTeamsCommand(this, new BestComplementGenerator(new BasicEvaluator()), new BasicEvaluator());
+            LoadPlayerPoolCommand = new LoadPlayerPoolCommand(this, new PlayerDataManager());
+            SavePlayerPoolCommand = new SavePlayerPoolCommand(this, new PlayerDataManager());
         }
 
         public ICommand AddAvailablePlayerCommand { get; set; }
@@ -204,120 +192,6 @@ namespace TeamGenerator.Shell.ViewModels
         public ICommand DeleteAvailablePlayerCommand { get; set; }
         public ICommand LoadPlayerPoolCommand { get; set; }
         public ICommand SavePlayerPoolCommand { get; set; }
-
-        private void AddAvailablePlayer(object parameters)
-        {
-            Player availablePlayer = new Player(nick: NewPlayerName, rank: newPlayerRank);
-            AvailablePlayers.Add(availablePlayer);
-        }
-
-        private void DeleteAvailablePlayer(object parameters)
-        {
-            AvailablePlayers.Remove(SelectedAvailablePlayer);
-        }
-
-        private void GenerateTeams(object parameters)
-        {
-            int maxPlayerCountInt = int.Parse(MaxPlayerCount);
-
-            (Team, Team) teams = bestComplementTeamGenerator.GenerateTeams(AvailablePlayers, FillWithBots, maxPlayerCountInt);
-
-            Team1 = new ObservableCollection<Player>(teams.Item1.Players.Values);
-            Team2 = new ObservableCollection<Player>(teams.Item2.Players.Values);
-
-            double counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
-            double terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
-            double sumOfEvaluations = counterTerroristTeamEvaluation + terroristTeamEvaluation;
-            double evaluationPointToPercent = (double)100 / (double)sumOfEvaluations;
-            double counterTerroristsChanceOfWinning = (int)Math.Round(counterTerroristTeamEvaluation * evaluationPointToPercent);
-            double terroristsChanceOfWinning = (int)Math.Round(terroristTeamEvaluation * evaluationPointToPercent);
-
-            Team1Probability = (int)counterTerroristsChanceOfWinning;
-            Team2Probability = (int)terroristsChanceOfWinning;
-        }
-
-        private void LoadPlayerPool(object parameters)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.DefaultExt = ".tgpp";
-            openFileDialog.Title = "Select your saved player pool";
-            string selectedFileContent = string.Empty;
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                selectedFileContent = File.ReadAllText(openFileDialog.FileName);
-            }
-            else
-            {
-                return;
-            }
-
-            try
-            {
-                AvailablePlayers = new ObservableCollection<Player>(playerDataManager.DeserializePlayerPool(selectedFileContent));
-            }
-            catch (JsonException exception)
-            {
-                MessageBox.Show($"The selected file could not be loaded.\nException message: \n{exception.Message}", "Loading error");
-            }
-            catch (ArgumentNullException argumentNullException)
-            {
-                MessageBox.Show($"An exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentNullException.Message}", "Loading error");
-            }
-            catch (ArgumentException argumentException)
-            {
-                MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
-            }
-        }
-
-        private void SavePlayerPool(object parameters)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.DefaultExt = ".tgpp";
-            saveFileDialog.Title = "Save you player pool";
-            string serializedPlayerPool = string.Empty;
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                try
-                {
-                    serializedPlayerPool = playerDataManager.SerializePlayerPool(AvailablePlayers.ToList<Player>());
-                }
-                catch (JsonException exception)
-                {
-                    MessageBox.Show($"Current player pool could not be saved. \nException message: \n{exception.Message}", "Saving error");
-                    return;
-                }
-
-                File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
-            }
-        }
-
-        private bool CanLoadPlayers(object parameters)
-        {
-            return true;
-        }
-
-        private bool CanSavePlayers(object parameters)
-        {
-            return true;
-        }
-
-        private bool CanAddNewPlayer(object parameters)
-        {
-            return AvailablePlayers.All(player => player.Nick != NewPlayerName) && !string.IsNullOrEmpty(NewPlayerName) && NewPlayerName.Any(char.IsLetterOrDigit);
-        }
-
-        private bool CanDeletePlayer(object parameters)
-        {
-            return SelectedAvailablePlayer != null;
-        }
-
-        private bool CanGenerateTeams(object parameters)
-        {
-            return AvailablePlayers.Count > 1;
-        }
-
 
         #endregion
     }
