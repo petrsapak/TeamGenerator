@@ -8,9 +8,13 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <OutputPath>..\bin\</OutputPath>
     <Platforms>x64</Platforms>
+    <ApplicationIcon>Icons\TeamGeneratorIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Fonts\Chakra Petch Medium.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\TeamGeneratorIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MinVer" Version="2.5.0">
