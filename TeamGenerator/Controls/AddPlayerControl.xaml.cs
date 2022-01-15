@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TeamGenerator.Controls
 {
@@ -23,6 +12,14 @@ namespace TeamGenerator.Controls
         public AddPlayerControl()
         {
             InitializeComponent();
+        }
+
+        public static readonly DependencyProperty AddAvailablePlayerCommandProperty = DependencyProperty.Register("AddAvailablePlayerCommand", typeof(DelegateCommand), typeof(AddPlayerControl), new PropertyMetadata(null));
+
+        public DelegateCommand AddAvailablePlayerCommand
+        {
+            get { return (DelegateCommand)GetValue(AddAvailablePlayerCommandProperty); }
+            set { SetValue(AddAvailablePlayerCommandProperty, value); }
         }
     }
 }

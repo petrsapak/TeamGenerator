@@ -5,6 +5,8 @@ using TeamGenerator.Core;
 using TeamGenerator.Infrastructure;
 using TeamGenerator.Model;
 using TeamGenerator.Commands;
+using Prism.Commands;
+using System.Linq;
 
 namespace TeamGenerator.ViewModels
 {
@@ -12,6 +14,7 @@ namespace TeamGenerator.ViewModels
     {
         public DashboardViewModel()
         {
+            InitializeCommands();
             AvailablePlayers = new ObservableCollection<Player>();
             Ranks = new List<Rank>
             //{
@@ -56,7 +59,6 @@ namespace TeamGenerator.ViewModels
             };
             MaxPlayerCount = "10";
             NewPlayerRank = Ranks[0];
-            InitializeCommands();
         }
 
         #region Properties
@@ -66,7 +68,11 @@ namespace TeamGenerator.ViewModels
         public string NewPlayerName
         {
             get => newPlayerName;
-            set => SetProperty(ref newPlayerName, value);
+            set
+            {
+                SetProperty(ref newPlayerName, value);
+                AddAvailablePlayerCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private Rank newPlayerRank;
@@ -74,7 +80,11 @@ namespace TeamGenerator.ViewModels
         public Rank NewPlayerRank
         {
             get => newPlayerRank;
-            set => SetProperty(ref newPlayerRank, value);
+            set
+            {
+                SetProperty(ref newPlayerRank, value);
+                AddAvailablePlayerCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private Player selectedAvailablePlayer;
@@ -155,18 +165,32 @@ namespace TeamGenerator.ViewModels
 
         private void InitializeCommands()
         {
-            AddAvailablePlayerCommand = new AddAvailablePlayerCommand(this);
+            AddAvailablePlayerCommand = new DelegateCommand(AddAvailablePlayer, CanExecuteAddAvailablePlayer);
             DeleteAvailablePlayerCommand = new DeleteAvailablePlayerCommand(this);
             GenerateTeamsCommand = new GenerateTeamsCommand(this, new BestComplementGenerator(new BasicEvaluator()), new BasicEvaluator());
             LoadPlayerPoolCommand = new LoadPlayerPoolCommand(this, new PlayerDataManager());
             SavePlayerPoolCommand = new SavePlayerPoolCommand(this, new PlayerDataManager());
         }
 
-        public ICommand AddAvailablePlayerCommand { get; set; }
+        public DelegateCommand AddAvailablePlayerCommand { get; private set; }
         public ICommand GenerateTeamsCommand { get; set; }
         public ICommand DeleteAvailablePlayerCommand { get; set; }
         public ICommand LoadPlayerPoolCommand { get; set; }
         public ICommand SavePlayerPoolCommand { get; set; }
+
+        private void AddAvailablePlayer()
+        {
+            Player availablePlayer = new Player(nick: NewPlayerName, rank: NewPlayerRank);
+            AvailablePlayers.Add(availablePlayer);
+        }
+
+        private bool CanExecuteAddAvailablePlayer()
+        {
+            return AvailablePlayers.All(player => player.Nick != NewPlayerName) &&
+                                       !string.IsNullOrEmpty(NewPlayerName) &&
+                                       NewPlayerName.Any(char.IsLetterOrDigit) &&
+                                       !string.IsNullOrEmpty(NewPlayerRank.Name);
+        }
 
         #endregion
     }

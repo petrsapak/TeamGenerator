@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using Prism.Commands;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace TeamGenerator.Controls
 {
@@ -19,19 +19,19 @@ namespace TeamGenerator.Controls
             set { SetValue(ApplicationTitleProperty, value); }
         }
 
-        public static readonly DependencyProperty MinimizeApplicationCommandProperty = DependencyProperty.Register("MinmizeApplicationCommand", typeof(ICommand), typeof(TopBarControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty MinimizeApplicationCommandProperty = DependencyProperty.Register("MinmizeApplicationCommand", typeof(DelegateCommand), typeof(TopBarControl), new PropertyMetadata(null));
 
-        public ICommand MinimizeApplicationCommand
+        public DelegateCommand MinimizeApplicationCommand
         {
-            get { return (ICommand)GetValue(MinimizeApplicationCommandProperty); }
+            get { return (DelegateCommand)GetValue(MinimizeApplicationCommandProperty); }
             set { SetValue(MinimizeApplicationCommandProperty, value); }
         }
 
-        public static readonly DependencyProperty CloseApplicationCommandProperty = DependencyProperty.Register("CloseApplicationCommand", typeof(ICommand), typeof(TopBarControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty CloseApplicationCommandProperty = DependencyProperty.Register("CloseApplicationCommand", typeof(DelegateCommand), typeof(TopBarControl), new PropertyMetadata(null));
 
-        public ICommand CloseApplicationCommand
+        public DelegateCommand CloseApplicationCommand
         {
-            get { return (ICommand)GetValue(CloseApplicationCommandProperty); }
+            get { return (DelegateCommand)GetValue(CloseApplicationCommandProperty); }
             set { SetValue(CloseApplicationCommandProperty, value); }
         }
     }

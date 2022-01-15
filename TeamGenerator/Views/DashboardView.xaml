@@ -34,7 +34,7 @@
                         <RowDefinition Height="250"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Player pool" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
-                    <local:AddPlayerControl Grid.Row="1" Margin="5 0 5 0"/>
+                    <local:AddPlayerControl Grid.Row="1" Margin="5 0 5 0" AddAvailablePlayerCommand="{Binding AddAvailablePlayerCommand}"/>
                     <ListView ItemsSource="{Binding AvailablePlayers}"
                               SelectedItem="{Binding SelectedAvailablePlayer}"
                               Grid.Row ="2"
