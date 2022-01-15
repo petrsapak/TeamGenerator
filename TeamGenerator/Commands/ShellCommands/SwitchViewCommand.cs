@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Regions;
+using System;
 using System.Windows.Controls;
 using TeamGenerator.ViewModels;
 using TeamGenerator.Views;
 
 namespace TeamGenerator.Commands
 {
-    internal class SwitchViewCommand : CommandBase
+    internal class SwitchViewCommand : CommandBase 
     {
-        private readonly ShellViewModel mainWindowViewModel;
+        private readonly IRegionManager regionManager;
 
-        public SwitchViewCommand(ShellViewModel mainWindowViewModel)
+        public SwitchViewCommand(IRegionManager regionManager)
         {
-            this.mainWindowViewModel = mainWindowViewModel;
+            this.regionManager = regionManager;
         }
 
         public override void Execute(object parameter)
@@ -36,7 +38,6 @@ namespace TeamGenerator.Commands
                     throw new ArgumentException($"The view name {parameter as string} is incorrect", "parameters");
             }
 
-            mainWindowViewModel.CurrentView = currentView;
         }
     }
 }

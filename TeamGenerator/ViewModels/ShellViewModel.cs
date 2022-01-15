@@ -1,31 +1,34 @@
 ﻿using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls;
-using TeamGenerator.Views;
 using TeamGenerator.Commands;
+using Prism.Regions;
+using Prism.Ioc;
 
 namespace TeamGenerator.ViewModels
 {
     internal class ShellViewModel : ViewModelBase
     {
-        public ShellViewModel()
+        private readonly IRegionManager regionManager;
+        private readonly IContainerExtension container;
+
+        public ShellViewModel(IRegionManager regionManager, IContainerExtension container)
         {
+            this.regionManager = regionManager;
+            this.container = container;
             InitializeCommands();
             ApplicationTitle = "Team Generator";
-            CurrentView = new DashboardView();
         }
 
         #region Commands
 
         public ICommand CloseApplicationCommand { get; set; }
         public ICommand MinimizeApplicationCommand { get; set; }
-        public ICommand SwitchViewCommand { get; set; }
 
         private void InitializeCommands()
         {
             CloseApplicationCommand = new CloseApplicationCommand(Application.Current);
             MinimizeApplicationCommand = new MinimizeApplicationCommand(Application.Current);
-            SwitchViewCommand = new SwitchViewCommand(this);
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿using Prism.Ioc;
 using Prism.Regions;
 using System.Windows;
-using TeamGenerator.Controls;
 
 namespace TeamGenerator.Views
 {
@@ -15,8 +14,9 @@ namespace TeamGenerator.Views
             InitializeComponent();
             this.regionManager = regionManager;
             this.container = container;
+
             regionManager.RegisterViewWithRegion("ContentRegion", typeof(DashboardView));
-            regionManager.RegisterViewWithRegion("MainMenuRegion", typeof(MainMenuControl));
+            regionManager.RegisterViewWithRegion("MainMenuRegion", typeof(MainMenuView));
         }
 
         private void TopBarControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
