@@ -1,9 +1,8 @@
-﻿using System.Windows.Input;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using TeamGenerator.Commands;
 using Prism.Regions;
 using Prism.Ioc;
+using Prism.Commands;
 
 namespace TeamGenerator.ViewModels
 {
@@ -22,13 +21,23 @@ namespace TeamGenerator.ViewModels
 
         #region Commands
 
-        public ICommand CloseApplicationCommand { get; set; }
-        public ICommand MinimizeApplicationCommand { get; set; }
+        public DelegateCommand CloseApplicationCommand { get; private set; }
+        public DelegateCommand MinimizeApplicationCommand { get; private set; }
 
         private void InitializeCommands()
         {
-            CloseApplicationCommand = new CloseApplicationCommand(Application.Current);
-            MinimizeApplicationCommand = new MinimizeApplicationCommand(Application.Current);
+            CloseApplicationCommand = new DelegateCommand(CloseApplication);
+            MinimizeApplicationCommand = new DelegateCommand(MinimizeApplication);
+        }
+
+        private void CloseApplication()
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MinimizeApplication()
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
         #endregion
