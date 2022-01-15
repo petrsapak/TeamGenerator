@@ -11,16 +11,34 @@ namespace TeamGenerator.ViewModels
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
 
+        private readonly IRegion contentRegion;
+
         private UserControl dashboardView;
         private UserControl aboutView;
+        private UserControl statisticsView;
+        private UserControl settingsView;
 
         public MainMenuViewModel(IRegionManager regionManager, IContainerExtension container)
         {
             this.regionManager = regionManager;
             this.container = container;
             InitializeCommands();
+            ResolveViews();
+
+            contentRegion = regionManager.Regions["ContentRegion"];
+
+            contentRegion.Add(dashboardView);
+            contentRegion.Add(aboutView);
+            contentRegion.Add(statisticsView);
+            contentRegion.Add(settingsView);
+        }
+
+        private void ResolveViews()
+        {
             dashboardView = container.Resolve<DashboardView>();
             aboutView = container.Resolve<AboutView>();
+            settingsView = container.Resolve<SettingsView>();
+            statisticsView = container.Resolve<StatisticsView>();
         }
 
         #region Commands
@@ -40,31 +58,21 @@ namespace TeamGenerator.ViewModels
 
         private void NavigateToDashboardRegion()
         {
-            IRegion contentRegion = regionManager.Regions["ContentRegion"];
-            contentRegion.Add(dashboardView);
             contentRegion.Activate(dashboardView);
         }
 
         private void NavigateToStatisticsRegion()
         {
-            UserControl view = container.Resolve<StatisticsView>();
-            IRegion contentRegion = regionManager.Regions["ContentRegion"];
-            contentRegion.Add(view);
-            contentRegion.Activate(view);
+            contentRegion.Activate(statisticsView);
         }
 
         private void NavigateToSettingsRegion()
         {
-            UserControl view = container.Resolve<SettingsView>();
-            IRegion contentRegion = regionManager.Regions["ContentRegion"];
-            contentRegion.Add(view);
-            contentRegion.Activate(view);
+            contentRegion.Activate(settingsView);
         }
 
         private void NavigateToAboutRegion()
         {
-            IRegion contentRegion = regionManager.Regions["ContentRegion"];
-            contentRegion.Add(aboutView);
             contentRegion.Activate(aboutView);
         }
 
