@@ -4,7 +4,7 @@ using TeamGenerator.Model;
 
 namespace TeamGenerator.Infrastructure
 {
-    public class PlayerDataManager
+    public class PlayerDataService : IPlayerDataService
     {
         public string SerializePlayerPool(List<Player> playerPool)
         {

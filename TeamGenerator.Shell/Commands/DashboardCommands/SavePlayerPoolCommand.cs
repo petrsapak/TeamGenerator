@@ -12,9 +12,9 @@ namespace TeamGenerator.Shell.Commands
     internal class SavePlayerPoolCommand : CommandBase
     {
         private readonly DashboardViewModel dashboardViewModel;
-        private readonly PlayerDataManager playerDataManager;
+        private readonly PlayerDataService playerDataManager;
 
-        public SavePlayerPoolCommand(DashboardViewModel dashboardViewModel, PlayerDataManager playerDataManager)
+        public SavePlayerPoolCommand(DashboardViewModel dashboardViewModel, PlayerDataService playerDataManager)
         {
             this.dashboardViewModel = dashboardViewModel;
             this.playerDataManager = playerDataManager;

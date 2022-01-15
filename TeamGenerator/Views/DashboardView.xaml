@@ -1,0 +1,206 @@
+﻿<UserControl x:Class="TeamGenerator.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:TeamGenerator.Controls"
+             xmlns:validators="clr-namespace:TeamGenerator.Validators"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:TeamGenerator.Converters"
+             xmlns:prism="http://prismlibrary.com/"
+             mc:Ignorable="d"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <converters:ProbabilityToMessageConverter x:Key="ProbabilityToMessageConverter"/>
+        <converters:ProbabilityToColorConverter x:Key="ProbabilityToColorConverter"/>
+    </UserControl.Resources>
+    <Border Background="{StaticResource BackgroundColor}"
+            CornerRadius="0 0 10 10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"
+                               MaxHeight="300"/>
+            </Grid.RowDefinitions>
+            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="250"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Player pool" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
+                    <local:AddPlayerControl Grid.Row="1" Margin="5 0 5 0" AddAvailablePlayerCommand="{Binding AddAvailablePlayerCommand}"/>
+                    <ListView ItemsSource="{Binding PlayerPool}"
+                              SelectedItem="{Binding SelectedAvailablePlayer}"
+                              Grid.Row ="2"
+                              ItemContainerStyle="{StaticResource PlayerPoolListViewItemStyle}"
+                              Margin="5"
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                        <ListView.InputBindings>
+                            <KeyBinding Key="Delete" Command="{Binding DeleteAvailablePlayerCommand}"/>
+                        </ListView.InputBindings>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding Nick}"/>
+                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding Rank.Name}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="0"
+                  Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Row="0"
+                                Padding="5"
+                                Command="{Binding SavePlayerPoolCommand}"
+                                Height="80"
+                                Width="80"
+                                Margin="5 10">
+                            <Button.Content>
+                                <TextBlock Text="Save player pool" TextWrapping="Wrap"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Row="1"
+                                Padding="5"
+                                Command="{Binding LoadPlayerPoolCommand}"
+                                Height="80"
+                                Width="80"
+                                Margin="5 0">
+                            <Button.Content>
+                                <TextBlock Text="Load player pool" TextWrapping="Wrap"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Row="3"
+                                Padding="5"
+                                Command="{Binding GenerateTeamsCommand}"
+                                Height="80"
+                                Width="80"
+                                Margin="5 10">
+                            <Button.Content>
+                                <TextBlock Text="Generate teams" TextWrapping="Wrap"/>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="1" Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox Grid.Row="0"
+                                  Content="Fill teams with bots"
+                                  Margin="10"
+                                  IsChecked="{Binding FillWithBots}"/>
+                        <StackPanel Orientation="Vertical"
+                                    Grid.Row="1"
+                                    Margin="10 0">
+                            <TextBlock Text="Max player count" Foreground="{StaticResource ForegroundColor}"/>
+                            <TextBox IsEnabled="{Binding FillWithBots}" Height="30" Padding="5">
+                                <TextBox.Text>
+                                    <Binding Path="MaxPlayerCount"
+                                             Mode="TwoWay"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validators:NumericValidator ValidationType="{x:Type system:Int32}"
+                                                                         ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="0" Grid.Row="2" Height="290">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"
+                                       MaxHeight="250"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Team 1" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding Team1Probability, Converter={StaticResource ProbabilityToMessageConverter}}"
+                                   Foreground="{Binding Team1Probability, Converter={StaticResource ProbabilityToColorConverter}}"
+                                   Margin="0 10 10 0"
+                                   HorizontalAlignment="Right"/>
+                    </Grid>
+                    <ListView Grid.Row="1" ItemsSource="{Binding Team1}" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Focusable" Value="false"/>
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nick}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Border>
+            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="1" Grid.Row="2" Height="290">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"
+                                       MaxHeight="250"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Team 2" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
+                        <TextBlock Grid.Column="1" 
+                                   Text="{Binding Team2Probability, Converter={StaticResource ProbabilityToMessageConverter}}"
+                                   Foreground="{Binding Team2Probability, Converter={StaticResource ProbabilityToColorConverter}}"
+                                   Margin="0 10 10 0"
+                                   HorizontalAlignment="Right"/>
+                    </Grid>
+                    <ListView Grid.Row="1" ItemsSource="{Binding Team2}" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Focusable" Value="false"/>
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nick}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>
