@@ -13,9 +13,9 @@ namespace TeamGenerator.Shell.Commands
     internal class LoadPlayerPoolCommand : CommandBase
     {
         private readonly DashboardViewModel dashboardViewModel;
-        private readonly PlayerDataManager playerDataManager;
+        private readonly PlayerDataService playerDataManager;
 
-        public LoadPlayerPoolCommand(DashboardViewModel dashboardViewModel, PlayerDataManager playerDataManager)
+        public LoadPlayerPoolCommand(DashboardViewModel dashboardViewModel, PlayerDataService playerDataManager)
         {
             this.dashboardViewModel = dashboardViewModel;
             this.playerDataManager = playerDataManager;

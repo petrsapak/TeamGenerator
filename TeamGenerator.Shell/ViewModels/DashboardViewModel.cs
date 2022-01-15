@@ -183,8 +183,8 @@ namespace TeamGenerator.Shell.ViewModels
             AddAvailablePlayerCommand = new AddAvailablePlayerCommand(this);
             DeleteAvailablePlayerCommand = new DeleteAvailablePlayerCommand(this);
             GenerateTeamsCommand = new GenerateTeamsCommand(this, new BestComplementGenerator(new BasicEvaluator()), new BasicEvaluator());
-            LoadPlayerPoolCommand = new LoadPlayerPoolCommand(this, new PlayerDataManager());
-            SavePlayerPoolCommand = new SavePlayerPoolCommand(this, new PlayerDataManager());
+            LoadPlayerPoolCommand = new LoadPlayerPoolCommand(this, new PlayerDataService());
+            SavePlayerPoolCommand = new SavePlayerPoolCommand(this, new PlayerDataService());
         }
 
         public ICommand AddAvailablePlayerCommand { get; set; }

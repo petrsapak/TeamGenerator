@@ -25,7 +25,7 @@ namespace TeamGenerator.Infrastructure.Tests
         [Test]
         public void PlayerPoolIsSerializedCorrectly()
         {
-            PlayerDataManager playerDataManager = new PlayerDataManager();
+            PlayerDataService playerDataManager = new PlayerDataService();
             string actualPlayerPoolSerialization = playerDataManager.SerializePlayerPool(validTestPlayerPool);
 
             Assert.That(actualPlayerPoolSerialization == validTestPlayerPoolSerialization);

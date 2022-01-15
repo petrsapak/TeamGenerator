@@ -1,21 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using TeamGenerator.Core;
 using TeamGenerator.Infrastructure;
 using TeamGenerator.Model;
-using TeamGenerator.Commands;
 using Prism.Commands;
 using System.Linq;
+using System;
+using TeamGenerator.Core.Interfaces;
+using Prism.Ioc;
+using Microsoft.Win32;
+using System.IO;
+using System.Text.Json;
+using System.Windows;
 
 namespace TeamGenerator.ViewModels
 {
     internal class DashboardViewModel : ViewModelBase
     {
-        public DashboardViewModel()
+        private readonly IGenerate generator;
+        private readonly IEvaluate evaluator;
+        private readonly IPlayerDataService playerDataService;
+
+        public DashboardViewModel(IContainerProvider container)
         {
             InitializeCommands();
-            AvailablePlayers = new ObservableCollection<Player>();
+
+            generator = container.Resolve<IGenerate>();
+            evaluator = container.Resolve<IEvaluate>();
+            playerDataService = container.Resolve<IPlayerDataService>();
+
+            PlayerPool = new ObservableCollection<Player>();
             Ranks = new List<Rank>
             //{
             //    new Rank("Silver 1", 1),
@@ -111,12 +125,16 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref maxPlayerCount, value);
         }
 
-        private ObservableCollection<Player> availablePlayers;
+        private ObservableCollection<Player> playerPool;
 
-        public ObservableCollection<Player> AvailablePlayers
+        public ObservableCollection<Player> PlayerPool
         {
-            get => availablePlayers;
-            set => SetProperty(ref availablePlayers, value);
+            get => playerPool;
+            set
+            {
+                SetProperty(ref playerPool, value);
+                GenerateTeamsCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private ObservableCollection<Player> team2;
@@ -166,30 +184,122 @@ namespace TeamGenerator.ViewModels
         private void InitializeCommands()
         {
             AddAvailablePlayerCommand = new DelegateCommand(AddAvailablePlayer, CanExecuteAddAvailablePlayer);
-            DeleteAvailablePlayerCommand = new DeleteAvailablePlayerCommand(this);
-            GenerateTeamsCommand = new GenerateTeamsCommand(this, new BestComplementGenerator(new BasicEvaluator()), new BasicEvaluator());
-            LoadPlayerPoolCommand = new LoadPlayerPoolCommand(this, new PlayerDataManager());
-            SavePlayerPoolCommand = new SavePlayerPoolCommand(this, new PlayerDataManager());
+            DeleteAvailablePlayerCommand = new DelegateCommand(DeleteAvailablePlayer, CanExecuteDeleteAvailablePlayer);
+            GenerateTeamsCommand = new DelegateCommand(GenerateTeams, CanExecuteGenerateTeams);
+            LoadPlayerPoolCommand = new DelegateCommand(LoadPlayerPool);
+            SavePlayerPoolCommand = new DelegateCommand(SavePlayerPool);
         }
 
         public DelegateCommand AddAvailablePlayerCommand { get; private set; }
-        public ICommand GenerateTeamsCommand { get; set; }
-        public ICommand DeleteAvailablePlayerCommand { get; set; }
-        public ICommand LoadPlayerPoolCommand { get; set; }
-        public ICommand SavePlayerPoolCommand { get; set; }
+        public DelegateCommand GenerateTeamsCommand { get; private set; }
+        public DelegateCommand DeleteAvailablePlayerCommand { get; private set; }
+        public DelegateCommand LoadPlayerPoolCommand { get; private set; }
+        public DelegateCommand SavePlayerPoolCommand { get; private set; }
 
         private void AddAvailablePlayer()
         {
             Player availablePlayer = new Player(nick: NewPlayerName, rank: NewPlayerRank);
-            AvailablePlayers.Add(availablePlayer);
+            PlayerPool.Add(availablePlayer);
         }
 
         private bool CanExecuteAddAvailablePlayer()
         {
-            return AvailablePlayers.All(player => player.Nick != NewPlayerName) &&
+            return PlayerPool.All(player => player.Nick != NewPlayerName) &&
                                        !string.IsNullOrEmpty(NewPlayerName) &&
                                        NewPlayerName.Any(char.IsLetterOrDigit) &&
                                        !string.IsNullOrEmpty(NewPlayerRank.Name);
+        }
+
+        private void DeleteAvailablePlayer()
+        {
+            PlayerPool.Remove(SelectedAvailablePlayer);
+        }
+
+        private bool CanExecuteDeleteAvailablePlayer()
+        {
+            return SelectedAvailablePlayer != null;
+        }
+
+        private void GenerateTeams()
+        {
+            int maxPlayerCountInt = int.Parse(MaxPlayerCount);
+
+            (Team, Team) teams = generator.GenerateTeams(PlayerPool, FillWithBots, maxPlayerCountInt);
+
+            Team1 = new ObservableCollection<Player>(teams.Item1.Players.Values);
+            Team2 = new ObservableCollection<Player>(teams.Item2.Players.Values);
+
+            double counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
+            double terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
+            double sumOfEvaluations = counterTerroristTeamEvaluation + terroristTeamEvaluation;
+            double evaluationPointToPercent = (double)100 / (double)sumOfEvaluations;
+            double counterTerroristsChanceOfWinning = (int)Math.Round(counterTerroristTeamEvaluation * evaluationPointToPercent);
+            double terroristsChanceOfWinning = (int)Math.Round(terroristTeamEvaluation * evaluationPointToPercent);
+
+            Team1Probability = (int)counterTerroristsChanceOfWinning;
+            Team2Probability = (int)terroristsChanceOfWinning;
+        }
+
+        private bool CanExecuteGenerateTeams()
+        {
+            return PlayerPool.Count() > 1;
+        }
+
+        private void LoadPlayerPool()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.DefaultExt = ".tgpp";
+            openFileDialog.Title = "Select your saved player pool";
+            string selectedFileContent = string.Empty;
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                selectedFileContent = File.ReadAllText(openFileDialog.FileName);
+            }
+            else
+            {
+                return;
+            }
+
+            try
+            {
+                PlayerPool = new ObservableCollection<Player>(playerDataService.DeserializePlayerPool(selectedFileContent));
+            }
+            catch (JsonException exception)
+            {
+                MessageBox.Show($"The selected file could not be loaded.\nException message: \n{exception.Message}", "Loading error");
+            }
+            catch (ArgumentNullException argumentNullException)
+            {
+                MessageBox.Show($"An exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentNullException.Message}", "Loading error");
+            }
+            catch (ArgumentException argumentException)
+            {
+                MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
+            }
+        }
+
+        private void SavePlayerPool()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.DefaultExt = ".tgpp";
+            saveFileDialog.Title = "Save you player pool";
+            string serializedPlayerPool = string.Empty;
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    serializedPlayerPool = playerDataService.SerializePlayerPool(PlayerPool.ToList<Player>());
+                }
+                catch (JsonException exception)
+                {
+                    MessageBox.Show($"Current player pool could not be saved. \nException message: \n{exception.Message}", "Saving error");
+                    return;
+                }
+
+                File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
+            }
         }
 
         #endregion
