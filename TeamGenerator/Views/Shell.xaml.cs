@@ -5,12 +5,12 @@ using TeamGenerator.Controls;
 
 namespace TeamGenerator.Views
 {
-    public partial class MainWindow : Window
+    public partial class Shell : Window
     {
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
 
-        public MainWindow(IRegionManager regionManager, IContainerExtension container)
+        public Shell(IRegionManager regionManager, IContainerExtension container)
         {
             InitializeComponent();
             this.regionManager = regionManager;

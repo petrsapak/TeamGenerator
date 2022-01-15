@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using TeamGenerator.ViewModels;
 
 namespace TeamGenerator.Views
 {
@@ -7,7 +6,6 @@ namespace TeamGenerator.Views
     {
         public SettingsView()
         {
-            DataContext = new SettingsViewModel();
             InitializeComponent();
         }
     }

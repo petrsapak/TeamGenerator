@@ -7,7 +7,9 @@
              xmlns:validators="clr-namespace:TeamGenerator.Validators"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:TeamGenerator.Converters"
-             mc:Ignorable="d">
+             xmlns:prism="http://prismlibrary.com/"
+             mc:Ignorable="d"
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <converters:ProbabilityToMessageConverter x:Key="ProbabilityToMessageConverter"/>
         <converters:ProbabilityToColorConverter x:Key="ProbabilityToColorConverter"/>

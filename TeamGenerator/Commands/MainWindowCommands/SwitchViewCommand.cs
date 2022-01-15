@@ -7,9 +7,9 @@ namespace TeamGenerator.Commands
 {
     internal class SwitchViewCommand : CommandBase
     {
-        private readonly MainWindowViewModel mainWindowViewModel;
+        private readonly ShellViewModel mainWindowViewModel;
 
-        public SwitchViewCommand(MainWindowViewModel mainWindowViewModel)
+        public SwitchViewCommand(ShellViewModel mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;
         }

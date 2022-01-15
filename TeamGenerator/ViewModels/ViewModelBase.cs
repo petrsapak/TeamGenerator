@@ -1,14 +1,17 @@
-﻿using System.ComponentModel;
+﻿using Prism.Mvvm;
+using Prism.Regions;
 
 namespace TeamGenerator.ViewModels
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : BindableBase, INavigationAware
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged(string propertyName)
+        public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            return true;
         }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext) { }
+
+        public void OnNavigatedTo(NavigationContext navigationContext) { }
     }
 }

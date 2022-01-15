@@ -6,9 +6,9 @@ using TeamGenerator.Commands;
 
 namespace TeamGenerator.ViewModels
 {
-    internal class MainWindowViewModel : ViewModelBase
+    internal class ShellViewModel : ViewModelBase
     {
-        public MainWindowViewModel()
+        public ShellViewModel()
         {
             InitializeCommands();
             ApplicationTitle = "Team Generator";
@@ -36,23 +36,14 @@ namespace TeamGenerator.ViewModels
         public string ApplicationTitle
         {
             get => applicationTitle;
-            set
-            {
-                applicationTitle = value;
-                RaisePropertyChanged(nameof(ApplicationTitle));
-            }
+            set => SetProperty(ref applicationTitle, value);
         }
 
         private UserControl currentView;
-
         public UserControl CurrentView
         {
             get => currentView;
-            set
-            {
-                currentView = value;
-                RaisePropertyChanged(nameof(CurrentView));
-            }
+            set => SetProperty(ref currentView, value);
         }
 
         #endregion

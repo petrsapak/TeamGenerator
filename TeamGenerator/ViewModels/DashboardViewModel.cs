@@ -66,11 +66,7 @@ namespace TeamGenerator.ViewModels
         public string NewPlayerName
         {
             get => newPlayerName;
-            set
-            {
-                newPlayerName = value;
-                RaisePropertyChanged(nameof(NewPlayerName));
-            }
+            set => SetProperty(ref newPlayerName, value);
         }
 
         private Rank newPlayerRank;
@@ -78,11 +74,7 @@ namespace TeamGenerator.ViewModels
         public Rank NewPlayerRank
         {
             get => newPlayerRank;
-            set
-            {
-                newPlayerRank = value;
-                RaisePropertyChanged(nameof(NewPlayerRank));
-            }
+            set => SetProperty(ref newPlayerRank, value);
         }
 
         private Player selectedAvailablePlayer;
@@ -90,11 +82,7 @@ namespace TeamGenerator.ViewModels
         public Player SelectedAvailablePlayer
         {
             get => selectedAvailablePlayer;
-            set
-            {
-                selectedAvailablePlayer = value;
-                RaisePropertyChanged(nameof(SelectedAvailablePlayer));
-            }
+            set => SetProperty(ref selectedAvailablePlayer, value);
         }
 
         private bool fillWithBots;
@@ -102,11 +90,7 @@ namespace TeamGenerator.ViewModels
         public bool FillWithBots
         {
             get => fillWithBots;
-            set
-            {
-                fillWithBots = value;
-                RaisePropertyChanged(nameof(fillWithBots));
-            }
+            set => SetProperty(ref fillWithBots, value);
         }
 
         private string maxPlayerCount;
@@ -114,24 +98,15 @@ namespace TeamGenerator.ViewModels
         public string MaxPlayerCount 
         {
             get => maxPlayerCount;
-            set
-            {
-                maxPlayerCount = value;
-                RaisePropertyChanged(nameof(MaxPlayerCount));
-            }
+            set => SetProperty(ref maxPlayerCount, value);
         }
-
 
         private ObservableCollection<Player> availablePlayers;
 
         public ObservableCollection<Player> AvailablePlayers
         {
             get => availablePlayers;
-            set
-            {
-                availablePlayers = value;
-                RaisePropertyChanged(nameof(AvailablePlayers));
-            }
+            set => SetProperty(ref availablePlayers, value);
         }
 
         private ObservableCollection<Player> team2;
@@ -139,11 +114,7 @@ namespace TeamGenerator.ViewModels
         public ObservableCollection<Player> Team2
         {
             get => team2;
-            set
-            {
-                team2 = value;
-                RaisePropertyChanged(nameof(Team2));
-            }
+            set => SetProperty(ref team2, value);
         }
 
         private ObservableCollection<Player> team1;
@@ -151,11 +122,7 @@ namespace TeamGenerator.ViewModels
         public ObservableCollection<Player> Team1
         {
             get => team1;
-            set
-            {
-                team1 = value;
-                RaisePropertyChanged(nameof(Team1));
-            }
+            set => SetProperty(ref team1, value);
         }
 
         private int team2Probability;
@@ -163,11 +130,7 @@ namespace TeamGenerator.ViewModels
         public int Team2Probability
         {
             get => team2Probability;
-            set
-            {
-                team2Probability = value;
-                RaisePropertyChanged(nameof(Team2Probability));
-            }
+            set => SetProperty(ref team2Probability, value);
         }
 
         private int team1Probability;
@@ -175,11 +138,7 @@ namespace TeamGenerator.ViewModels
         public int Team1Probability
         {
             get => team1Probability;
-            set
-            {
-                team1Probability = value;
-                RaisePropertyChanged(nameof(Team1Probability));
-            }
+            set => SetProperty(ref team1Probability, value);
         }
 
         private List<Rank> ranks;
@@ -187,11 +146,7 @@ namespace TeamGenerator.ViewModels
         public List<Rank> Ranks
         {
             get => ranks;
-            set
-            {
-                ranks = value;
-                RaisePropertyChanged(nameof(Ranks));
-            }
+            set => SetProperty(ref ranks, value);
         }
 
         #endregion
