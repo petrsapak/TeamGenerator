@@ -8,10 +8,13 @@
 ## How to use the app
 - To start the application run the TeamGenerator.Shell.exe
 
+
+## Dashboard
+
 ![image](https://user-images.githubusercontent.com/9948892/145031949-4c085f00-3db2-4796-b94d-fb72ee474e66.png)
 
-## Player pool
-### Add player
+### Player pool
+#### Add player
 ![image](https://user-images.githubusercontent.com/9948892/145032292-1d17f4e8-2c68-409b-9bb8-f9da8992dfc7.png)
 - Insert Nick and Rank in the "Add player" section, then click on the "Add" button.
 - Troubleshoot
@@ -19,23 +22,23 @@
     - You already have player with this nick in the "Player pool".
     - The player has invalid "Nick" (at this moment the only invalid nick is null or an empty string).
 
-### Delete player
+#### Delete player
 ![image](https://user-images.githubusercontent.com/9948892/145032488-92cbcf71-f42e-4e84-8d73-c7d775ae3649.png)
 - Select player as shown in the picture and press DELETE key.
 
-### Generate teams
+#### Generate teams
 - Press "Generate teams" button.
 - You can press this button as many times as you want - it will create different & balanced teams from the players in the Player pool.
 - Troubleshoot
   - The "Generate teams" button is disabled.
     - You need to have at least 2 players in the Player pool.
 
-### Save player pool
+#### Save player pool
 - This feature allows you to save your current player pool. So you don't have to insert all your players manually all the time.
 - Press "Save player pool" button, select file location and press "Save" button. On the selected location you will find <your_file_name>.tgpp file
 which contains all your players. 
 
-### Load player pool
+#### Load player pool
 - This feature allows you to load players from previously saved player pool.
 - Troubleshoot
   - The "Loading error" message box shows up.
@@ -52,7 +55,7 @@ which contains all your players.
     - The best advice here is: do not try to update those files manually.
 
 
-### Fill teams with bots
+#### Fill teams with bots
 - Use this feature only if other players can start playing as bots when they die (i.e. CS-GO). The algorithm evaluates the bot accoring to the evaluation of players in the team
 - Sometimes there is not enough live players and you need to add some bots.
 - If you enable this feature the algorithm will try to add bots into one or both teams to find the most fair evaluation.
@@ -63,3 +66,34 @@ which contains all your players.
 
 ![image](https://user-images.githubusercontent.com/9948892/145034778-fd48d70f-39db-4384-9e00-0f6d29af166b.png)
 
+## Settings
+
+![image](https://user-images.githubusercontent.com/9948892/149667035-76716ea1-180d-47dd-8527-34a2c4aa999b.png)
+
+### Ranks
+#### Add rank
+![image](https://user-images.githubusercontent.com/9948892/149667053-17364169-2999-42d9-9173-4f8bfaedbae2.png)
+- Insert Name and Value in the "Add Rank" section, then click on the "Add" button.
+- Troubleshoot
+  - The "Add" button is disabled.
+    - You already have a rank with this name in the "Rank pool".
+    - The rank has invalid name (at this moment the only invalid nick is null or an empty string).
+    - The rank has invalid value (the only allowed values are doubles, use comma as decimal point).
+
+#### Remove rank
+![image](https://user-images.githubusercontent.com/9948892/149667170-a0428a36-b9e4-4702-ba32-256a75875605.png)
+- Select rank as shown in the picture and press DELETE key.
+
+#### Save ranks
+- This feature allows you to save your current ranks.
+- Press "Save ranks" button, select file location and press "Save" button. On the selected location you will find <your_file_name>.tgcr file
+which contains all your ranks. 
+
+#### Load ranks
+- This feature allows you to load ranks from previously saved rank pool.
+
+#### Use ranks
+- This feature updates currently available ranks at the Dashboard.
+- Note - Using this feature will clear the current player pool. Make sure you have saved if you've planned to use it later.
+
+#### Use as default - doesn't work yet
