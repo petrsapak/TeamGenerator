@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace TeamGenerator.Infrastructure
+namespace TeamGenerator.Infrastructure.Services
 {
     public class DataService<T> : IDataService<T>
     {

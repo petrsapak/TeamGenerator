@@ -9,8 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Windows;
-using TeamGenerator.EventAggregator;
-using TeamGenerator.Infrastructure;
+using TeamGenerator.Infrastructure.Events;
+using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Model;
 
 namespace TeamGenerator.ViewModels
@@ -20,11 +20,13 @@ namespace TeamGenerator.ViewModels
         private readonly IDataService<List<Rank>> rankDataService;
         private readonly IEventAggregator eventAggregator;
         private readonly IContainerProvider container;
+        private readonly IStatusMessageService statusMessageService;
 
-        public SettingsViewModel(IContainerProvider container, IEventAggregator eventAggregator)
+        public SettingsViewModel(IContainerProvider container, IEventAggregator eventAggregator, IStatusMessageService statusMessageService)
         {
             this.container = container;
             this.eventAggregator = eventAggregator;
+            this.statusMessageService = statusMessageService;
 
             Ranks = new ObservableCollection<Rank>();
             InitializeCommands();
@@ -105,6 +107,7 @@ namespace TeamGenerator.ViewModels
         private void AddRank()
         {
             Ranks.Add(new Rank(NewRankName, NewRankValue));
+            statusMessageService.UpdateStatusMessage($"Rank {NewRankName} added.");
         }
 
         private bool CanExecuteAddRank()
@@ -117,8 +120,11 @@ namespace TeamGenerator.ViewModels
 
         private void RemoveRank()
         {
+            var name = SelectedRank.Name;
             Ranks.Remove(SelectedRank);
+
             AddRankCommand.RaiseCanExecuteChanged();
+            statusMessageService.UpdateStatusMessage($"Rank {name} removed.");
         }
 
         private bool CanExecuteRemoveRank()
@@ -158,6 +164,8 @@ namespace TeamGenerator.ViewModels
             {
                 MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
             }
+
+            statusMessageService.UpdateStatusMessage($"Ranks loaded.");
         }
 
         private void SaveRanks()
@@ -181,11 +189,15 @@ namespace TeamGenerator.ViewModels
 
                 File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
             }
+
+
+            statusMessageService.UpdateStatusMessage($"Ranks saved at {saveFileDialog.FileName}.");
         }
 
         private void UseRanks()
         {
             eventAggregator.GetEvent<UpdateRanksEvent>().Publish(Ranks.ToList());
+            eventAggregator.GetEvent<UpdateStatusMessageEvent>().Publish("Ranks updated.");
         }
 
         #endregion

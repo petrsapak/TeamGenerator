@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Model;
 
 namespace TeamGenerator.Infrastructure.Tests
@@ -25,7 +26,7 @@ namespace TeamGenerator.Infrastructure.Tests
         [Test]
         public void PlayerPoolIsSerializedCorrectly()
         {
-            PlayerDataService playerDataManager = new PlayerDataService();
+            IDataService<List<Player>> playerDataManager = new DataService<List<Player>>();
             string actualPlayerPoolSerialization = playerDataManager.SerializeData(validTestPlayerPool);
 
             Assert.That(actualPlayerPoolSerialization == validTestPlayerPoolSerialization);

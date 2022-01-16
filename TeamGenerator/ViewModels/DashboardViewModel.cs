@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using TeamGenerator.Infrastructure;
 using TeamGenerator.Model;
 using Prism.Commands;
 using System.Linq;
@@ -12,7 +11,8 @@ using System.IO;
 using System.Text.Json;
 using System.Windows;
 using Prism.Events;
-using TeamGenerator.EventAggregator;
+using TeamGenerator.Infrastructure.Services;
+using TeamGenerator.Infrastructure.Events;
 
 namespace TeamGenerator.ViewModels
 {
@@ -20,14 +20,18 @@ namespace TeamGenerator.ViewModels
     {
         private readonly IGenerate generator;
         private readonly IEvaluate evaluator;
+        private readonly IStatusMessageService statusMessageService;
         private readonly IDataService<List<Player>> playerDataService;
+        private readonly IEventAggregator eventAggregator;
 
         public DashboardViewModel(IContainerProvider container, IEventAggregator eventAggregator)
         {
             InitializeCommands();
 
+            this.eventAggregator = eventAggregator;
             generator = container.Resolve<IGenerate>();
             evaluator = container.Resolve<IEvaluate>();
+            statusMessageService = container.Resolve<IStatusMessageService>();
             playerDataService = container.Resolve<IDataService<List<Player>>>();
             eventAggregator.GetEvent<UpdateRanksEvent>().Subscribe(UpdateRanks);
 
@@ -187,6 +191,8 @@ namespace TeamGenerator.ViewModels
             Player availablePlayer = new Player(nick: NewPlayerName, rank: NewPlayerRank);
             PlayerPool.Add(availablePlayer);
             GenerateTeamsCommand.RaiseCanExecuteChanged();
+
+            statusMessageService.UpdateStatusMessage($"Player {NewPlayerName} added.");
         }
 
         private bool CanExecuteAddAvailablePlayer()
@@ -200,7 +206,11 @@ namespace TeamGenerator.ViewModels
 
         private void DeleteAvailablePlayer()
         {
+            string name = selectedAvailablePlayer.Nick;
             PlayerPool.Remove(SelectedAvailablePlayer);
+
+            AddAvailablePlayerCommand.RaiseCanExecuteChanged();
+            statusMessageService.UpdateStatusMessage($"Player {name} removed.");
         }
 
         private bool CanExecuteDeleteAvailablePlayer()
@@ -226,6 +236,8 @@ namespace TeamGenerator.ViewModels
 
             Team1Probability = (int)counterTerroristsChanceOfWinning;
             Team2Probability = (int)terroristsChanceOfWinning;
+
+            statusMessageService.UpdateStatusMessage($"Teams generated.");
         }
 
         private bool CanExecuteGenerateTeams()
@@ -267,6 +279,8 @@ namespace TeamGenerator.ViewModels
             }
 
             GenerateTeamsCommand.RaiseCanExecuteChanged();
+
+            statusMessageService.UpdateStatusMessage($"Players loaded.");
         }
 
         private void SavePlayerPool()
@@ -289,6 +303,8 @@ namespace TeamGenerator.ViewModels
                 }
 
                 File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
+
+                statusMessageService.UpdateStatusMessage($"Players saved at {saveFileDialog.FileName}.");
             }
         }
 
