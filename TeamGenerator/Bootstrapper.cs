@@ -4,6 +4,7 @@ using System.Windows;
 using TeamGenerator.Core;
 using TeamGenerator.Core.Interfaces;
 using TeamGenerator.Infrastructure;
+using TeamGenerator.ViewModels;
 using TeamGenerator.Views;
 using Unity;
 
@@ -21,6 +22,10 @@ namespace TeamGenerator
             containerRegistry.Register<IGenerate, BestComplementGenerator>();
             containerRegistry.Register<IEvaluate, BasicEvaluator>();
             containerRegistry.Register<IPlayerDataService, PlayerDataService>();
+            containerRegistry.RegisterSingleton<DashboardViewModel>();
+            containerRegistry.RegisterSingleton<StatisticsViewModel>();
+            containerRegistry.RegisterSingleton<SettingsViewModel>();
+            containerRegistry.RegisterSingleton<AboutViewModel>();
         }
     }
 }
