@@ -7,8 +7,8 @@ namespace TeamGenerator.Model.Validators
         internal static void ValidateString(string value)
         {
             ValidateNotNull(value);
-            if (value == string.Empty || IsWhiteSpace(value)) ;
-                //throw new ArgumentException("Empty or white space only strings are not allowed.");
+            if (value == string.Empty || IsWhiteSpace(value))
+                throw new ArgumentException("Empty or white space only strings are not allowed.");
         }
 
         private static bool IsWhiteSpace(string value)

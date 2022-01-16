@@ -31,7 +31,7 @@ namespace TeamGenerator.Shell.Commands
             {
                 try
                 {
-                    serializedPlayerPool = playerDataManager.SerializePlayerPool(dashboardViewModel.AvailablePlayers.ToList<Player>());
+                    serializedPlayerPool = playerDataManager.SerializeData(dashboardViewModel.AvailablePlayers.ToList<Player>());
                 }
                 catch (JsonException exception)
                 {

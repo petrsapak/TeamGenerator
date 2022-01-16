@@ -4,7 +4,7 @@ using TeamGenerator.Model;
 
 namespace TeamGenerator.Infrastructure.Tests
 {
-    public class PlayerDataManagerTest
+    public class DataManagerTest
     {
         readonly string validTestPlayerPoolSerialization = 
             "[{\"Nick\":\"John\",\"Rank\":{\"Name\":\"Master\",\"Value\":3},\"Bot\":false}," +
@@ -26,7 +26,7 @@ namespace TeamGenerator.Infrastructure.Tests
         public void PlayerPoolIsSerializedCorrectly()
         {
             PlayerDataService playerDataManager = new PlayerDataService();
-            string actualPlayerPoolSerialization = playerDataManager.SerializePlayerPool(validTestPlayerPool);
+            string actualPlayerPoolSerialization = playerDataManager.SerializeData(validTestPlayerPool);
 
             Assert.That(actualPlayerPoolSerialization == validTestPlayerPoolSerialization);
         }

@@ -11,6 +11,8 @@ using Microsoft.Win32;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using Prism.Events;
+using TeamGenerator.EventAggregator;
 
 namespace TeamGenerator.ViewModels
 {
@@ -18,40 +20,21 @@ namespace TeamGenerator.ViewModels
     {
         private readonly IGenerate generator;
         private readonly IEvaluate evaluator;
-        private readonly IPlayerDataService playerDataService;
+        private readonly IDataService<List<Player>> playerDataService;
 
-        public DashboardViewModel(IContainerProvider container)
+        public DashboardViewModel(IContainerProvider container, IEventAggregator eventAggregator)
         {
             InitializeCommands();
 
             generator = container.Resolve<IGenerate>();
             evaluator = container.Resolve<IEvaluate>();
-            playerDataService = container.Resolve<IPlayerDataService>();
+            playerDataService = container.Resolve<IDataService<List<Player>>>();
+            eventAggregator.GetEvent<UpdateRanksEvent>().Subscribe(UpdateRanks);
 
             PlayerPool = new ObservableCollection<Player>();
             Ranks = new List<Rank>
-            //{
-            //    new Rank("Silver 1", 1),
-            //    new Rank("Silver 2", 2),
-            //    new Rank("Silver 3", 3),
-            //    new Rank("Silver 4", 4),
-            //    new Rank("Silver Master", 5),
-            //    new Rank("Silver Master Elite", 6),
-            //    new Rank("Golden Nova 1", 7),
-            //    new Rank("Golden Nova 2", 8),
-            //    new Rank("Golden Nova 3", 9),
-            //    new Rank("Golden Nova Master", 10),
-            //    new Rank("Master Guardian 1", 11),
-            //    new Rank("Master Guardian 2", 12),
-            //    new Rank("Master Guardian Elite", 13),
-            //    new Rank("Distinguished Master Guardian", 14),
-            //    new Rank("Legendary Eagle", 15),
-            //    new Rank("Legendary Eagle Master", 16),
-            //    new Rank("Supreme Master First Class", 17),
-            //    new Rank("Global Elite", 18),
-            //};
             {
-                new Rank("", 1),
+                new Rank("Silver 1", 1),
                 new Rank("Silver 2", 2),
                 new Rank("Silver 3", 3),
                 new Rank("Silver 4", 4),
@@ -72,6 +55,14 @@ namespace TeamGenerator.ViewModels
             };
             MaxPlayerCount = "10";
             NewPlayerRank = Ranks[0];
+        }
+
+        private void UpdateRanks(List<Rank> updatedRanks)
+        {
+            PlayerPool.Clear();
+            NewPlayerName = null;
+            NewPlayerRank = null;
+            Ranks = updatedRanks;
         }
 
         #region Properties
@@ -129,11 +120,7 @@ namespace TeamGenerator.ViewModels
         public ObservableCollection<Player> PlayerPool
         {
             get => playerPool;
-            set
-            {
-                SetProperty(ref playerPool, value);
-                GenerateTeamsCommand.RaiseCanExecuteChanged();
-            }
+            set => SetProperty(ref playerPool, value);
         }
 
         private ObservableCollection<Player> team2;
@@ -199,6 +186,7 @@ namespace TeamGenerator.ViewModels
         {
             Player availablePlayer = new Player(nick: NewPlayerName, rank: NewPlayerRank);
             PlayerPool.Add(availablePlayer);
+            GenerateTeamsCommand.RaiseCanExecuteChanged();
         }
 
         private bool CanExecuteAddAvailablePlayer()
@@ -206,6 +194,7 @@ namespace TeamGenerator.ViewModels
             return PlayerPool.All(player => player.Nick != NewPlayerName) &&
                                        !string.IsNullOrEmpty(NewPlayerName) &&
                                        NewPlayerName.Any(char.IsLetterOrDigit) &&
+                                       NewPlayerRank != null &&
                                        !string.IsNullOrEmpty(NewPlayerRank.Name);
         }
 
@@ -262,7 +251,7 @@ namespace TeamGenerator.ViewModels
 
             try
             {
-                PlayerPool = new ObservableCollection<Player>(playerDataService.DeserializePlayerPool(selectedFileContent));
+                PlayerPool = new ObservableCollection<Player>(playerDataService.DeserializeData(selectedFileContent));
             }
             catch (JsonException exception)
             {
@@ -276,6 +265,8 @@ namespace TeamGenerator.ViewModels
             {
                 MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
             }
+
+            GenerateTeamsCommand.RaiseCanExecuteChanged();
         }
 
         private void SavePlayerPool()
@@ -289,7 +280,7 @@ namespace TeamGenerator.ViewModels
             {
                 try
                 {
-                    serializedPlayerPool = playerDataService.SerializePlayerPool(PlayerPool.ToList<Player>());
+                    serializedPlayerPool = playerDataService.SerializeData(PlayerPool.ToList<Player>());
                 }
                 catch (JsonException exception)
                 {
