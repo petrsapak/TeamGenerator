@@ -39,7 +39,7 @@ namespace TeamGenerator.Shell.Commands
 
             try
             {
-                dashboardViewModel.AvailablePlayers = new ObservableCollection<Player>(playerDataManager.DeserializePlayerPool(selectedFileContent));
+                dashboardViewModel.AvailablePlayers = new ObservableCollection<Player>(playerDataManager.DeserializeData(selectedFileContent));
             }
             catch (JsonException exception)
             {
