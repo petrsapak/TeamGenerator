@@ -6,16 +6,14 @@ namespace TeamGenerator.Infrastructure
 {
     public class PlayerDataService : IPlayerDataService
     {
-        public string SerializePlayerPool(List<Player> playerPool)
+        public string SerializeData(List<Player> data)
         {
-            string serializedPlayerPool = JsonSerializer.Serialize(playerPool);
-            return serializedPlayerPool;
+            return JsonSerializer.Serialize(data);
         }
 
-        public List<Player> DeserializePlayerPool(string serializedPlayerPool)
+        public List<Player> DeserializeData(string serializedData)
         {
-            List<Player> playerPool = JsonSerializer.Deserialize<List<Player>>(serializedPlayerPool);
-            return playerPool;
+            return JsonSerializer.Deserialize<List<Player>>(serializedData);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace TeamGenerator.Infrastructure
 {
     public interface IPlayerDataService
     {
-        string SerializePlayerPool(List<Player> playerPool);
-        List<Player> DeserializePlayerPool(string serializedPlayerPool);
+        string SerializeData(List<Player> playerPool);
+        List<Player> DeserializeData(string serializedPlayerPool);
     }
 }
