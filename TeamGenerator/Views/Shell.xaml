@@ -21,13 +21,42 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/> <!--TopBar-->
                 <RowDefinition Height="100"/> <!--MainMenu-->
-                <RowDefinition Height="Auto"/> <!--Content-->
+                <RowDefinition Height="*"/> <!--Content-->
+                <RowDefinition Height="40"/> <!--Status-->
             </Grid.RowDefinitions>
             <controls:TopBarControl Grid.Row="0"
                                     ApplicationTitle="{Binding ApplicationTitle}"
                                     MouseDown="TopBarControl_MouseDown"/>
             <ContentControl Grid.Row="1" prism:RegionManager.RegionName="MainMenuRegion"/>
             <ContentControl Grid.Row="2" prism:RegionManager.RegionName="ContentRegion"/>
+            <TextBlock Grid.Row="3" Text="{Binding StatusMessage, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource ForegroundColor}">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0" From="0.0" To="1.0"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:2" Duration="0:0:2" From="1.0" To="0.0"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0" From="0.0" To="1.0"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:2" Duration="0:0:2" From="1.0" To="0.0"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Binding.SourceUpdated">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:0" From="0.0" To="1.0"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:2" Duration="0:0:2" From="1.0" To="0.0"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
         </Grid>
     </Border>
 </Window>

@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using Prism.Regions;
 using Prism.Ioc;
 using Prism.Commands;
+using Prism.Events;
+using TeamGenerator.Infrastructure.Events;
 
 namespace TeamGenerator.ViewModels
 {
@@ -10,13 +12,25 @@ namespace TeamGenerator.ViewModels
     {
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
+        private readonly IEventAggregator eventAggregator;
 
-        public ShellViewModel(IRegionManager regionManager, IContainerExtension container)
+        public ShellViewModel(IRegionManager regionManager, IContainerExtension container, IEventAggregator eventAggregator)
         {
             this.regionManager = regionManager;
             this.container = container;
+            this.eventAggregator = eventAggregator;
+
             InitializeCommands();
+
+            eventAggregator.GetEvent<UpdateStatusMessageEvent>().Subscribe(UpdateStatusMessage);
+
             ApplicationTitle = "Team Generator";
+            StatusMessage = "The application started.";
+        }
+
+        private void UpdateStatusMessage(string newMessage)
+        {
+            StatusMessage = newMessage;
         }
 
         #region Commands
@@ -56,6 +70,20 @@ namespace TeamGenerator.ViewModels
         {
             get => currentView;
             set => SetProperty(ref currentView, value);
+        }
+
+        private string statusMessage;
+
+        public string StatusMessage
+        {
+            get => statusMessage;
+            set
+            {
+                //The message doesn't show up if it is the same as the previous one. There's some issue in the animation binding.
+                //Setting it to strin.empty is a workaround.
+                statusMessage = string.Empty;
+                SetProperty(ref statusMessage, value);
+            }
         }
 
         #endregion

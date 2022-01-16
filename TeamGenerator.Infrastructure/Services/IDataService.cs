@@ -1,4 +1,4 @@
-﻿namespace TeamGenerator.Infrastructure
+﻿namespace TeamGenerator.Infrastructure.Services
 {
     public interface IDataService<T>
     {
