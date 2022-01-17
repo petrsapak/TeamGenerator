@@ -21,7 +21,7 @@
         <TextBox Grid.Column="1"
                  Margin="0 5 5 5"
                  Padding="3"
-                 Text="{Binding NewRankValue}"/>
+                 Text="{Binding NewRankValue, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Column="2"
                 Padding="5"
                 Command="{Binding AddRankCommand}"
