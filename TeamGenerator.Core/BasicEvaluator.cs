@@ -14,15 +14,13 @@ namespace TeamGenerator.Core
 
         public double EvaluateTeam(Team team)
         {
-            double rankSum = team.Players.Values.Sum(player => player.Rank.Value);
-            return rankSum;
+            return team.Players.Sum(player => player.Rank.Value);
         }
 
         public double EvaluateTeamWithoutBots(Team team)
         {
-            IEnumerable<Player> realPlayers = team.Players.Values.Where(player => player.Bot == false);
-            double rankSum = realPlayers.Sum(player => player.Rank.Value);
-            return rankSum;
+            IEnumerable<Player> realPlayers = team.Players.Where(player => player.Bot == false);
+            return realPlayers.Sum(player => player.Rank.Value);
         }
     }
 }

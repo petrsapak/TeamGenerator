@@ -9,7 +9,7 @@
         xmlns:controls="clr-namespace:TeamGenerator.Controls"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Height="790"
+        Height="810"
         Width="1015"
         ResizeMode="NoResize"
         WindowStyle="None"

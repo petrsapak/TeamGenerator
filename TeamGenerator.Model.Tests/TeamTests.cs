@@ -42,7 +42,7 @@ namespace TeamGenerator.Model.Tests
             Player player = new Player("Nick", csgoRanks.First(rank => rank.Name == "Silver 1"));
             team.AddPlayer(player);
 
-            Assert.That(team.Players.ContainsKey("Nick"));
+            Assert.That(team.Players.Contains(player));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace TeamGenerator.Model.Tests
 
             Assert.Multiple(() =>
             {
-                Assert.That(team.Players.ContainsKey("Nick"));
+                Assert.That(team.Players.Contains(player));
                 Assert.That(team.Players.Count, Is.EqualTo(1));
             });
         }
@@ -72,7 +72,7 @@ namespace TeamGenerator.Model.Tests
             Player player = new Player("Nick", csgoRanks.First(rank => rank.Name == "Silver 1"));
             team.RemovePlayer(player);
 
-            Assert.That(team.Players.ContainsKey(player.Nick), Is.False);
+            Assert.That(team.Players.Contains(player), Is.False);
         }
     }
 }
