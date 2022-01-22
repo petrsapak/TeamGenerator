@@ -50,7 +50,7 @@ namespace TeamGenerator.Core.Tests
         {
             double rankCounter = 0;
 
-            foreach (Player player in team.Players.Values)
+            foreach (Player player in team.Players)
             {
                 rankCounter += player.Rank.Value;
             }

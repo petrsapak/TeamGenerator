@@ -4,13 +4,71 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TeamGenerator.Controls"
+             xmlns:converters="clr-namespace:TeamGenerator.Converters"
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <converters:ReduceStringLengthConverter x:Key="ReduceStringLengthConverter"/>
+    </UserControl.Resources>
     <Border CornerRadius="0 0 10 10"
             Background="{StaticResource BackgroundColor}">
-        <Grid Height="500">
-            <TextBlock Text="{Binding Placeholder}" Foreground="{StaticResource ForegroundColor}" FontSize="64" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid>
+            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Last matches" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
+                    <ListView ItemsSource="{Binding Matches}"
+                              SelectedItem="{Binding SelectedMatch}"
+                              Grid.Row = "1"
+                              ItemContainerStyle="{StaticResource PlayerPoolListViewItemStyle}"
+                              Margin="5"
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                        <ListView.InputBindings>
+                            <KeyBinding Key="Delete" Command="{Binding RemoveMatchCommand}"/>
+                        </ListView.InputBindings>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="150" DisplayMemberBinding="{Binding CreationDate}"/>
+                                <GridViewColumn Width="250" DisplayMemberBinding="{Binding Team1, Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
+                                <GridViewColumn Width="250" DisplayMemberBinding="{Binding Team2, Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
+                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team1Probability}"/>
+                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team2Probability}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid Grid.Row="2" HorizontalAlignment="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"
+                                Padding="5"
+                                Command="{Binding SaveMatchesCommand}"
+                                Height="80"
+                                Width="80"
+                                Margin="5 5 0 5">
+                            <Button.Content>
+                                <TextBlock Text="Save data" TextWrapping="Wrap"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="1"
+                                Padding="5"
+                                Command="{Binding LoadMatchesCommand}"
+                                Height="80"
+                                Width="80"
+                                Margin="5 5 10 5">
+                            <Button.Content>
+                                <TextBlock Text="Load data" TextWrapping="Wrap"/>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
         </Grid>
     </Border>
 </UserControl>

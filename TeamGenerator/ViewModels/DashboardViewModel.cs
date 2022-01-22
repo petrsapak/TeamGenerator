@@ -22,6 +22,7 @@ namespace TeamGenerator.ViewModels
         private readonly IEvaluate evaluator;
         private readonly IStatusMessageService statusMessageService;
         private readonly IDataService<List<Player>> playerDataService;
+        private readonly IStatisticsDataService statisticsDataService;
         private readonly IEventAggregator eventAggregator;
 
         public DashboardViewModel(IContainerProvider container, IEventAggregator eventAggregator)
@@ -33,6 +34,8 @@ namespace TeamGenerator.ViewModels
             evaluator = container.Resolve<IEvaluate>();
             statusMessageService = container.Resolve<IStatusMessageService>();
             playerDataService = container.Resolve<IDataService<List<Player>>>();
+            statisticsDataService = container.Resolve<IStatisticsDataService>();
+
             eventAggregator.GetEvent<UpdateRanksEvent>().Subscribe(UpdateRanks);
 
             PlayerPool = new ObservableCollection<Player>();
@@ -224,8 +227,14 @@ namespace TeamGenerator.ViewModels
 
             (Team, Team) teams = generator.GenerateTeams(PlayerPool, FillWithBots, maxPlayerCountInt);
 
-            Team1 = new ObservableCollection<Player>(teams.Item1.Players.Values);
-            Team2 = new ObservableCollection<Player>(teams.Item2.Players.Values);
+            Team1 = new ObservableCollection<Player>(teams.Item1.Players);
+            Team2 = new ObservableCollection<Player>(teams.Item2.Players);
+
+            Match match = new Match()
+            {
+                Team1 = teams.Item1,
+                Team2 = teams.Item2
+            };
 
             double counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
             double terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
@@ -237,6 +246,10 @@ namespace TeamGenerator.ViewModels
             Team1Probability = (int)counterTerroristsChanceOfWinning;
             Team2Probability = (int)terroristsChanceOfWinning;
 
+            match.Team1Probability = Team1Probability;
+            match.Team2Probability = Team2Probability;
+
+            statisticsDataService.SaveMatchStatistics(match);
             statusMessageService.UpdateStatusMessage($"Teams generated.");
         }
 

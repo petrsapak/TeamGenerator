@@ -26,6 +26,8 @@ namespace TeamGenerator
             containerRegistry.Register<IStatusMessageService, StatusMessageService>();
             containerRegistry.Register<IDataService<List<Player>>, DataService<List<Player>>>();
             containerRegistry.Register<IDataService<List<Rank>>, DataService<List<Rank>>>();
+            containerRegistry.Register<IDataService<List<Match>>, DataService<List<Match>>>();
+            containerRegistry.Register<IStatisticsDataService, StatisticsDataService>();
             containerRegistry.RegisterSingleton<DashboardViewModel>();
             containerRegistry.RegisterSingleton<StatisticsViewModel>();
             containerRegistry.RegisterSingleton<SettingsViewModel>();
