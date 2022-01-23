@@ -3,7 +3,7 @@ using TeamGenerator.Model.Validators;
 
 namespace TeamGenerator.Model
 {
-    public class Player
+    public class Player : ICloneable
     {
         public string Nick { get; private set; }
         public Rank Rank { get; private set; }
@@ -15,6 +15,25 @@ namespace TeamGenerator.Model
             Nick = nick;
             Rank = rank ?? throw new ArgumentNullException(nameof(rank));
             Bot = bot ?? throw new ArgumentNullException(nameof(bot));
+        }
+
+        private Player() { }
+
+        public object Clone()
+        {
+            Player clone = new Player()
+            {
+                Nick = Nick,
+                Rank = Rank,
+                Bot = Bot
+            };
+
+            return clone;
+        }
+
+        public override string ToString()
+        {
+            return Nick;
         }
     }
 }

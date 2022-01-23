@@ -49,7 +49,7 @@ namespace TeamGenerator.Model.Tests
         public void AddPlayer_PlayerNotAdded_WhenPlayerIsAlreadyInTeam()
         {
             Player player = new Player("Nick", csgoRanks.First(rank => rank.Name == "Silver 1"));
-            Player theSamePlayer = new Player("Nick", csgoRanks.First(rank => rank.Name == "Silver 1"));
+            Player theSamePlayer = (Player)player.Clone();
             team.AddPlayer(player);
             team.AddPlayer(theSamePlayer);
 
