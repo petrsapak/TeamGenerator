@@ -1,29 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using TeamGenerator.Model.Validators;
 
 namespace TeamGenerator.Model
 {
     public class Team : ICloneable
     {
-        [JsonPropertyName("Name")]
         public string Name { get; private set; }
-
-        [JsonPropertyName("Players")]
         public List<Player> Players { get; private set; }
 
-        public Team(string name)
+        public Team(string name) : this()
         {
             Validator.ValidateString(name);
             Name = name;
+        }
+
+        private Team()
+        {
             Players = new List<Player>();
         }
 
         public void AddPlayer(Player player)
         {
-            if (!Players.Contains(player))
+            if (player == null)
+            {
+                throw new ArgumentNullException(nameof(player));
+            }
+
+            if (!Players.Any(p => p.Nick == player.Nick))
             {
                 Players.Add(player);
             }
@@ -36,14 +42,17 @@ namespace TeamGenerator.Model
 
         public object Clone()
         {
-            Team clonedTeam = new Team(Name);
+            Team clone = new Team()
+            {
+                Name = Name
+            };
 
             foreach (Player player in Players)
             {
-                clonedTeam.Players.Add(player);
+                clone.Players.Add((Player)player.Clone());
             }
 
-            return clonedTeam;
+            return clone;
         }
 
         public override string ToString()
