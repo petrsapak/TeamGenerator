@@ -87,6 +87,7 @@ namespace TeamGenerator.ViewModels
 
         private void LoadMatches()
         {
+            bool loadSuccessful = true;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.DefaultExt = ".tgst";
             openFileDialog.Title = "Select your saved match statistics";
@@ -107,18 +108,24 @@ namespace TeamGenerator.ViewModels
             }
             catch (JsonException exception)
             {
+                loadSuccessful = false;
                 MessageBox.Show($"The selected file could not be loaded.\nException message: \n{exception.Message}", "Loading error");
             }
             catch (ArgumentNullException argumentNullException)
             {
+                loadSuccessful = false;
                 MessageBox.Show($"An exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentNullException.Message}", "Loading error");
             }
             catch (ArgumentException argumentException)
             {
+                loadSuccessful = false;
                 MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
             }
 
-            statusMessageService.UpdateStatusMessage($"Matches loaded.");
+            if (loadSuccessful)
+                statusMessageService.UpdateStatusMessage($"Matches loaded.");
+            else
+                statusMessageService.UpdateStatusMessage($"Error while loading matches.");
         }
 
         private void SaveMatches()
@@ -140,7 +147,7 @@ namespace TeamGenerator.ViewModels
                     return;
                 }
 
-                File.AppendAllText(saveFileDialog.FileName, serializedPlayerPool);
+                File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
 
                 statusMessageService.UpdateStatusMessage($"Matches saved at {saveFileDialog.FileName}.");
             }

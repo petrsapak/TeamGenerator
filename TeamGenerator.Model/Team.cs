@@ -9,7 +9,8 @@ namespace TeamGenerator.Model
     public class Team : ICloneable
     {
         public string Name { get; private set; }
-        public List<Player> Players { get; private set; }
+        //this setter is public because of System.Text.Json bug - it won't deserialize otherwise
+        public List<Player> Players { get; set; }
 
         public Team(string name) : this()
         {

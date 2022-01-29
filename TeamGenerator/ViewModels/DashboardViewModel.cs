@@ -24,6 +24,7 @@ namespace TeamGenerator.ViewModels
         private readonly IDataService<List<Player>> playerDataService;
         private readonly IStatisticsDataService statisticsDataService;
         private readonly IEventAggregator eventAggregator;
+        private Match match;
 
         public DashboardViewModel(IContainerProvider container, IEventAggregator eventAggregator)
         {
@@ -61,6 +62,9 @@ namespace TeamGenerator.ViewModels
                 new Rank("Global Elite", 18),
             };
             MaxPlayerCount = "10";
+            Team1Score = 0;
+            Team2Score = 0;
+            match = new Match();
             NewPlayerRank = Ranks[0];
         }
 
@@ -170,6 +174,22 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref ranks, value);
         }
 
+        private int team1Score;
+
+        public int Team1Score
+        {
+            get => team1Score;
+            set => SetProperty(ref team1Score, value);
+        }
+
+        private int team2Score;
+
+        public int Team2Score
+        {
+            get => team2Score;
+            set => SetProperty(ref team2Score, value);
+        }
+
         #endregion
 
         #region Commands
@@ -181,6 +201,7 @@ namespace TeamGenerator.ViewModels
             GenerateTeamsCommand = new DelegateCommand(GenerateTeams, CanExecuteGenerateTeams);
             LoadPlayerPoolCommand = new DelegateCommand(LoadPlayerPool);
             SavePlayerPoolCommand = new DelegateCommand(SavePlayerPool);
+            SaveResultCommand = new DelegateCommand(SaveResult);
         }
 
         public DelegateCommand AddAvailablePlayerCommand { get; private set; }
@@ -188,6 +209,7 @@ namespace TeamGenerator.ViewModels
         public DelegateCommand DeleteAvailablePlayerCommand { get; private set; }
         public DelegateCommand LoadPlayerPoolCommand { get; private set; }
         public DelegateCommand SavePlayerPoolCommand { get; private set; }
+        public DelegateCommand SaveResultCommand { get; private set; }
 
         private void AddAvailablePlayer()
         {
@@ -230,7 +252,7 @@ namespace TeamGenerator.ViewModels
             Team1 = new ObservableCollection<Player>(teams.Item1.Players);
             Team2 = new ObservableCollection<Player>(teams.Item2.Players);
 
-            Match match = new Match()
+            match = new Match()
             {
                 Team1 = teams.Item1,
                 Team2 = teams.Item2
@@ -249,7 +271,6 @@ namespace TeamGenerator.ViewModels
             match.Team1Probability = Team1Probability;
             match.Team2Probability = Team2Probability;
 
-            statisticsDataService.SaveMatchStatistics(match);
             statusMessageService.UpdateStatusMessage($"Teams generated.");
         }
 
@@ -260,6 +281,7 @@ namespace TeamGenerator.ViewModels
 
         private void LoadPlayerPool()
         {
+            bool loadSuccessful = true;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.DefaultExt = ".tgpp";
             openFileDialog.Title = "Select your saved player pool";
@@ -280,20 +302,29 @@ namespace TeamGenerator.ViewModels
             }
             catch (JsonException exception)
             {
+                loadSuccessful = false;
                 MessageBox.Show($"The selected file could not be loaded.\nException message: \n{exception.Message}", "Loading error");
             }
             catch (ArgumentNullException argumentNullException)
             {
+                loadSuccessful = false;
                 MessageBox.Show($"An exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentNullException.Message}", "Loading error");
             }
             catch (ArgumentException argumentException)
             {
+                loadSuccessful = false;
                 MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
             }
 
-            GenerateTeamsCommand.RaiseCanExecuteChanged();
-
-            statusMessageService.UpdateStatusMessage($"Players loaded.");
+            if (loadSuccessful)
+            {
+                GenerateTeamsCommand.RaiseCanExecuteChanged();
+                statusMessageService.UpdateStatusMessage($"Players loaded.");
+            }
+            else
+            {
+                statusMessageService.UpdateStatusMessage($"Error while loading players.");
+            }
         }
 
         private void SavePlayerPool()
@@ -319,6 +350,15 @@ namespace TeamGenerator.ViewModels
 
                 statusMessageService.UpdateStatusMessage($"Players saved at {saveFileDialog.FileName}.");
             }
+        }
+
+        private void SaveResult()
+        {
+            match.Team1Score = team1Score;
+            match.Team2Score = team2Score;
+
+            statisticsDataService.SaveMatchStatistics(match);
+            statusMessageService.UpdateStatusMessage($"Match {match.Id} saved.");
         }
 
         #endregion
