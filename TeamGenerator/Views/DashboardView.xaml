@@ -128,7 +128,7 @@
                                 </TextBox.Text>
                             </TextBox>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="10">
+                        <!--<StackPanel Orientation="Horizontal" Grid.Row="3" Margin="10">
                             <TextBox Height="30" Width="30" Padding="5" Margin="0 0 10 0">
                                 <TextBox.Text>
                                     <Binding Path="Team1Score"
@@ -164,7 +164,7 @@
                             <Button.Content>
                                 <TextBlock Text="Save result" TextWrapping="Wrap"/>
                             </Button.Content>
-                        </Button>
+                        </Button>-->
                     </Grid>
                 </Border>
             </Grid>
