@@ -13,6 +13,7 @@ using System.Windows;
 using Prism.Events;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Infrastructure.Events;
+using TeamGenerator.Services;
 
 namespace TeamGenerator.ViewModels
 {
@@ -21,7 +22,7 @@ namespace TeamGenerator.ViewModels
         private readonly IGenerate generator;
         private readonly IEvaluate evaluator;
         private readonly IStatusMessageService statusMessageService;
-        private readonly IDataService<List<Player>> playerDataService;
+        private readonly IDataService<DataHelper> dataService;
         private readonly IStatisticsDataService statisticsDataService;
         private readonly IEventAggregator eventAggregator;
         private Match match;
@@ -34,7 +35,7 @@ namespace TeamGenerator.ViewModels
             generator = container.Resolve<IGenerate>();
             evaluator = container.Resolve<IEvaluate>();
             statusMessageService = container.Resolve<IStatusMessageService>();
-            playerDataService = container.Resolve<IDataService<List<Player>>>();
+            dataService = container.Resolve<IDataService<DataHelper>>();
             statisticsDataService = container.Resolve<IStatisticsDataService>();
 
             eventAggregator.GetEvent<UpdateRanksEvent>().Subscribe(UpdateRanks);
@@ -42,24 +43,26 @@ namespace TeamGenerator.ViewModels
             PlayerPool = new ObservableCollection<Player>();
             Ranks = new List<Rank>
             {
-                new Rank("Silver 1", 1),
-                new Rank("Silver 2", 2),
-                new Rank("Silver 3", 3),
-                new Rank("Silver 4", 4),
-                new Rank("Silver Master", 5),
-                new Rank("Silver Master Elite", 6),
-                new Rank("Golden Nova 1", 7),
-                new Rank("Golden Nova 2", 8),
-                new Rank("Golden Nova 3", 9),
-                new Rank("Golden Nova Master", 10),
-                new Rank("Master Guardian 1", 11),
-                new Rank("Master Guardian 2", 12),
-                new Rank("Master Guardian Elite", 13),
-                new Rank("Distinguished Master Guardian", 14),
-                new Rank("Legendary Eagle", 15),
-                new Rank("Legendary Eagle Master", 16),
-                new Rank("Supreme Master First Class", 17),
-                new Rank("Global Elite", 18),
+                new Rank("1", 1),
+                new Rank("2", 2),
+                new Rank("3", 3),
+                new Rank("4", 4),
+                new Rank("5", 5),
+                new Rank("6", 6),
+                new Rank("7", 7),
+                new Rank("8", 8),
+                new Rank("9", 9),
+                new Rank("10", 10),
+                new Rank("11", 11),
+                new Rank("12", 12),
+                new Rank("13", 13),
+                new Rank("14", 14),
+                new Rank("15", 15),
+                new Rank("16", 16),
+                new Rank("17", 17),
+                new Rank("18", 18),
+                new Rank("19", 19),
+                new Rank("20", 20),
             };
             MaxPlayerCount = "10";
             Team1Score = 0;
@@ -286,6 +289,7 @@ namespace TeamGenerator.ViewModels
             openFileDialog.DefaultExt = ".tgpp";
             openFileDialog.Title = "Select your saved player pool";
             string selectedFileContent = string.Empty;
+            DataHelper deserializedData = new DataHelper();
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -298,7 +302,7 @@ namespace TeamGenerator.ViewModels
 
             try
             {
-                PlayerPool = new ObservableCollection<Player>(playerDataService.DeserializeData(selectedFileContent));
+                deserializedData = dataService.DeserializeData(selectedFileContent);
             }
             catch (JsonException exception)
             {
@@ -318,6 +322,9 @@ namespace TeamGenerator.ViewModels
 
             if (loadSuccessful)
             {
+                Ranks = deserializedData.Ranks;
+                PlayerPool = deserializedData.PlayerPool;
+
                 GenerateTeamsCommand.RaiseCanExecuteChanged();
                 statusMessageService.UpdateStatusMessage($"Players loaded.");
             }
@@ -332,13 +339,19 @@ namespace TeamGenerator.ViewModels
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.DefaultExt = ".tgpp";
             saveFileDialog.Title = "Save you player pool";
-            string serializedPlayerPool = string.Empty;
+            string serializedData = string.Empty;
+
+            DataHelper dataForSerialization = new DataHelper()
+            {
+                PlayerPool = PlayerPool,
+                Ranks = Ranks
+            };
 
             if (saveFileDialog.ShowDialog() == true)
             {
                 try
                 {
-                    serializedPlayerPool = playerDataService.SerializeData(PlayerPool.ToList<Player>());
+                    serializedData = dataService.SerializeData(dataForSerialization);
                 }
                 catch (JsonException exception)
                 {
@@ -346,7 +359,7 @@ namespace TeamGenerator.ViewModels
                     return;
                 }
 
-                File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
+                File.WriteAllText(saveFileDialog.FileName, serializedData);
 
                 statusMessageService.UpdateStatusMessage($"Players saved at {saveFileDialog.FileName}.");
             }
