@@ -48,7 +48,7 @@ namespace TeamGenerator.Core
 
             while (fillWithBots && team1Buffer.Players.Count + team2Buffer.Players.Count < maxPlayerCount)
             {
-                double botCoefficient = 0.7;
+                double botCoefficient = 0.5;
 
                 double team1Evaluation = evaluator.EvaluateTeam(team1Buffer);
                 double team1EvaluationWithoutBots = evaluator.EvaluateTeamWithoutBots(team1Buffer);
