@@ -13,6 +13,7 @@ using System.Windows;
 using Prism.Events;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Infrastructure.Events;
+using TeamGenerator.Services;
 
 namespace TeamGenerator.ViewModels
 {
@@ -21,7 +22,7 @@ namespace TeamGenerator.ViewModels
         private readonly IGenerate generator;
         private readonly IEvaluate evaluator;
         private readonly IStatusMessageService statusMessageService;
-        private readonly IDataService<List<Player>> playerDataService;
+        private readonly IDataService<DataHelper> dataService;
         private readonly IStatisticsDataService statisticsDataService;
         private readonly IEventAggregator eventAggregator;
         private Match match;
@@ -34,7 +35,7 @@ namespace TeamGenerator.ViewModels
             generator = container.Resolve<IGenerate>();
             evaluator = container.Resolve<IEvaluate>();
             statusMessageService = container.Resolve<IStatusMessageService>();
-            playerDataService = container.Resolve<IDataService<List<Player>>>();
+            dataService = container.Resolve<IDataService<DataHelper>>();
             statisticsDataService = container.Resolve<IStatisticsDataService>();
 
             eventAggregator.GetEvent<UpdateRanksEvent>().Subscribe(UpdateRanks);
@@ -288,6 +289,7 @@ namespace TeamGenerator.ViewModels
             openFileDialog.DefaultExt = ".tgpp";
             openFileDialog.Title = "Select your saved player pool";
             string selectedFileContent = string.Empty;
+            DataHelper deserializedData = new DataHelper();
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -300,7 +302,7 @@ namespace TeamGenerator.ViewModels
 
             try
             {
-                PlayerPool = new ObservableCollection<Player>(playerDataService.DeserializeData(selectedFileContent));
+                deserializedData = dataService.DeserializeData(selectedFileContent);
             }
             catch (JsonException exception)
             {
@@ -320,6 +322,9 @@ namespace TeamGenerator.ViewModels
 
             if (loadSuccessful)
             {
+                Ranks = deserializedData.Ranks;
+                PlayerPool = deserializedData.PlayerPool;
+
                 GenerateTeamsCommand.RaiseCanExecuteChanged();
                 statusMessageService.UpdateStatusMessage($"Players loaded.");
             }
@@ -334,13 +339,19 @@ namespace TeamGenerator.ViewModels
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.DefaultExt = ".tgpp";
             saveFileDialog.Title = "Save you player pool";
-            string serializedPlayerPool = string.Empty;
+            string serializedData = string.Empty;
+
+            DataHelper dataForSerialization = new DataHelper()
+            {
+                PlayerPool = PlayerPool,
+                Ranks = Ranks
+            };
 
             if (saveFileDialog.ShowDialog() == true)
             {
                 try
                 {
-                    serializedPlayerPool = playerDataService.SerializeData(PlayerPool.ToList<Player>());
+                    serializedData = dataService.SerializeData(dataForSerialization);
                 }
                 catch (JsonException exception)
                 {
@@ -348,7 +359,7 @@ namespace TeamGenerator.ViewModels
                     return;
                 }
 
-                File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
+                File.WriteAllText(saveFileDialog.FileName, serializedData);
 
                 statusMessageService.UpdateStatusMessage($"Players saved at {saveFileDialog.FileName}.");
             }

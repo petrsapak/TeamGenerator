@@ -6,6 +6,7 @@ using TeamGenerator.Core;
 using TeamGenerator.Core.Interfaces;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Model;
+using TeamGenerator.Services;
 using TeamGenerator.ViewModels;
 using TeamGenerator.Views;
 using Unity;
@@ -24,7 +25,7 @@ namespace TeamGenerator
             containerRegistry.Register<IGenerate, BestComplementGenerator>();
             containerRegistry.Register<IEvaluate, BasicEvaluator>();
             containerRegistry.Register<IStatusMessageService, StatusMessageService>();
-            containerRegistry.Register<IDataService<List<Player>>, DataService<List<Player>>>();
+            containerRegistry.Register<IDataService<DataHelper>, DataService<DataHelper>>();
             containerRegistry.Register<IDataService<List<Rank>>, DataService<List<Rank>>>();
             containerRegistry.Register<IDataService<List<Match>>, DataService<List<Match>>>();
             containerRegistry.Register<IStatisticsDataService, StatisticsDataService>();
