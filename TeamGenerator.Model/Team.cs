@@ -11,6 +11,7 @@ namespace TeamGenerator.Model
         public string Name { get; private set; }
         //this setter is public because of System.Text.Json bug - it won't deserialize otherwise
         public List<Player> Players { get; set; }
+        public int BotCount { get; private set; }
 
         public Team(string name) : this()
         {
@@ -34,11 +35,21 @@ namespace TeamGenerator.Model
             {
                 Players.Add(player);
             }
+
+            if ((bool)player.Bot)
+            {
+                BotCount++;
+            }
         }
 
         public void RemovePlayer(Player player)
         {
             Players.Remove(player);
+
+            if ((bool)player.Bot)
+            {
+                BotCount--;
+            }
         }
 
         public object Clone()

@@ -156,25 +156,45 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <CheckBox Grid.Row="0"
-                                  Content="Fill teams with bots"
+                                  Content="Enable bots"
                                   Margin="10"
-                                  IsChecked="{Binding FillWithBots}"/>
+                                  IsChecked="{Binding EnableBots}"/>
                         <StackPanel Orientation="Vertical"
                                     Grid.Row="1"
-                                    Margin="10 0">
-                            <TextBlock Text="Max player count" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox IsEnabled="{Binding FillWithBots}" Height="30" Padding="5">
+                                    Margin="10 0 10 10">
+                            <TextBlock Text="Max bot count" Foreground="{StaticResource ForegroundColor}"/>
+                            <TextBox IsEnabled="{Binding EnableBots}" Height="30" Padding="5">
                                 <TextBox.Text>
-                                    <Binding Path="MaxPlayerCount"
+                                    <Binding Path="MaxBotCount"
                                              Mode="TwoWay"
                                              UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <validators:NumericValidator ValidationType="{x:Type system:Int32}"
-                                                                         ValidatesOnTargetUpdated="True"/>
+                                                                         ValidatesOnTargetUpdated="True"
+                                                                         AdditionalParam="PositiveOnly"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    Grid.Row="2"
+                                    Margin="10 0">
+                            <TextBlock Text="Bot quotient" Foreground="{StaticResource ForegroundColor}"/>
+                            <TextBox IsEnabled="{Binding EnableBots}" Height="30" Padding="5">
+                                <TextBox.Text>
+                                    <Binding Path="BotQuotient"
+                                             Mode="TwoWay"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validators:NumericValidator ValidationType="{x:Type system:Double}"
+                                                                         ValidatesOnTargetUpdated="True"
+                                                                         AdditionalParam="PositiveOnly"/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>

@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TeamGenerator.Core.Interfaces;
@@ -9,36 +8,26 @@ namespace TeamGenerator.Core.Test
 {
     class BasicGeneratorTest
     {
-        private List<Rank> csgoRanks = new List<Rank>
-            {
-                new Rank("Silver 1", 1),
-                new Rank("Silver 2", 2),
-                new Rank("Silver 3", 3),
-                new Rank("Silver 4", 4),
-                new Rank("Silver Master", 5),
-                new Rank("Silver Master Elite", 6),
-                new Rank("Golden Nova 1", 7),
-                new Rank("Golden Nova 2", 8),
-                new Rank("Golden Nova 3", 9),
-                new Rank("Golden Nova Master", 10),
-                new Rank("Master Guardian 1", 11),
-                new Rank("Master Guardian 2", 12),
-                new Rank("Master Guardian Elite", 13),
-                new Rank("Distinguished Master Guardian", 14),
-                new Rank("Legendary Eagle", 15),
-                new Rank("Legendary Eagle Master", 16),
-                new Rank("Supreme Master First Class", 17),
-                new Rank("Global Elite", 18),
-            };
+        List<Player> availablePlayers = new List<Player>
+        {
+            new Player("1", new Rank("1", 1)),
+            new Player("2", new Rank("2", 2)),
+            new Player("3", new Rank("3", 3)),
+            new Player("4", new Rank("4", 4))
+        };
 
-        private int maxPlayerCount = 10;
-        private bool fillTeamsWithBots = false;
+        private GeneratorSettings settings;
+        private IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator());
 
         [Test]
         public void GenerateTeams_ReturnsCorrectlyNamedEmptyTeams_WhenNoPlayersAreProvided()
         {
-            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator());
-            (Team, Team) teams = basicGenerator.GenerateTeams(new List<Player>(), fillTeamsWithBots, maxPlayerCount);
+            settings = new GeneratorSettings()
+            {
+                AvailablePlayerPool = new List<Player>(),
+            };
+ 
+            (Team, Team) teams = basicGenerator.GenerateTeams(settings);
 
             Assert.Multiple(() =>
             {
@@ -52,21 +41,50 @@ namespace TeamGenerator.Core.Test
         [Test]
         public void GenerateTeams_ReturnsBalancedTeams_WhenListOfBalancablePlayersIsProvided()
         {
-            List<Player> availablePlayers = new List<Player>
+            settings = new GeneratorSettings()
             {
-                new Player("1", csgoRanks.First(rank => rank.Name == "Silver 4")),
-                new Player("2", csgoRanks.First(rank => rank.Name == "Silver 2")),
-                new Player("3", csgoRanks.First(rank => rank.Name == "Silver 2")),
-                new Player("4", csgoRanks.First(rank => rank.Name == "Silver 1"))
+                AvailablePlayerPool = availablePlayers
             };
-            IGenerate basicGenerator = new BestComplementGenerator(new BasicEvaluator());
-            (Team, Team) teams = basicGenerator.GenerateTeams(availablePlayers, fillTeamsWithBots, maxPlayerCount);
+
+            (Team, Team) teams = basicGenerator.GenerateTeams(settings);
 
             Assert.Multiple(() =>
             {
                 Assert.That(teams.Item1.Players.Count, Is.GreaterThan(0));
                 Assert.That(teams.Item2.Players.Count, Is.GreaterThan(0));
             });
+        }
+
+        [Test]
+        public void GenerateTeams_ReturnsTeamsWithoutBots_WhenBotsAreAllowedButMaxCountIsSetToZero()
+        {
+            settings = new GeneratorSettings()
+            {
+                AvailablePlayerPool = availablePlayers,
+                UseBots = true,
+                MaxBotCount = 0
+            };
+
+            (Team, Team) teams = basicGenerator.GenerateTeams(settings);
+
+            Assert.That(teams.Item1.BotCount, Is.EqualTo(0));
+            Assert.That(teams.Item2.BotCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GenerateTeams_ReturnsTeamsWithBots_WhenBotsAreAllowed()
+        {
+            settings = new GeneratorSettings()
+            {
+                AvailablePlayerPool = availablePlayers,
+                UseBots = true,
+                MaxBotCount = 2
+            };
+
+            (Team, Team) teams = basicGenerator.GenerateTeams(settings);
+
+            Assert.That(teams.Item1.BotCount, Is.GreaterThanOrEqualTo(0));
+            Assert.That(teams.Item2.BotCount, Is.GreaterThanOrEqualTo(0));
         }
     }
 }

@@ -14,6 +14,7 @@ using Prism.Events;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Infrastructure.Events;
 using TeamGenerator.Services;
+using TeamGenerator.Core;
 
 namespace TeamGenerator.ViewModels
 {
@@ -64,7 +65,9 @@ namespace TeamGenerator.ViewModels
                 new Rank("19", 19),
                 new Rank("20", 20),
             };
-            MaxPlayerCount = "10";
+
+            MaxBotCount = 1;
+            BotQuotient = 0.5;
             Team1Score = 0;
             Team2Score = 0;
             match = new Match();
@@ -113,20 +116,20 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref selectedAvailablePlayer, value);
         }
 
-        private bool fillWithBots;
+        private bool enableBots;
 
-        public bool FillWithBots
+        public bool EnableBots
         {
-            get => fillWithBots;
-            set => SetProperty(ref fillWithBots, value);
+            get => enableBots;
+            set => SetProperty(ref enableBots, value);
         }
 
-        private string maxPlayerCount;
+        private int maxBotCount;
 
-        public string MaxPlayerCount 
+        public int MaxBotCount
         {
-            get => maxPlayerCount;
-            set => SetProperty(ref maxPlayerCount, value);
+            get => maxBotCount;
+            set => SetProperty(ref maxBotCount, value);
         }
 
         private ObservableCollection<Player> playerPool;
@@ -193,6 +196,15 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref team2Score, value);
         }
 
+        private double botQuotient;
+
+        public double BotQuotient
+        {
+            get => botQuotient;
+            set => SetProperty(ref botQuotient, value);
+        }
+
+
         #endregion
 
         #region Commands
@@ -226,10 +238,10 @@ namespace TeamGenerator.ViewModels
         private bool CanExecuteAddAvailablePlayer()
         {
             return PlayerPool.All(player => player.Nick != NewPlayerName) &&
-                                       !string.IsNullOrEmpty(NewPlayerName) &&
-                                       NewPlayerName.Any(char.IsLetterOrDigit) &&
-                                       NewPlayerRank != null &&
-                                       !string.IsNullOrEmpty(NewPlayerRank.Name);
+                                  !string.IsNullOrEmpty(NewPlayerName) &&
+                                  NewPlayerName.Any(char.IsLetterOrDigit) &&
+                                  NewPlayerRank != null &&
+                                  !string.IsNullOrEmpty(NewPlayerRank.Name);
         }
 
         private void DeleteAvailablePlayer()
@@ -248,9 +260,15 @@ namespace TeamGenerator.ViewModels
 
         private void GenerateTeams()
         {
-            int maxPlayerCountInt = int.Parse(MaxPlayerCount);
+            IGeneratorSettings settings = new GeneratorSettings()
+            {
+                AvailablePlayerPool = PlayerPool,
+                UseBots = EnableBots,
+                BotQuotient = BotQuotient,
+                MaxBotCount = MaxBotCount
+            };
 
-            (Team, Team) teams = generator.GenerateTeams(PlayerPool, FillWithBots, maxPlayerCountInt);
+            (Team, Team) teams = generator.GenerateTeams(settings);
 
             Team1 = new ObservableCollection<Player>(teams.Item1.Players);
             Team2 = new ObservableCollection<Player>(teams.Item2.Players);
