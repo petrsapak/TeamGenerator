@@ -14,6 +14,7 @@ using Prism.Events;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Infrastructure.Events;
 using TeamGenerator.Services;
+using TeamGenerator.Core;
 
 namespace TeamGenerator.ViewModels
 {
@@ -250,7 +251,15 @@ namespace TeamGenerator.ViewModels
         {
             int maxPlayerCountInt = int.Parse(MaxPlayerCount);
 
-            (Team, Team) teams = generator.GenerateTeams(PlayerPool, FillWithBots, maxPlayerCountInt);
+            IGeneratorSettings settings = new GeneratorSettings()
+            {
+                AvailablePlayerPool = PlayerPool,
+                UseBots = FillWithBots,
+                BotQuotient = 0.5,
+                MaxBotCount = maxPlayerCountInt
+            };
+
+            (Team, Team) teams = generator.GenerateTeams(settings);
 
             Team1 = new ObservableCollection<Player>(teams.Item1.Players);
             Team2 = new ObservableCollection<Player>(teams.Item2.Players);

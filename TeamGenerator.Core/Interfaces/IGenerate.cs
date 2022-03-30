@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using TeamGenerator.Model;
+﻿using TeamGenerator.Model;
 
 namespace TeamGenerator.Core.Interfaces
 {
     public interface IGenerate
     {
-        (Team, Team) GenerateTeams(IEnumerable<Player> availablePlayers, bool fillWithBots, int maxPlayerCount);
+        (Team, Team) GenerateTeams(IGeneratorSettings generatorSettings);
     }
 }
