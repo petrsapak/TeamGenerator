@@ -65,7 +65,9 @@ namespace TeamGenerator.ViewModels
                 new Rank("19", 19),
                 new Rank("20", 20),
             };
-            MaxBotCount = "1";
+
+            MaxBotCount = 1;
+            BotQuotient = 0.5;
             Team1Score = 0;
             Team2Score = 0;
             match = new Match();
@@ -122,9 +124,9 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref enableBots, value);
         }
 
-        private string maxBotCount;
+        private int maxBotCount;
 
-        public string MaxBotCount
+        public int MaxBotCount
         {
             get => maxBotCount;
             set => SetProperty(ref maxBotCount, value);
@@ -194,6 +196,15 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref team2Score, value);
         }
 
+        private double botQuotient;
+
+        public double BotQuotient
+        {
+            get => botQuotient;
+            set => SetProperty(ref botQuotient, value);
+        }
+
+
         #endregion
 
         #region Commands
@@ -227,10 +238,10 @@ namespace TeamGenerator.ViewModels
         private bool CanExecuteAddAvailablePlayer()
         {
             return PlayerPool.All(player => player.Nick != NewPlayerName) &&
-                                       !string.IsNullOrEmpty(NewPlayerName) &&
-                                       NewPlayerName.Any(char.IsLetterOrDigit) &&
-                                       NewPlayerRank != null &&
-                                       !string.IsNullOrEmpty(NewPlayerRank.Name);
+                                  !string.IsNullOrEmpty(NewPlayerName) &&
+                                  NewPlayerName.Any(char.IsLetterOrDigit) &&
+                                  NewPlayerRank != null &&
+                                  !string.IsNullOrEmpty(NewPlayerRank.Name);
         }
 
         private void DeleteAvailablePlayer()
@@ -249,14 +260,12 @@ namespace TeamGenerator.ViewModels
 
         private void GenerateTeams()
         {
-            int maxPlayerCountInt = int.Parse(MaxBotCount);
-
             IGeneratorSettings settings = new GeneratorSettings()
             {
                 AvailablePlayerPool = PlayerPool,
                 UseBots = EnableBots,
-                BotQuotient = 0.5,
-                MaxBotCount = maxPlayerCountInt
+                BotQuotient = BotQuotient,
+                MaxBotCount = MaxBotCount
             };
 
             (Team, Team) teams = generator.GenerateTeams(settings);
