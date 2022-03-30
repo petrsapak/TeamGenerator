@@ -160,16 +160,16 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <CheckBox Grid.Row="0"
-                                  Content="Fill teams with bots"
+                                  Content="Enable bots"
                                   Margin="10"
-                                  IsChecked="{Binding FillWithBots}"/>
+                                  IsChecked="{Binding EnableBots}"/>
                         <StackPanel Orientation="Vertical"
                                     Grid.Row="1"
                                     Margin="10 0">
-                            <TextBlock Text="Max player count" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox IsEnabled="{Binding FillWithBots}" Height="30" Padding="5">
+                            <TextBlock Text="Max bot count" Foreground="{StaticResource ForegroundColor}"/>
+                            <TextBox IsEnabled="{Binding EnableBots}" Height="30" Padding="5">
                                 <TextBox.Text>
-                                    <Binding Path="MaxPlayerCount"
+                                    <Binding Path="MaxBotCount"
                                              Mode="TwoWay"
                                              UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>

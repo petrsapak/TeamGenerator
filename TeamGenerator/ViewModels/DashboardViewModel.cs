@@ -65,7 +65,7 @@ namespace TeamGenerator.ViewModels
                 new Rank("19", 19),
                 new Rank("20", 20),
             };
-            MaxPlayerCount = "10";
+            MaxBotCount = "1";
             Team1Score = 0;
             Team2Score = 0;
             match = new Match();
@@ -114,20 +114,20 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref selectedAvailablePlayer, value);
         }
 
-        private bool fillWithBots;
+        private bool enableBots;
 
-        public bool FillWithBots
+        public bool EnableBots
         {
-            get => fillWithBots;
-            set => SetProperty(ref fillWithBots, value);
+            get => enableBots;
+            set => SetProperty(ref enableBots, value);
         }
 
-        private string maxPlayerCount;
+        private string maxBotCount;
 
-        public string MaxPlayerCount 
+        public string MaxBotCount
         {
-            get => maxPlayerCount;
-            set => SetProperty(ref maxPlayerCount, value);
+            get => maxBotCount;
+            set => SetProperty(ref maxBotCount, value);
         }
 
         private ObservableCollection<Player> playerPool;
@@ -249,12 +249,12 @@ namespace TeamGenerator.ViewModels
 
         private void GenerateTeams()
         {
-            int maxPlayerCountInt = int.Parse(MaxPlayerCount);
+            int maxPlayerCountInt = int.Parse(MaxBotCount);
 
             IGeneratorSettings settings = new GeneratorSettings()
             {
                 AvailablePlayerPool = PlayerPool,
-                UseBots = FillWithBots,
+                UseBots = EnableBots,
                 BotQuotient = 0.5,
                 MaxBotCount = maxPlayerCountInt
             };
