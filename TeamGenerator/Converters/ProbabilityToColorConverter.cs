@@ -9,7 +9,8 @@ namespace TeamGenerator.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Color defaultForegroudColor = (Color)ColorConverter.ConvertFromString("#B1AFB3");
+            Brush defaultForegroudColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B1AFB3"));
+
             if (value == null)
                 return defaultForegroudColor;
 
@@ -17,10 +18,8 @@ namespace TeamGenerator.Converters
             {
                 if (probability == 0)
                     return defaultForegroudColor;
-                else if (probability == 50)
-                    return Brushes.LightGoldenrodYellow;
-                else if (probability > 50)
-                    return Brushes.LightGreen;
+                else if (probability >= 47 && probability <= 53)
+                    return Brushes.Khaki;
                 else
                     return Brushes.PaleVioletRed;
             }
