@@ -26,7 +26,6 @@ namespace TeamGenerator.ViewModels
         private readonly IDataService<DataHelper> dataService;
         private readonly IStatisticsDataService statisticsDataService;
         private readonly IEventAggregator eventAggregator;
-        private Match match;
 
         public DashboardViewModel(IContainerProvider container, IEventAggregator eventAggregator)
         {
@@ -70,7 +69,6 @@ namespace TeamGenerator.ViewModels
             BotQuotient = 0.5;
             Team1Score = 0;
             Team2Score = 0;
-            match = new Match();
             NewPlayerRank = Ranks[0];
         }
 
@@ -216,7 +214,7 @@ namespace TeamGenerator.ViewModels
             GenerateTeamsCommand = new DelegateCommand(GenerateTeams, CanExecuteGenerateTeams);
             LoadPlayerPoolCommand = new DelegateCommand(LoadPlayerPool);
             SavePlayerPoolCommand = new DelegateCommand(SavePlayerPool);
-            SaveResultCommand = new DelegateCommand(SaveResult);
+            SaveResultCommand = new DelegateCommand(SaveMatchResult);
         }
 
         public DelegateCommand AddAvailablePlayerCommand { get; private set; }
@@ -273,12 +271,6 @@ namespace TeamGenerator.ViewModels
             Team1 = new ObservableCollection<Player>(teams.Item1.Players);
             Team2 = new ObservableCollection<Player>(teams.Item2.Players);
 
-            match = new Match()
-            {
-                Team1 = teams.Item1,
-                Team2 = teams.Item2
-            };
-
             double counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
             double terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
             double sumOfEvaluations = counterTerroristTeamEvaluation + terroristTeamEvaluation;
@@ -288,9 +280,6 @@ namespace TeamGenerator.ViewModels
 
             Team1Probability = (int)counterTerroristsChanceOfWinning;
             Team2Probability = (int)terroristsChanceOfWinning;
-
-            match.Team1Probability = Team1Probability;
-            match.Team2Probability = Team2Probability;
 
             statusMessageService.UpdateStatusMessage($"Teams generated.");
         }
@@ -383,13 +372,33 @@ namespace TeamGenerator.ViewModels
             }
         }
 
-        private void SaveResult()
+        private void SaveMatchResult()
         {
+            Team team1 = new Team("Team 1")
+            {
+                Players = Team1.ToList()
+            };
+
+            Team team2 = new Team("Team 2")
+            {
+                Players = Team2.ToList()
+            };
+
+            Match match = new Match()
+            {
+                CreationDate = DateTime.Now.ToString("dd.MM.yy HH:mm:ss"),
+                Team1 = team1,
+                Team2 = team2
+            };
+
             match.Team1Score = team1Score;
             match.Team2Score = team2Score;
 
+            match.Team1Probability = Team1Probability;
+            match.Team2Probability = Team2Probability;
+
             statisticsDataService.SaveMatchStatistics(match);
-            statusMessageService.UpdateStatusMessage($"Match {match.Id} saved.");
+            statusMessageService.UpdateStatusMessage($"Match saved.");
         }
 
         #endregion

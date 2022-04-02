@@ -74,10 +74,9 @@ namespace TeamGenerator.ViewModels
 
         private void RemoveMatch()
         {
-            Guid matchId = SelectedMatch.Id;
             Matches.Remove(SelectedMatch);
 
-            statusMessageService.UpdateStatusMessage($"Match {matchId} removed.");
+            statusMessageService.UpdateStatusMessage($"Match removed.");
         }
 
         private bool CanExecuteRemoveMatch()
