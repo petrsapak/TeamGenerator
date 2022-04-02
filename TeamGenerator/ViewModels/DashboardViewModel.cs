@@ -6,10 +6,8 @@ using System.Linq;
 using System;
 using TeamGenerator.Core.Interfaces;
 using Prism.Ioc;
-using Microsoft.Win32;
 using System.IO;
 using System.Text.Json;
-using System.Windows;
 using Prism.Events;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Infrastructure.Events;
@@ -26,6 +24,8 @@ namespace TeamGenerator.ViewModels
         private readonly IDataService<DataHelper> dataService;
         private readonly IStatisticsDataService statisticsDataService;
         private readonly IEventAggregator eventAggregator;
+        private readonly SaveFileDialogService saveFileDialogService;
+        private readonly OpenFileDialogService openFileDialogService;
 
         public DashboardViewModel(IContainerProvider container, IEventAggregator eventAggregator)
         {
@@ -37,6 +37,8 @@ namespace TeamGenerator.ViewModels
             statusMessageService = container.Resolve<IStatusMessageService>();
             dataService = container.Resolve<IDataService<DataHelper>>();
             statisticsDataService = container.Resolve<IStatisticsDataService>();
+            saveFileDialogService = container.Resolve<SaveFileDialogService>();
+            openFileDialogService = container.Resolve<OpenFileDialogService>();
 
             eventAggregator.GetEvent<UpdateRanksEvent>().Subscribe(UpdateRanks);
 
@@ -291,40 +293,31 @@ namespace TeamGenerator.ViewModels
 
         private void LoadPlayerPool()
         {
-            bool loadSuccessful = true;
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.DefaultExt = ".tgpp";
-            openFileDialog.Title = "Select your saved player pool";
-            string selectedFileContent = string.Empty;
+            bool loadSuccessful = false;
             DataHelper deserializedData = new DataHelper();
+            string serializedPlayerPool = openFileDialogService.ShowOpenFileDialog("Load player pool", ".tgpp");
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                selectedFileContent = File.ReadAllText(openFileDialog.FileName);
-            }
-            else
-            {
-                return;
-            }
+            if (string.IsNullOrEmpty(serializedPlayerPool)) return;
 
             try
             {
-                deserializedData = dataService.DeserializeData(selectedFileContent);
+                deserializedData = dataService.DeserializeData(serializedPlayerPool);
+                loadSuccessful = true;
             }
-            catch (JsonException exception)
+            catch (Exception exception)
             {
-                loadSuccessful = false;
-                MessageBox.Show($"The selected file could not be loaded.\nException message: \n{exception.Message}", "Loading error");
-            }
-            catch (ArgumentNullException argumentNullException)
-            {
-                loadSuccessful = false;
-                MessageBox.Show($"An exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentNullException.Message}", "Loading error");
-            }
-            catch (ArgumentException argumentException)
-            {
-                loadSuccessful = false;
-                MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
+                if (exception is JsonException)
+                {
+                    statusMessageService.UpdateStatusMessage($"The selected file could not be loaded.");
+                }
+                else if (exception is FileNotFoundException)
+                {
+                    statusMessageService.UpdateStatusMessage($"The selected file could not be found.");
+                }
+                else if (exception is ArgumentException)
+                {
+                    statusMessageService.UpdateStatusMessage($"An Exception occured while trying to load the player pool.");
+                }
             }
 
             if (loadSuccessful)
@@ -335,40 +328,24 @@ namespace TeamGenerator.ViewModels
                 GenerateTeamsCommand.RaiseCanExecuteChanged();
                 statusMessageService.UpdateStatusMessage($"Players loaded.");
             }
-            else
-            {
-                statusMessageService.UpdateStatusMessage($"Error while loading players.");
-            }
         }
 
         private void SavePlayerPool()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.DefaultExt = ".tgpp";
-            saveFileDialog.Title = "Save you player pool";
-            string serializedData = string.Empty;
-
             DataHelper dataForSerialization = new DataHelper()
             {
                 PlayerPool = PlayerPool,
                 Ranks = Ranks
             };
 
-            if (saveFileDialog.ShowDialog() == true)
+            try
             {
-                try
-                {
-                    serializedData = dataService.SerializeData(dataForSerialization);
-                }
-                catch (JsonException exception)
-                {
-                    MessageBox.Show($"Current player pool could not be saved. \nException message: \n{exception.Message}", "Saving error");
-                    return;
-                }
-
-                File.WriteAllText(saveFileDialog.FileName, serializedData);
-
-                statusMessageService.UpdateStatusMessage($"Players saved at {saveFileDialog.FileName}.");
+                string serializedData = dataService.SerializeData(dataForSerialization);
+                saveFileDialogService.ShowSaveFileDialog("Save player pool", ".tgpp", serializedData);
+            }
+            catch (JsonException ex)
+            {
+                statusMessageService.UpdateStatusMessage("Error while serializing player pool.");
             }
         }
 
