@@ -7,7 +7,7 @@
              xmlns:validators="clr-namespace:TeamGenerator.Validators"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:TeamGenerator.Converters"
-             xmlns:prism="http://prismlibrary.com/"
+             xmlns:prism="http://prismlibrary.com/" xmlns:viewmodels="clr-namespace:TeamGenerator.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DashboardViewModel}"
              mc:Ignorable="d"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
@@ -110,33 +110,11 @@
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10" HorizontalAlignment="Center">
                             <TextBlock Text="Team 1 score" Margin="0 0 0 5" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox Height="30" Width="30" Padding="5">
-                                <TextBox.Text>
-                                    <Binding Path="Team1Score"
-                                             Mode="TwoWay"
-                                             UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <validators:NumericValidator ValidationType="{x:Type system:Int32}"
-                                                                         ValidatesOnTargetUpdated="True"/>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <TextBox Height="30" Width="50" Text="{Binding Team1ScoreString}" Padding="5" HorizontalContentAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Grid.Row="1" Margin="10" HorizontalAlignment="Center">
                             <TextBlock Text="Team 2 score" Margin="0 0 0 5" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox Height="30" Width="30" Padding="5">
-                                <TextBox.Text>
-                                    <Binding Path="Team2Score"
-                                             Mode="TwoWay"
-                                             UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <validators:NumericValidator ValidationType="{x:Type system:Int32}"
-                                                                         ValidatesOnTargetUpdated="True"/>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <TextBox Height="30" Width="50" Text="{Binding Team2ScoreString}" Padding="5" HorizontalContentAlignment="Center"/>
                         </StackPanel>
                         <Button Padding="5"
                                 Margin="10"
@@ -168,37 +146,13 @@
                                     Grid.Row="1"
                                     Margin="10 0 10 10">
                             <TextBlock Text="Max bot count" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox IsEnabled="{Binding EnableBots}" Height="30" Padding="5">
-                                <TextBox.Text>
-                                    <Binding Path="MaxBotCount"
-                                             Mode="TwoWay"
-                                             UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <validators:NumericValidator ValidationType="{x:Type system:Int32}"
-                                                                         ValidatesOnTargetUpdated="True"
-                                                                         AdditionalParam="PositiveOnly"/>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <TextBox IsEnabled="{Binding EnableBots}" Text="{Binding MaxBotCountString}" Height="30" Padding="5"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical"
                                     Grid.Row="2"
                                     Margin="10 0">
                             <TextBlock Text="Bot quotient" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox IsEnabled="{Binding EnableBots}" Height="30" Padding="5">
-                                <TextBox.Text>
-                                    <Binding Path="BotQuotient"
-                                             Mode="TwoWay"
-                                             UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <validators:NumericValidator ValidationType="{x:Type system:Double}"
-                                                                         ValidatesOnTargetUpdated="True"
-                                                                         AdditionalParam="PositiveOnly"/>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <TextBox IsEnabled="{Binding EnableBots}" Text="{Binding BotQuotientString}" Height="30" Padding="5"/>
                         </StackPanel>
                     </Grid>
                 </Border>
