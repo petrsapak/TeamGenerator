@@ -132,6 +132,18 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref maxBotCount, value);
         }
 
+        public string MaxBotCountString
+        {
+            get => maxBotCount.ToString();
+            set
+            {
+                if (int.TryParse(value, out int validInt) && validInt >= 0)
+                {
+                    SetProperty(ref maxBotCount, validInt);
+                }
+            }
+        }
+
         private ObservableCollection<Player> playerPool;
 
         public ObservableCollection<Player> PlayerPool
@@ -188,12 +200,36 @@ namespace TeamGenerator.ViewModels
             set => SetProperty(ref team1Score, value);
         }
 
+        public string Team1ScoreString
+        {
+            get => team1Score.ToString();
+            set
+            {
+                if (int.TryParse(value, out int validTeam1Score) && validTeam1Score >= 0)
+                {
+                    SetProperty(ref team1Score, validTeam1Score);
+                }
+            }
+        }
+
         private int team2Score;
 
         public int Team2Score
         {
             get => team2Score;
             set => SetProperty(ref team2Score, value);
+        }
+
+        public string Team2ScoreString
+        {
+            get => team2Score.ToString();
+            set
+            {
+                if (int.TryParse(value, out int validTeam2Score) && validTeam2Score >= 0)
+                {
+                    SetProperty(ref team2Score, validTeam2Score);
+                }
+            }
         }
 
         private double botQuotient;
@@ -203,6 +239,19 @@ namespace TeamGenerator.ViewModels
             get => botQuotient;
             set => SetProperty(ref botQuotient, value);
         }
+
+        public string BotQuotientString
+        {
+            get => botQuotient.ToString();
+            set
+            {
+                if (double.TryParse(value, out double validDouble) && validDouble >= 0)
+                {
+                    SetProperty(ref botQuotient, validDouble);
+                }
+            }
+        }
+
 
 
         #endregion
@@ -351,6 +400,12 @@ namespace TeamGenerator.ViewModels
 
         private void SaveMatchResult()
         {
+            if (Team1 == null || Team2 == null)
+            {
+                statusMessageService.UpdateStatusMessage("There is no match to save.");
+                return;
+            }
+
             Team team1 = new Team("Team 1")
             {
                 Players = Team1.ToList()
