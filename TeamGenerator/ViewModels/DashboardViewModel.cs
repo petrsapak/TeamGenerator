@@ -265,7 +265,7 @@ namespace TeamGenerator.ViewModels
             GenerateTeamsCommand = new DelegateCommand(GenerateTeams, CanExecuteGenerateTeams);
             LoadPlayerPoolCommand = new DelegateCommand(LoadPlayerPool);
             SavePlayerPoolCommand = new DelegateCommand(SavePlayerPool);
-            SaveResultCommand = new DelegateCommand(SaveMatchResult);
+            SaveResultCommand = new DelegateCommand(SaveMatchResult, CanSaveMatchResults);
         }
 
         public DelegateCommand AddAvailablePlayerCommand { get; private set; }
@@ -332,6 +332,7 @@ namespace TeamGenerator.ViewModels
             Team1Probability = (int)counterTerroristsChanceOfWinning;
             Team2Probability = (int)terroristsChanceOfWinning;
 
+            SaveResultCommand.RaiseCanExecuteChanged();
             statusMessageService.UpdateStatusMessage($"Teams generated.");
         }
 
@@ -400,12 +401,6 @@ namespace TeamGenerator.ViewModels
 
         private void SaveMatchResult()
         {
-            if (Team1 == null || Team2 == null)
-            {
-                statusMessageService.UpdateStatusMessage("There is no match to save.");
-                return;
-            }
-
             Team team1 = new Team("Team 1")
             {
                 Players = Team1.ToList()
@@ -431,6 +426,16 @@ namespace TeamGenerator.ViewModels
 
             statisticsDataService.SaveMatchStatistics(match);
             statusMessageService.UpdateStatusMessage($"Match saved.");
+        }
+
+        private bool CanSaveMatchResults()
+        {
+            if (Team1 == null || Team2 == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         #endregion
