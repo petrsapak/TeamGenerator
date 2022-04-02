@@ -1,7 +1,6 @@
 [
     {
-        "Id": "b4910f9b-8549-40eb-b161-ff3bad4e70b9",
-        "CreationDate": "2022-01-29T20:18:51.3701113+01:00",
+        "CreationDate": "29.01.22 20:18:51",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -82,8 +81,7 @@
         "Team2Probability": 52
     },
     {
-        "Id": "b4910f9b-8549-40eb-b161-ff3bad4e70b8",
-        "CreationDate": "2022-01-29T20:38:34.3230863+01:00",
+        "CreationDate": "29.01.22 20:38:34",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -172,8 +170,7 @@
         "Team2Probability": 51
     },
     {
-        "Id": "0cfa2b55-b1ae-41af-92d2-60a2187846b1",
-        "CreationDate": "2022-01-29T20:54:05.1326698+01:00",
+        "CreationDate": "29.01.22 20:54:05",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -270,8 +267,7 @@
         "Team2Probability": 51
     },
     {
-        "Id": "cafab921-84ba-43ae-b465-7a94ac203019",
-        "CreationDate": "2022-01-29T21:11:00.6625494+01:00",
+        "CreationDate": "29.01.22 21:11:00",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -352,8 +348,7 @@
         "Team2Probability": 52
     },
     {
-        "Id": "627c4f22-d65d-4557-982c-9f825739e7d1",
-        "CreationDate": "2022-01-29T21:36:08.7521398+01:00",
+        "CreationDate": "29.01.22 21:36:08",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -450,8 +445,7 @@
         "Team2Probability": 51
     },
     {
-        "Id": "8692c784-cdba-429c-a335-d5aa3e63ec53",
-        "CreationDate": "2022-01-29T22:10:37.5559581+01:00",
+        "CreationDate": "29.01.22 22:10:37",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -548,8 +542,7 @@
         "Team2Probability": 50
     },
     {
-        "Id": "81512959-f506-426a-8688-2b9107535416",
-        "CreationDate": "2022-01-29T22:33:53.4104376+01:00",
+        "CreationDate": "29.01.22 22:33:53",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -646,8 +639,7 @@
         "Team2Probability": 51
     },
     {
-        "Id": "1fe5d6da-669c-42ac-88ed-46f3c6df70af",
-        "CreationDate": "2022-01-29T22:59:23.1481251+01:00",
+        "CreationDate": "29.01.22 22:59:23",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -720,8 +712,7 @@
         "Team2Probability": 49
     },
     {
-        "Id": "fdce5d20-511b-4d44-a7f0-0292e6920ff9",
-        "CreationDate": "2022-01-29T23:21:40.0964397+01:00",
+        "CreationDate": "29.01.22 23:21:40",
         "Team1": {
             "Name": "1",
             "Players": [
@@ -802,8 +793,7 @@
         "Team2Probability": 52
     },
     {
-        "Id": "eb82afe9-a256-4d0a-908f-f10a317b59f9",
-        "CreationDate": "2022-01-29T23:49:28.7334418+01:00",
+        "CreationDate": "29.01.22 23:49:28",
         "Team1": {
             "Name": "1",
             "Players": [
