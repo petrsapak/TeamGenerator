@@ -29,6 +29,8 @@ namespace TeamGenerator
             containerRegistry.Register<IDataService<List<Rank>>, DataService<List<Rank>>>();
             containerRegistry.Register<IDataService<List<Match>>, DataService<List<Match>>>();
             containerRegistry.Register<IStatisticsDataService, StatisticsDataService>();
+            containerRegistry.RegisterSingleton<SaveFileDialogService>();
+            containerRegistry.RegisterSingleton<OpenFileDialogService>();
             containerRegistry.RegisterSingleton<DashboardViewModel>();
             containerRegistry.RegisterSingleton<StatisticsViewModel>();
             containerRegistry.RegisterSingleton<SettingsViewModel>();
