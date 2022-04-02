@@ -12,6 +12,7 @@ using System.Windows;
 using TeamGenerator.Infrastructure.Events;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Model;
+using TeamGenerator.Services;
 
 namespace TeamGenerator.ViewModels
 {
@@ -20,6 +21,8 @@ namespace TeamGenerator.ViewModels
         private readonly IStatusMessageService statusMessageService;
         private readonly IDataService<List<Match>> matchDataService;
         private readonly IEventAggregator eventAggregator;
+        private readonly SaveFileDialogService saveFileDialogService;
+        private readonly OpenFileDialogService openFileDialogService;
 
         public StatisticsViewModel(IContainerProvider container, IEventAggregator eventAggregator)
         {
@@ -29,6 +32,8 @@ namespace TeamGenerator.ViewModels
             this.eventAggregator = eventAggregator;
             statusMessageService = container.Resolve<IStatusMessageService>();
             matchDataService = container.Resolve<IDataService<List<Match>>>();
+            saveFileDialogService = container.Resolve<SaveFileDialogService>();
+            openFileDialogService = container.Resolve<OpenFileDialogService>();
 
             eventAggregator.GetEvent<SaveMatchStatisticsEvent>().Subscribe(AddMatch);
         }
@@ -86,39 +91,30 @@ namespace TeamGenerator.ViewModels
 
         private void LoadMatches()
         {
-            bool loadSuccessful = true;
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.DefaultExt = ".tgst";
-            openFileDialog.Title = "Select your saved match statistics";
-            string selectedFileContent = string.Empty;
+            bool loadSuccessful = false;
+            string serializedMatches = openFileDialogService.ShowOpenFileDialog("Load statistics", ".tgst");
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                selectedFileContent = File.ReadAllText(openFileDialog.FileName);
-            }
-            else
-            {
-                return;
-            }
+            if (string.IsNullOrEmpty(serializedMatches)) return;
 
             try
             {
-                Matches = new ObservableCollection<Match>(matchDataService.DeserializeData(selectedFileContent));
+                Matches = new ObservableCollection<Match>(matchDataService.DeserializeData(serializedMatches));
+                loadSuccessful = true;
             }
-            catch (JsonException exception)
+            catch (Exception exception)
             {
-                loadSuccessful = false;
-                MessageBox.Show($"The selected file could not be loaded.\nException message: \n{exception.Message}", "Loading error");
-            }
-            catch (ArgumentNullException argumentNullException)
-            {
-                loadSuccessful = false;
-                MessageBox.Show($"An exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentNullException.Message}", "Loading error");
-            }
-            catch (ArgumentException argumentException)
-            {
-                loadSuccessful = false;
-                MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
+                if (exception is JsonException)
+                {
+                    statusMessageService.UpdateStatusMessage($"The selected file could not be loaded.");
+                }
+                else if (exception is FileNotFoundException)
+                {
+                    statusMessageService.UpdateStatusMessage($"The selected file could not be found.");
+                }
+                else if (exception is ArgumentException)
+                {
+                    statusMessageService.UpdateStatusMessage($"An Exception occured while trying to load the player pool.");
+                }
             }
 
             if (loadSuccessful)
@@ -129,26 +125,14 @@ namespace TeamGenerator.ViewModels
 
         private void SaveMatches()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.DefaultExt = ".tgst";
-            saveFileDialog.Title = "Save you player pool";
-            string serializedPlayerPool = string.Empty;
-
-            if (saveFileDialog.ShowDialog() == true)
+            try
             {
-                try
-                {
-                    serializedPlayerPool = matchDataService.SerializeData(Matches.ToList<Match>());
-                }
-                catch (JsonException exception)
-                {
-                    MessageBox.Show($"Current player pool could not be saved. \nException message: \n{exception.Message}", "Saving error");
-                    return;
-                }
-
-                File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
-
-                statusMessageService.UpdateStatusMessage($"Matches saved at {saveFileDialog.FileName}.");
+                string serializedMatches = matchDataService.SerializeData(Matches.ToList<Match>());
+                saveFileDialogService.ShowSaveFileDialog("Save the matches", ".tgst", serializedMatches);
+            }
+            catch (JsonException exception)
+            {
+                statusMessageService.UpdateStatusMessage("Error while serializing matches.");
             }
         }
 

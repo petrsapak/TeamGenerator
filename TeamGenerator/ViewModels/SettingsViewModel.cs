@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
 using System;
@@ -8,10 +7,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Windows;
 using TeamGenerator.Infrastructure.Events;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Model;
+using TeamGenerator.Services;
 
 namespace TeamGenerator.ViewModels
 {
@@ -21,6 +20,8 @@ namespace TeamGenerator.ViewModels
         private readonly IEventAggregator eventAggregator;
         private readonly IContainerProvider container;
         private readonly IStatusMessageService statusMessageService;
+        private readonly SaveFileDialogService saveFileDialogService;
+        private readonly OpenFileDialogService openFileDialogService;
 
         public SettingsViewModel(IContainerProvider container, IEventAggregator eventAggregator, IStatusMessageService statusMessageService)
         {
@@ -32,6 +33,8 @@ namespace TeamGenerator.ViewModels
             InitializeCommands();
 
             rankDataService = container.Resolve<IDataService<List<Rank>>>();
+            saveFileDialogService = container.Resolve<SaveFileDialogService>();
+            openFileDialogService = container.Resolve<OpenFileDialogService>();
         }
 
         #region Properties
@@ -134,64 +137,50 @@ namespace TeamGenerator.ViewModels
 
         private void LoadRanks()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.DefaultExt = ".tgce";
-            openFileDialog.Title = "Select your custom evaluation";
-            string selectedFileContent = string.Empty;
+            bool loadSuccessful = false;
+            string serializedRanks = openFileDialogService.ShowOpenFileDialog("Load custom ranks", ".tgce");
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                selectedFileContent = File.ReadAllText(openFileDialog.FileName);
-            }
-            else
-            {
-                return;
-            }
+            if (string.IsNullOrEmpty(serializedRanks)) return;
 
             try
             {
-                Ranks = new ObservableCollection<Rank>(rankDataService.DeserializeData(selectedFileContent));
+                Ranks = new ObservableCollection<Rank>(rankDataService.DeserializeData(serializedRanks));
+                loadSuccessful = true;
             }
-            catch (JsonException exception)
+            catch (Exception exception)
             {
-                MessageBox.Show($"The selected file could not be loaded.\nException message: \n{exception.Message}", "Loading error");
-            }
-            catch (ArgumentNullException argumentNullException)
-            {
-                MessageBox.Show($"An exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentNullException.Message}", "Loading error");
-            }
-            catch (ArgumentException argumentException)
-            {
-                MessageBox.Show($"An Exception occured while trying to load the player pool. Your player pool file contains invalid data.\nException message: \n{argumentException.Message}", "Loading error");
+                if (exception is JsonException)
+                {
+                    statusMessageService.UpdateStatusMessage($"The selected file could not be loaded.");
+                }
+                else if (exception is FileNotFoundException)
+                {
+                    statusMessageService.UpdateStatusMessage($"The selected file could not be found.");
+                }
+                else if (exception is ArgumentException)
+                {
+                    statusMessageService.UpdateStatusMessage($"An Exception occured while trying to load the custom ranks.");
+                }
             }
 
-            statusMessageService.UpdateStatusMessage($"Ranks loaded.");
+            if (loadSuccessful)
+            {
+                statusMessageService.UpdateStatusMessage($"Ranks loaded.");
+            }
         }
 
         private void SaveRanks()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.DefaultExt = ".tgce";
-            saveFileDialog.Title = "Save your custom evaluation";
-            string serializedPlayerPool = string.Empty;
-
-            if (saveFileDialog.ShowDialog() == true)
+            try
             {
-                try
-                {
-                    serializedPlayerPool = rankDataService.SerializeData(Ranks.ToList<Rank>());
-                }
-                catch (JsonException exception)
-                {
-                    MessageBox.Show($"Current player pool could not be saved. \nException message: \n{exception.Message}", "Saving error");
-                    return;
-                }
-
-                File.WriteAllText(saveFileDialog.FileName, serializedPlayerPool);
+                string serializedData = rankDataService.SerializeData(Ranks.ToList<Rank>());
+                saveFileDialogService.ShowSaveFileDialog("Save custom ranks", ".tgce", serializedData);
+            }
+            catch (JsonException ex)
+            {
+                statusMessageService.UpdateStatusMessage("Error while serializing custom ranks.");
             }
 
-
-            statusMessageService.UpdateStatusMessage($"Ranks saved at {saveFileDialog.FileName}.");
         }
 
         private void UseRanks()
