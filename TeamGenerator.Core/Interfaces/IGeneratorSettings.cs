@@ -5,7 +5,6 @@ namespace TeamGenerator.Core.Interfaces
 {
     public interface IGeneratorSettings
     {
-        int MaxPlayerCount { get; set; }
         bool UseBots { get; set; }
         double BotQuotient { get; set; }
         int MaxBotCount { get; set; }

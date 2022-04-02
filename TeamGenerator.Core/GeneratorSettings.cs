@@ -6,7 +6,6 @@ namespace TeamGenerator.Core
 {
     public class GeneratorSettings : IGeneratorSettings
     {
-        public int MaxPlayerCount { get; set; }
         public bool UseBots { get; set; }
         public double BotQuotient { get; set; }
         public int MaxBotCount { get; set; }
