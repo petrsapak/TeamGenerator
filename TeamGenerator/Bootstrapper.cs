@@ -3,6 +3,7 @@ using Prism.Unity;
 using System.Collections.Generic;
 using System.Windows;
 using TeamGenerator.Core;
+using TeamGenerator.Core.Generators;
 using TeamGenerator.Core.Interfaces;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Model;

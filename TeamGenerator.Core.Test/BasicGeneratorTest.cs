@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using TeamGenerator.Core.Interfaces;
+using TeamGenerator.Core.Generators;
 using TeamGenerator.Model;
 
 namespace TeamGenerator.Core.Test

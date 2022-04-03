@@ -4,7 +4,7 @@ using System.Linq;
 using TeamGenerator.Core.Interfaces;
 using TeamGenerator.Model;
 
-namespace TeamGenerator.Core
+namespace TeamGenerator.Core.Generators
 {
     public class BestComplementGenerator : IGenerate
     {
