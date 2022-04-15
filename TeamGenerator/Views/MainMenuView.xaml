@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TeamGenerator.Views"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:automationIds="clr-namespace:TeamGenerator.AutomationIds"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
     <Grid>
@@ -25,7 +26,8 @@
         <Button Grid.Column="1"
                 Height="80"
                 Width="80"
-                Command="{Binding NavigateToDashboardCommand}">
+                Command="{Binding NavigateToDashboardCommand}"
+                AutomationProperties.AutomationId="{x:Static automationIds:MainMenuAutomationIds.NavigateToDashboardButton}">
             <Button.Content>
                 <StackPanel Orientation="Vertical">
                     <Image/>
@@ -37,7 +39,8 @@
         <Button Grid.Column="3"
                 Height="80"
                 Width="80"
-                Command="{Binding NavigateToStatisticsCommand}">
+                Command="{Binding NavigateToStatisticsCommand}"
+                AutomationProperties.AutomationId="{x:Static automationIds:MainMenuAutomationIds.NavigateToStatisticsButton}">
             <Button.Content>
                 <StackPanel Orientation="Vertical">
                     <Image/>
@@ -49,7 +52,8 @@
         <Button Grid.Column="5"
                 Height="80"
                 Width="80"
-                Command="{Binding NavigateToSettingsCommand}">
+                Command="{Binding NavigateToSettingsCommand}"
+                AutomationProperties.AutomationId="{x:Static automationIds:MainMenuAutomationIds.NavigateToSettingsButton}">
             <Button.Content>
                 <StackPanel Orientation="Vertical">
                     <Image/>
@@ -61,7 +65,8 @@
         <Button Grid.Column="7"
                 Height="80"
                 Width="80"
-                Command="{Binding NavigateToAboutCommand}">
+                Command="{Binding NavigateToAboutCommand}"
+                AutomationProperties.AutomationId="{x:Static automationIds:MainMenuAutomationIds.NavigateToAboutButton}">
             <Button.Content>
                 <StackPanel Orientation="Vertical">
                     <Image/>

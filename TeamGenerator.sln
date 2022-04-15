@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamGenerator.Infrastructur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamGenerator", "TeamGenerator\TeamGenerator.csproj", "{70BBADC0-020E-416D-9196-E53E6081CEEC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamGenerator.UITests", "TeamGenerator.UITests\TeamGenerator.UITests.csproj", "{ECB145D4-A1FA-4A95-8432-9201063FC371}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,14 @@ Global
 		{70BBADC0-020E-416D-9196-E53E6081CEEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70BBADC0-020E-416D-9196-E53E6081CEEC}.Release|x64.ActiveCfg = Release|Any CPU
 		{70BBADC0-020E-416D-9196-E53E6081CEEC}.Release|x64.Build.0 = Release|Any CPU
+		{ECB145D4-A1FA-4A95-8432-9201063FC371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECB145D4-A1FA-4A95-8432-9201063FC371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECB145D4-A1FA-4A95-8432-9201063FC371}.Debug|x64.ActiveCfg = Debug|x64
+		{ECB145D4-A1FA-4A95-8432-9201063FC371}.Debug|x64.Build.0 = Debug|x64
+		{ECB145D4-A1FA-4A95-8432-9201063FC371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECB145D4-A1FA-4A95-8432-9201063FC371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECB145D4-A1FA-4A95-8432-9201063FC371}.Release|x64.ActiveCfg = Release|Any CPU
+		{ECB145D4-A1FA-4A95-8432-9201063FC371}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

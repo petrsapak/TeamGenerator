@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TeamGenerator.Controls"
              xmlns:converters="clr-namespace:TeamGenerator.Converters"
+             xmlns:automationIds="clr-namespace:TeamGenerator.AutomationIds"
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -21,13 +22,15 @@
                         <RowDefinition Height="5*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Last matches" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
+                    <TextBlock Grid.Row="0" Text="Last matches" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"
+                               AutomationProperties.AutomationId="{x:Static automationIds:StatisticsAutomationIdentifiers.LastMatchesTextBlock}"/>
                     <ListView ItemsSource="{Binding Matches}"
                               SelectedItem="{Binding SelectedMatch}"
                               Grid.Row = "1"
                               ItemContainerStyle="{StaticResource PlayerPoolListViewItemStyle}"
                               Margin="5"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              AutomationProperties.AutomationId="{x:Static automationIds:StatisticsAutomationIdentifiers.LastMatchesListView}">
                         <ListView.InputBindings>
                             <KeyBinding Key="Delete" Command="{Binding RemoveMatchCommand}"/>
                         </ListView.InputBindings>
@@ -53,7 +56,8 @@
                                 Command="{Binding SaveMatchesCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="5 5 0 5">
+                                Margin="5 5 0 5"
+                                AutomationProperties.AutomationId="{x:Static automationIds:StatisticsAutomationIdentifiers.SaveMatchesButton}">
                             <Button.Content>
                                 <TextBlock Text="Save data" TextWrapping="Wrap"/>
                             </Button.Content>
@@ -63,7 +67,8 @@
                                 Command="{Binding LoadMatchesCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="5 5 10 5">
+                                Margin="5 5 10 5"
+                                AutomationProperties.AutomationId="{x:Static automationIds:StatisticsAutomationIdentifiers.LoadMatchesButton}">
                             <Button.Content>
                                 <TextBlock Text="Load data" TextWrapping="Wrap"/>
                             </Button.Content>
