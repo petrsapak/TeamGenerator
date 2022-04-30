@@ -3,7 +3,7 @@
         <AssemblyTitle>TeamGenerator.Model</AssemblyTitle>
         <Product>TeamGenerator.Model</Product>
         <Copyright>Copyright ©  2021</Copyright>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <Platforms>x64</Platforms>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>

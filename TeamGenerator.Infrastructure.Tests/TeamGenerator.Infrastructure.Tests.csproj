@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyTitle>TeamGenerator.Infrastructure.Test</AssemblyTitle>
     <Product>TeamGenerator.Infrastructure.Test</Product>
     <Copyright>Copyright © 2021</Copyright>

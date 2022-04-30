@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Platform>x64</Platform>
     <AssemblyTitle>TeamGenerator.Infrastructure</AssemblyTitle>
     <Product>TeamGenerator.Infrastructure</Product>
