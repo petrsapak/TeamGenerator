@@ -23,7 +23,7 @@ namespace TeamGenerator
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IGenerate, BestComplementGenerator>();
-            containerRegistry.Register<IEvaluate, BasicEvaluator>();
+            containerRegistry.Register<IEvaluate, SynergyEvaluator>();
             containerRegistry.Register<IStatusMessageService, StatusMessageService>();
             containerRegistry.Register<IDataService<DataHelper>, DataService<DataHelper>>();
             containerRegistry.Register<IDataService<List<Rank>>, DataService<List<Rank>>>();
