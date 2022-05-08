@@ -1,0 +1,591 @@
+[
+    {
+        "CreationDate": "07.05.22 20:53:40",
+        "Team1": {
+            "Name": "Team 1",
+            "Players": [
+                {
+                    "Nick": "Ondra",
+                    "Rank": {
+                        "Name": "13",
+                        "Value": 13
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Martin",
+                    "Rank": {
+                        "Name": "9",
+                        "Value": 9
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vasek",
+                    "Rank": {
+                        "Name": "15",
+                        "Value": 15
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vlada",
+                    "Rank": {
+                        "Name": "7",
+                        "Value": 7
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team2": {
+            "Name": "Team 2",
+            "Players": [
+                {
+                    "Nick": "Ivan",
+                    "Rank": {
+                        "Name": "11",
+                        "Value": 11
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Nelca",
+                    "Rank": {
+                        "Name": "5",
+                        "Value": 5
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Dacanek",
+                    "Rank": {
+                        "Name": "12",
+                        "Value": 12
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Petr",
+                    "Rank": {
+                        "Name": "19",
+                        "Value": 19
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team1Score": 6,
+        "Team2Score": 11,
+        "Team1Probability": 50,
+        "Team2Probability": 50
+    },
+    {
+        "CreationDate": "07.05.22 21:20:59",
+        "Team1": {
+            "Name": "Team 1",
+            "Players": [
+                {
+                    "Nick": "Petr",
+                    "Rank": {
+                        "Name": "19",
+                        "Value": 19
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Nelca",
+                    "Rank": {
+                        "Name": "5",
+                        "Value": 5
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ivan",
+                    "Rank": {
+                        "Name": "11",
+                        "Value": 11
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vasek",
+                    "Rank": {
+                        "Name": "15",
+                        "Value": 15
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team2": {
+            "Name": "Team 2",
+            "Players": [
+                {
+                    "Nick": "Vlada",
+                    "Rank": {
+                        "Name": "7",
+                        "Value": 7
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Dacanek",
+                    "Rank": {
+                        "Name": "12",
+                        "Value": 12
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Martin",
+                    "Rank": {
+                        "Name": "9",
+                        "Value": 9
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ondra",
+                    "Rank": {
+                        "Name": "13",
+                        "Value": 13
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Bot 0",
+                    "Rank": {
+                        "Name": "Bot",
+                        "Value": 5.125
+                    },
+                    "Bot": true
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team1Score": 10,
+        "Team2Score": 10,
+        "Team1Probability": 52,
+        "Team2Probability": 48
+    },
+    {
+        "CreationDate": "07.05.22 21:41:33",
+        "Team1": {
+            "Name": "Team 1",
+            "Players": [
+                {
+                    "Nick": "Dacanek",
+                    "Rank": {
+                        "Name": "12",
+                        "Value": 12
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Nelca",
+                    "Rank": {
+                        "Name": "5",
+                        "Value": 5
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vlada",
+                    "Rank": {
+                        "Name": "7",
+                        "Value": 7
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Martin",
+                    "Rank": {
+                        "Name": "9",
+                        "Value": 9
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vasek",
+                    "Rank": {
+                        "Name": "15",
+                        "Value": 15
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team2": {
+            "Name": "Team 2",
+            "Players": [
+                {
+                    "Nick": "Petr",
+                    "Rank": {
+                        "Name": "19",
+                        "Value": 19
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ivan",
+                    "Rank": {
+                        "Name": "11",
+                        "Value": 11
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ondra",
+                    "Rank": {
+                        "Name": "13",
+                        "Value": 13
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Bot 0",
+                    "Rank": {
+                        "Name": "Bot",
+                        "Value": 7.166666666666667
+                    },
+                    "Bot": true
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team1Score": 11,
+        "Team2Score": 6,
+        "Team1Probability": 50,
+        "Team2Probability": 50
+    },
+    {
+        "CreationDate": "07.05.22 22:11:03",
+        "Team1": {
+            "Name": "Team 1",
+            "Players": [
+                {
+                    "Nick": "Petr",
+                    "Rank": {
+                        "Name": "19",
+                        "Value": 19
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vlada",
+                    "Rank": {
+                        "Name": "7",
+                        "Value": 7
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Dacanek",
+                    "Rank": {
+                        "Name": "12",
+                        "Value": 12
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Bot 0",
+                    "Rank": {
+                        "Name": "Bot",
+                        "Value": 6.333333333333333
+                    },
+                    "Bot": true
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team2": {
+            "Name": "Team 2",
+            "Players": [
+                {
+                    "Nick": "Nelca",
+                    "Rank": {
+                        "Name": "5",
+                        "Value": 5
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ondra",
+                    "Rank": {
+                        "Name": "13",
+                        "Value": 13
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ivan",
+                    "Rank": {
+                        "Name": "11",
+                        "Value": 11
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vasek",
+                    "Rank": {
+                        "Name": "15",
+                        "Value": 15
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team1Score": 10,
+        "Team2Score": 10,
+        "Team1Probability": 49,
+        "Team2Probability": 51
+    },
+    {
+        "CreationDate": "07.05.22 22:32:18",
+        "Team1": {
+            "Name": "Team 1",
+            "Players": [
+                {
+                    "Nick": "Ondra",
+                    "Rank": {
+                        "Name": "13",
+                        "Value": 13
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Dacanek",
+                    "Rank": {
+                        "Name": "12",
+                        "Value": 12
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vasek",
+                    "Rank": {
+                        "Name": "15",
+                        "Value": 15
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Bot 0",
+                    "Rank": {
+                        "Name": "Bot",
+                        "Value": 6.666666666666667
+                    },
+                    "Bot": true
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team2": {
+            "Name": "Team 2",
+            "Players": [
+                {
+                    "Nick": "Nelca",
+                    "Rank": {
+                        "Name": "5",
+                        "Value": 5
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vlada",
+                    "Rank": {
+                        "Name": "7",
+                        "Value": 7
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ivan",
+                    "Rank": {
+                        "Name": "11",
+                        "Value": 11
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Petr",
+                    "Rank": {
+                        "Name": "19",
+                        "Value": 19
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team1Score": 11,
+        "Team2Score": 5,
+        "Team1Probability": 52,
+        "Team2Probability": 48
+    },
+    {
+        "CreationDate": "07.05.22 23:01:59",
+        "Team1": {
+            "Name": "Team 1",
+            "Players": [
+                {
+                    "Nick": "Vasek",
+                    "Rank": {
+                        "Name": "15",
+                        "Value": 15
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Vlada",
+                    "Rank": {
+                        "Name": "7",
+                        "Value": 7
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ondra",
+                    "Rank": {
+                        "Name": "13",
+                        "Value": 13
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Bot 0",
+                    "Rank": {
+                        "Name": "Bot",
+                        "Value": 5.833333333333333
+                    },
+                    "Bot": true
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team2": {
+            "Name": "Team 2",
+            "Players": [
+                {
+                    "Nick": "Ivan",
+                    "Rank": {
+                        "Name": "11",
+                        "Value": 11
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Nelca",
+                    "Rank": {
+                        "Name": "5",
+                        "Value": 5
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Dacanek",
+                    "Rank": {
+                        "Name": "12",
+                        "Value": 12
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Petr",
+                    "Rank": {
+                        "Name": "19",
+                        "Value": 19
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team1Score": 9,
+        "Team2Score": 11,
+        "Team1Probability": 47,
+        "Team2Probability": 53
+    },
+    {
+        "CreationDate": "07.05.22 23:29:45",
+        "Team1": {
+            "Name": "Team 1",
+            "Players": [
+                {
+                    "Nick": "Nelca",
+                    "Rank": {
+                        "Name": "5",
+                        "Value": 5
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ivan",
+                    "Rank": {
+                        "Name": "11",
+                        "Value": 11
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Ondra",
+                    "Rank": {
+                        "Name": "13",
+                        "Value": 13
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Martin",
+                    "Rank": {
+                        "Name": "9",
+                        "Value": 9
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team2": {
+            "Name": "Team 2",
+            "Players": [
+                {
+                    "Nick": "Vlada",
+                    "Rank": {
+                        "Name": "7",
+                        "Value": 7
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Dacanek",
+                    "Rank": {
+                        "Name": "12",
+                        "Value": 12
+                    },
+                    "Bot": false
+                },
+                {
+                    "Nick": "Petr",
+                    "Rank": {
+                        "Name": "19",
+                        "Value": 19
+                    },
+                    "Bot": false
+                }
+            ],
+            "BotCount": 0
+        },
+        "Team1Score": 9,
+        "Team2Score": 11,
+        "Team1Probability": 52,
+        "Team2Probability": 48
+    }
+]
