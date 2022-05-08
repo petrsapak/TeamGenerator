@@ -70,12 +70,19 @@ namespace TeamGenerator.ViewModels
             RemoveMatchCommand = new DelegateCommand(RemoveMatch, CanExecuteRemoveMatch);
             LoadMatchesCommand = new DelegateCommand(LoadMatches);
             SaveMatchesCommand = new DelegateCommand(SaveMatches);
+            UpdatePoolCommand = new DelegateCommand(UpdatePool);
         }
 
         public DelegateCommand RemoveMatchCommand { get; private set; }
         public DelegateCommand LoadMatchesCommand { get; private set; }
         public DelegateCommand SaveMatchesCommand { get; private set; }
+        public DelegateCommand UpdatePoolCommand { get; private set; }
 
+        private void UpdatePool()
+        {
+            RankUpdateService rankUpdateService = new RankUpdateService();
+            rankUpdateService.ProposeRankUpdates(Matches.ToList());
+        }
 
         private void RemoveMatch()
         {
