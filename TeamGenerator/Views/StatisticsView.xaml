@@ -47,6 +47,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0"
                                 Padding="5"
@@ -63,11 +64,22 @@
                                 Command="{Binding LoadMatchesCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="5 5 10 5">
+                                Margin="5 5 0 5">
                             <Button.Content>
                                 <TextBlock Text="Load data" TextWrapping="Wrap"/>
                             </Button.Content>
                         </Button>
+                        <Button Grid.Column="2"
+                                Padding="5"
+                                Command="{Binding UpdatePoolCommand}"
+                                Height="80"
+                                Width="80"
+                                Margin="5 5 10 5">
+                            <Button.Content>
+                                <TextBlock Text="Update pool" TextWrapping="Wrap"/>
+                            </Button.Content>
+                        </Button>
+
                     </Grid>
                 </Grid>
             </Border>
