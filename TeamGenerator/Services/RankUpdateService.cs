@@ -21,28 +21,26 @@ namespace TeamGenerator.Services
             {
                 foreach (Player player in match.Team1.Players)
                 {
+                    int adjustedValue = GetAdjustedWonRoundValue(match.Team1Probability, match.Team1Score, match.Team2Score);
                     if (players.ContainsKey(player.Nick))
                     {
-                        int adjustedValue = GetAdjustedWonRoundValue(match.Team1Probability, match.Team1Score, match.Team2Score);
                         players[player.Nick] = (players[player.Nick].Item1 + adjustedValue, players[player.Nick].Item2 + 1);
                     }
                     else
                     {
-                        int adjustedValue = GetAdjustedWonRoundValue(match.Team1Probability, match.Team1Score, match.Team2Score);
                         players.Add(player.Nick, (adjustedValue, 1));
                     }
                 }
 
                 foreach (Player player in match.Team2.Players)
                 {
+                    int adjustedValue = GetAdjustedWonRoundValue(match.Team2Probability, match.Team2Score, match.Team1Score);
                     if (players.ContainsKey(player.Nick))
                     {
-                        int adjustedValue = GetAdjustedWonRoundValue(match.Team2Probability, match.Team2Score, match.Team1Score);
                         players[player.Nick] = (players[player.Nick].Item1 + adjustedValue, players[player.Nick].Item2 + 1);
                     }
                     else
                     {
-                        int adjustedValue = GetAdjustedWonRoundValue(match.Team2Probability, match.Team2Score, match.Team1Score);
                         players.Add(player.Nick, (adjustedValue, 1));
                     }
                 }
