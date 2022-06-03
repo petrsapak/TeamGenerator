@@ -38,8 +38,8 @@
                                 <GridViewColumn Width="250" DisplayMemberBinding="{Binding Team2, Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
                                 <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team1Probability}"/>
                                 <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team2Probability}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team1Score}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team2Score}"/>
+                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team1.Score}"/>
+                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team2.Score}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

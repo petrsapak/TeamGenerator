@@ -403,12 +403,14 @@ namespace TeamGenerator.ViewModels
         {
             Team team1 = new Team("Team 1")
             {
-                Players = Team1.ToList()
+                Players = Team1.ToList(),
+                Score = team1Score
             };
 
             Team team2 = new Team("Team 2")
             {
-                Players = Team2.ToList()
+                Players = Team2.ToList(),
+                Score = team2Score
             };
 
             Match match = new Match()
@@ -417,9 +419,6 @@ namespace TeamGenerator.ViewModels
                 Team1 = team1,
                 Team2 = team2
             };
-
-            match.Team1Score = team1Score;
-            match.Team2Score = team2Score;
 
             match.Team1Probability = Team1Probability;
             match.Team2Probability = Team2Probability;
