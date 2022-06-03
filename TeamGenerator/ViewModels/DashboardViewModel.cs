@@ -43,6 +43,7 @@ namespace TeamGenerator.ViewModels
             eventAggregator.GetEvent<UpdateRanksEvent>().Subscribe(UpdateRanks);
 
             PlayerPool = new ObservableCollection<Player>();
+            Teams = new ObservableCollection<Team>();
             Ranks = new List<Rank>
             {
                 new Rank("1", 1),
@@ -83,6 +84,53 @@ namespace TeamGenerator.ViewModels
         }
 
         #region Properties
+
+        private ObservableCollection<Team> teams;
+        public ObservableCollection<Team> Teams
+        {
+            get => teams;
+            set
+            {
+                Team team = new Team("Ahoj");
+                Player toonda = new Player("1", new Rank("A", 2));
+                Player toond = new Player("2", new Rank("A", 2));
+                Player toon = new Player("3", new Rank("A", 2));
+                Player too = new Player("Jabalamanakab", new Rank("A", 2));
+                Player to = new Player("3dsafskjdfahksd", new Rank("A", 2));
+                Player t = new Player("3sdigaosdgasdhgaag", new Rank("A", 2));
+                Player hoonda = new Player("h", new Rank("A", 2));
+                Player hoond = new Player("je", new Rank("A", 2));
+                Player hoon = new Player("3sdfj", new Rank("A", 2));
+                Player hoo = new Player("Jabalasfasmanakab", new Rank("A", 2));
+                Player ho = new Player("3dsafskjdfasd", new Rank("A", 2));
+                Player h = new Player("3sdigaosdgasag", new Rank("A", 2));
+
+                team.AddPlayer(toon);
+                team.AddPlayer(toond);
+                team.AddPlayer(toonda);
+                team.AddPlayer(too);
+                team.AddPlayer(t);
+                team.AddPlayer(to);
+                team.AddPlayer(ho);
+                team.AddPlayer(h);
+                team.AddPlayer(hoo);
+                team.AddPlayer(hoon);
+                team.AddPlayer(hoond);
+                team.AddPlayer(hoonda);
+                ObservableCollection<Team> newTeams = new ObservableCollection<Team>();
+                newTeams.Add(team);
+                newTeams.Add(team);
+                newTeams.Add(team);
+                newTeams.Add(team);
+                newTeams.Add(team);
+                newTeams.Add(team);
+                newTeams.Add(team);
+                newTeams.Add(team);
+                newTeams.Add(team);
+                newTeams.Add(team);
+                SetProperty(ref teams, newTeams);
+            }
+        }
 
         private string newPlayerName;
 
