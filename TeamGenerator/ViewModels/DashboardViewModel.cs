@@ -91,44 +91,44 @@ namespace TeamGenerator.ViewModels
             get => teams;
             set
             {
-                Team team = new Team("Ahoj");
-                Player toonda = new Player("1", new Rank("A", 2));
-                Player toond = new Player("2", new Rank("A", 2));
-                Player toon = new Player("3", new Rank("A", 2));
-                Player too = new Player("Jabalamanakab", new Rank("A", 2));
-                Player to = new Player("3dsafskjdfahksd", new Rank("A", 2));
-                Player t = new Player("3sdigaosdgasdhgaag", new Rank("A", 2));
-                Player hoonda = new Player("h", new Rank("A", 2));
-                Player hoond = new Player("je", new Rank("A", 2));
-                Player hoon = new Player("3sdfj", new Rank("A", 2));
-                Player hoo = new Player("Jabalasfasmanakab", new Rank("A", 2));
-                Player ho = new Player("3dsafskjdfasd", new Rank("A", 2));
-                Player h = new Player("3sdigaosdgasag", new Rank("A", 2));
+                //Team team = new Team("Ahoj");
+                //Player toonda = new Player("1", new Rank("A", 2));
+                //Player toond = new Player("2", new Rank("A", 2));
+                //Player toon = new Player("3", new Rank("A", 2));
+                //Player too = new Player("Jabalamanakab", new Rank("A", 2));
+                //Player to = new Player("3dsafskjdfahksd", new Rank("A", 2));
+                //Player t = new Player("3sdigaosdgasdhgaag", new Rank("A", 2));
+                //Player hoonda = new Player("h", new Rank("A", 2));
+                //Player hoond = new Player("je", new Rank("A", 2));
+                //Player hoon = new Player("3sdfj", new Rank("A", 2));
+                //Player hoo = new Player("Jabalasfasmanakab", new Rank("A", 2));
+                //Player ho = new Player("3dsafskjdfasd", new Rank("A", 2));
+                //Player h = new Player("3sdigaosdgasag", new Rank("A", 2));
 
-                team.AddPlayer(toon);
-                team.AddPlayer(toond);
-                team.AddPlayer(toonda);
-                team.AddPlayer(too);
-                team.AddPlayer(t);
-                team.AddPlayer(to);
-                team.AddPlayer(ho);
-                team.AddPlayer(h);
-                team.AddPlayer(hoo);
-                team.AddPlayer(hoon);
-                team.AddPlayer(hoond);
-                team.AddPlayer(hoonda);
-                ObservableCollection<Team> newTeams = new ObservableCollection<Team>();
-                newTeams.Add(team);
-                newTeams.Add(team);
-                newTeams.Add(team);
-                newTeams.Add(team);
-                newTeams.Add(team);
-                newTeams.Add(team);
-                newTeams.Add(team);
-                newTeams.Add(team);
-                newTeams.Add(team);
-                newTeams.Add(team);
-                SetProperty(ref teams, newTeams);
+                //team.AddPlayer(toon);
+                //team.AddPlayer(toond);
+                //team.AddPlayer(toonda);
+                //team.AddPlayer(too);
+                //team.AddPlayer(t);
+                //team.AddPlayer(to);
+                //team.AddPlayer(ho);
+                //team.AddPlayer(h);
+                //team.AddPlayer(hoo);
+                //team.AddPlayer(hoon);
+                //team.AddPlayer(hoond);
+                //team.AddPlayer(hoonda);
+                //ObservableCollection<Team> newTeams = new ObservableCollection<Team>();
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                //newTeams.Add(team);
+                SetProperty(ref teams, value);
             }
         }
 
@@ -370,6 +370,10 @@ namespace TeamGenerator.ViewModels
             Team1 = new ObservableCollection<Player>(teams.Item1.Players);
             Team2 = new ObservableCollection<Player>(teams.Item2.Players);
 
+            Teams = new ObservableCollection<Team>();
+            var firstTeam = teams.Item1;
+            var secondTeam = teams.Item2;
+
             double counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
             double terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
             double sumOfEvaluations = counterTerroristTeamEvaluation + terroristTeamEvaluation;
@@ -379,6 +383,11 @@ namespace TeamGenerator.ViewModels
 
             Team1Probability = (int)counterTerroristsChanceOfWinning;
             Team2Probability = (int)terroristsChanceOfWinning;
+            firstTeam.WinProbability = Team1Probability;
+            secondTeam.WinProbability = Team2Probability;
+
+            Teams.Add(teams.Item1);
+            Teams.Add(teams.Item2);
 
             SaveResultCommand.RaiseCanExecuteChanged();
             statusMessageService.UpdateStatusMessage($"Teams generated.");
@@ -449,27 +458,11 @@ namespace TeamGenerator.ViewModels
 
         private void SaveMatchResult()
         {
-            Team team1 = new Team("Team 1")
-            {
-                Players = Team1.ToList(),
-                Score = team1Score
-            };
-
-            Team team2 = new Team("Team 2")
-            {
-                Players = Team2.ToList(),
-                Score = team2Score
-            };
-
             Match match = new Match()
             {
                 CreationDate = DateTime.Now.ToString("dd.MM.yy HH:mm:ss"),
-                Team1 = team1,
-                Team2 = team2
+                Teams = this.Teams,
             };
-
-            match.Team1Probability = Team1Probability;
-            match.Team2Probability = Team2Probability;
 
             statisticsDataService.SaveMatchStatistics(match);
             statusMessageService.UpdateStatusMessage($"Match saved.");

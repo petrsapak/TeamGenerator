@@ -12,6 +12,7 @@ namespace TeamGenerator.Model
         //this setter is public because of System.Text.Json bug - it won't deserialize otherwise
         public List<Player> Players { get; set; }
         public int BotCount { get; private set; }
+        public int WinProbability { get; set; }
         public int Score { get; set; }
 
         public Team(string name, int score = 0) : this()

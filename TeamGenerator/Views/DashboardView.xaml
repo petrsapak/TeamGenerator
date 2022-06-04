@@ -23,18 +23,37 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*" MaxHeight="230"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Player pool" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
                     <local:AddPlayerControl Grid.Row="1" Margin="5 0 5 0" AddAvailablePlayerCommand="{Binding AddAvailablePlayerCommand}"/>
-                    <ListView ItemsSource="{Binding PlayerPool}"
+                    <ListBox ItemsSource="{Binding PlayerPool}"
+                             SelectedItem="{Binding SelectedAvailablePlayer}"
+                             Grid.Row="2"
+                             Margin="5"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             BorderBrush="Transparent"
+                             Background="Transparent"
+                             ItemContainerStyle="{StaticResource PlayersListBoxItem}"
+                             MaxHeight="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}, Path=ActualWidth}"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.InputBindings>
+                            <KeyBinding Key="Delete" Command="{Binding DeleteAvailablePlayerCommand}"/>
+                        </ListBox.InputBindings>
+                    </ListBox>
+
+                    <!--<ListView ItemsSource="{Binding PlayerPool}"
                               SelectedItem="{Binding SelectedAvailablePlayer}"
                               Grid.Row ="2"
                               ItemContainerStyle="{StaticResource PlayerPoolListViewItemStyle}"
@@ -45,11 +64,11 @@
                         </ListView.InputBindings>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding Nick}"/>
-                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding Rank.Name}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Nick}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Rank.Name}"/>
                             </GridView>
                         </ListView.View>
-                    </ListView>
+                    </ListView>-->
                 </Grid>
             </Border>
             <Grid Grid.Row="0"
@@ -157,7 +176,12 @@
                 </Border>
             </Grid>
             <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
-                <ListBox ItemsSource="{Binding Teams}" Background="Transparent" Margin="5" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <ListBox ItemsSource="{Binding Teams}"
+                         Background="Transparent"
+                         BorderBrush="Transparent"
+                         Margin="5"
+                         ScrollViewer.VerticalScrollBarVisibility="Visible"
+                         ItemContainerStyle="{StaticResource TeamsListBoxItem}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}, Path=ActualWidth}"/>
