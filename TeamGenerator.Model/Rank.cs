@@ -14,5 +14,10 @@ namespace TeamGenerator.Model
             Validator.ValidateDouble(value);
             Value = value;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

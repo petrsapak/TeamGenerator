@@ -41,7 +41,8 @@
                              BorderBrush="Transparent"
                              Background="Transparent"
                              ItemContainerStyle="{StaticResource PlayersListBoxItem}"
-                             MaxHeight="250">
+                             MaxHeight="250"
+                             MinHeight="250">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}, Path=ActualWidth}"/>
@@ -108,14 +109,6 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10" HorizontalAlignment="Center">
-                            <TextBlock Text="Team 1 score" Margin="0 0 0 5" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox Height="30" Width="50" Text="{Binding Team1ScoreString}" Padding="5" HorizontalContentAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="10" HorizontalAlignment="Center">
-                            <TextBlock Text="Team 2 score" Margin="0 0 0 5" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox Height="30" Width="50" Text="{Binding Team2ScoreString}" Padding="5" HorizontalContentAlignment="Center"/>
-                        </StackPanel>
                         <Button Padding="5"
                                 Margin="10"
                                 Grid.Row="3"
