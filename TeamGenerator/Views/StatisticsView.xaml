@@ -33,13 +33,13 @@
                         </ListView.InputBindings>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="150" DisplayMemberBinding="{Binding CreationDate}"/>
-                                <GridViewColumn Width="250" DisplayMemberBinding="{Binding Team1, Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
-                                <GridViewColumn Width="250" DisplayMemberBinding="{Binding Team2, Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team1Probability}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team2Probability}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team1.Score}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team2.Score}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding CreationDate}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Teams[0], Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Teams[1], Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Teams[0].WinProbability}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Teams[1].WinProbability}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Teams[0].Score}"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Teams[1].Score}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
