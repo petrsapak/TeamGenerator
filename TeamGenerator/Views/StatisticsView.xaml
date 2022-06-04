@@ -18,32 +18,28 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="5*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Last matches" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
-                    <ListView ItemsSource="{Binding Matches}"
-                              SelectedItem="{Binding SelectedMatch}"
-                              Grid.Row = "1"
-                              ItemContainerStyle="{StaticResource PlayerPoolListViewItemStyle}"
-                              Margin="5"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ListView.InputBindings>
+                    <ListBox ItemsSource="{Binding Matches}"
+                             SelectedItem="{Binding SelectedMatch}"
+                             Grid.Row="1"
+                             ItemContainerStyle="{StaticResource MatchesListBoxItem}"
+                             Margin="5"
+                             BorderBrush="Transparent"
+                             Background="Transparent"
+                             ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                        <ListBox.InputBindings>
                             <KeyBinding Key="Delete" Command="{Binding RemoveMatchCommand}"/>
-                        </ListView.InputBindings>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding CreationDate}"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Teams[0], Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Teams[1], Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Teams[0].WinProbability}"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Teams[1].WinProbability}"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Teams[0].Score}"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Teams[1].Score}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Grid Grid.Row="2" HorizontalAlignment="Right">
+                        </ListBox.InputBindings>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}, Path=ActualWidth}"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    <Grid Grid.Row="2" HorizontalAlignment="Right" Margin="0 0 0 5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -79,7 +75,6 @@
                                 <TextBlock Text="Update pool" TextWrapping="Wrap"/>
                             </Button.Content>
                         </Button>
-
                     </Grid>
                 </Grid>
             </Border>
