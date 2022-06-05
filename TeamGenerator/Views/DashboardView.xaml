@@ -23,34 +23,35 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"
-                               MaxHeight="300"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Player pool" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
                     <local:AddPlayerControl Grid.Row="1" Margin="5 0 5 0" AddAvailablePlayerCommand="{Binding AddAvailablePlayerCommand}"/>
-                    <ListView ItemsSource="{Binding PlayerPool}"
-                              SelectedItem="{Binding SelectedAvailablePlayer}"
-                              Grid.Row ="2"
-                              ItemContainerStyle="{StaticResource PlayerPoolListViewItemStyle}"
-                              Margin="5"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ListView.InputBindings>
+                    <ListBox ItemsSource="{Binding PlayerPool}"
+                             SelectedItem="{Binding SelectedAvailablePlayer}"
+                             Grid.Row="2"
+                             Margin="5"
+                             BorderBrush="Transparent"
+                             Background="Transparent"
+                             ItemContainerStyle="{StaticResource PlayersListBoxItem}"
+                             MaxHeight="250"
+                             MinHeight="250">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}, Path=ActualWidth}"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.InputBindings>
                             <KeyBinding Key="Delete" Command="{Binding DeleteAvailablePlayerCommand}"/>
-                        </ListView.InputBindings>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding Nick}"/>
-                                <GridViewColumn Width="200" DisplayMemberBinding="{Binding Rank.Name}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                        </ListBox.InputBindings>
+                    </ListBox>
                 </Grid>
             </Border>
             <Grid Grid.Row="0"
@@ -108,14 +109,6 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10" HorizontalAlignment="Center">
-                            <TextBlock Text="Team 1 score" Margin="0 0 0 5" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox Height="30" Width="50" Text="{Binding Team1ScoreString}" Padding="5" HorizontalContentAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="10" HorizontalAlignment="Center">
-                            <TextBlock Text="Team 2 score" Margin="0 0 0 5" Foreground="{StaticResource ForegroundColor}"/>
-                            <TextBox Height="30" Width="50" Text="{Binding Team2ScoreString}" Padding="5" HorizontalContentAlignment="Center"/>
-                        </StackPanel>
                         <Button Padding="5"
                                 Margin="10"
                                 Grid.Row="3"
@@ -157,76 +150,18 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="0" Grid.Row="2" Height="290">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"
-                                       MaxHeight="250"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Team 1" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
-                        <TextBlock Grid.Column="1"
-                                   Text="{Binding Team1Probability, Converter={StaticResource ProbabilityToMessageConverter}}"
-                                   Foreground="{Binding Team1Probability, Converter={StaticResource ProbabilityToColorConverter}}"
-                                   Margin="0 10 10 0"
-                                   HorizontalAlignment="Right"/>
-                    </Grid>
-                    <ListView Grid.Row="1" ItemsSource="{Binding Team1}" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Focusable" Value="false"/>
-                                <Setter Property="IsHitTestVisible" Value="False"/>
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Nick}"/>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-            </Border>
-            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="1" Grid.Row="2" Height="290">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Team 2" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
-                        <TextBlock Grid.Column="1" 
-                                   Text="{Binding Team2Probability, Converter={StaticResource ProbabilityToMessageConverter}}"
-                                   Foreground="{Binding Team2Probability, Converter={StaticResource ProbabilityToColorConverter}}"
-                                   Margin="0 10 10 0"
-                                   HorizontalAlignment="Right"/>
-                    </Grid>
-                    <ListView Grid.Row="1" ItemsSource="{Binding Team2}" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Focusable" Value="false"/>
-                                <Setter Property="IsHitTestVisible" Value="False"/>
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Nick}"/>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+            <Border Background="{StaticResource PanelBackgroundColor}" CornerRadius="5" Margin="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                <ListBox ItemsSource="{Binding Teams}"
+                         Background="Transparent"
+                         BorderBrush="Transparent"
+                         Margin="5"
+                         ItemContainerStyle="{StaticResource TeamsListBoxItem}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}, Path=ActualWidth}"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
             </Border>
         </Grid>
     </Border>

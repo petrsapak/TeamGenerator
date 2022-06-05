@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TeamGenerator.Model;
 
 namespace TeamGenerator.Services
@@ -13,35 +13,26 @@ namespace TeamGenerator.Services
 
         private void GetDictionaryOfPlayers(List<Match> session)
         {
-            //Player, number of won rounds, number of matches the player was in
+            //Player's name, number of won rounds, number of matches the player was in
             Dictionary<string, (int, int)> players = new Dictionary<string, (int,int)>();
             Dictionary<string, int> playersWithProposedChanges = new Dictionary<string, int>();
 
             foreach (Match match in session)
             {
-                foreach (Player player in match.Team1.Players)
+                foreach (Team team in match.Teams)
                 {
-                    int adjustedValue = GetAdjustedWonRoundValue(match.Team1Probability, match.Team1Score, match.Team2Score);
-                    if (players.ContainsKey(player.Nick))
-                    {
-                        players[player.Nick] = (players[player.Nick].Item1 + adjustedValue, players[player.Nick].Item2 + 1);
-                    }
-                    else
-                    {
-                        players.Add(player.Nick, (adjustedValue, 1));
-                    }
-                }
+                    int adjustedValue = GetAdjustedWonRoundValue(match, team);
 
-                foreach (Player player in match.Team2.Players)
-                {
-                    int adjustedValue = GetAdjustedWonRoundValue(match.Team2Probability, match.Team2Score, match.Team1Score);
-                    if (players.ContainsKey(player.Nick))
+                    foreach (Player player in team.Players)
                     {
-                        players[player.Nick] = (players[player.Nick].Item1 + adjustedValue, players[player.Nick].Item2 + 1);
-                    }
-                    else
-                    {
-                        players.Add(player.Nick, (adjustedValue, 1));
+                        if (players.ContainsKey(player.Nick))
+                        {
+                            players[player.Nick] = (players[player.Nick].Item1 + adjustedValue, players[player.Nick].Item2 + 1);
+                        }
+                        else
+                        {
+                            players.Add(player.Nick, (adjustedValue, 1));
+                        }
                     }
                 }
             }
@@ -69,11 +60,12 @@ namespace TeamGenerator.Services
             }
         }
 
-        private int GetAdjustedWonRoundValue(int teamWinProbability, int teamScore, int oppositeTeamScore)
+        private int GetAdjustedWonRoundValue(Match match, Team team)
         {
-            int probabilityDifference = (2 * teamWinProbability) - 100;
-            int scoreDifference = teamScore - oppositeTeamScore;
-            int adjustedValue = teamScore;
+            int probabilityDifference = (2 * team.WinProbability) - 100;
+            var oppositeTeam = match.Teams.Where(t => t != team).First();
+            int scoreDifference = team.Score - oppositeTeam.Score;
+            int adjustedValue = team.Score; 
 
             if (probabilityDifference <= 4 && probabilityDifference >= -4)
             {
@@ -113,7 +105,7 @@ namespace TeamGenerator.Services
                 }
                 else if (scoreDifference <= -4)
                 {
-                    adjustedValue = adjustedValue + 2;
+                    adjustedValue = adjustedValue - 2;
                 }
             }
 

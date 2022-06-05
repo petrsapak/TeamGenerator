@@ -43,6 +43,7 @@ namespace TeamGenerator.ViewModels
             eventAggregator.GetEvent<UpdateRanksEvent>().Subscribe(UpdateRanks);
 
             PlayerPool = new ObservableCollection<Player>();
+            Teams = new ObservableCollection<Team>();
             Ranks = new List<Rank>
             {
                 new Rank("1", 1),
@@ -83,6 +84,16 @@ namespace TeamGenerator.ViewModels
         }
 
         #region Properties
+
+        private ObservableCollection<Team> teams;
+        public ObservableCollection<Team> Teams
+        {
+            get => teams;
+            set
+            {
+                SetProperty(ref teams, value);
+            }
+        }
 
         private string newPlayerName;
 
@@ -252,8 +263,6 @@ namespace TeamGenerator.ViewModels
             }
         }
 
-
-
         #endregion
 
         #region Commands
@@ -322,6 +331,10 @@ namespace TeamGenerator.ViewModels
             Team1 = new ObservableCollection<Player>(teams.Item1.Players);
             Team2 = new ObservableCollection<Player>(teams.Item2.Players);
 
+            Teams = new ObservableCollection<Team>();
+            var firstTeam = teams.Item1;
+            var secondTeam = teams.Item2;
+
             double counterTerroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item1);
             double terroristTeamEvaluation = evaluator.EvaluateTeam(teams.Item2);
             double sumOfEvaluations = counterTerroristTeamEvaluation + terroristTeamEvaluation;
@@ -331,6 +344,11 @@ namespace TeamGenerator.ViewModels
 
             Team1Probability = (int)counterTerroristsChanceOfWinning;
             Team2Probability = (int)terroristsChanceOfWinning;
+            firstTeam.WinProbability = Team1Probability;
+            secondTeam.WinProbability = Team2Probability;
+
+            Teams.Add(teams.Item1);
+            Teams.Add(teams.Item2);
 
             SaveResultCommand.RaiseCanExecuteChanged();
             statusMessageService.UpdateStatusMessage($"Teams generated.");
@@ -401,27 +419,11 @@ namespace TeamGenerator.ViewModels
 
         private void SaveMatchResult()
         {
-            Team team1 = new Team("Team 1")
-            {
-                Players = Team1.ToList(),
-                Score = team1Score
-            };
-
-            Team team2 = new Team("Team 2")
-            {
-                Players = Team2.ToList(),
-                Score = team2Score
-            };
-
             Match match = new Match()
             {
                 CreationDate = DateTime.Now.ToString("dd.MM.yy HH:mm:ss"),
-                Team1 = team1,
-                Team2 = team2
+                Teams = this.Teams,
             };
-
-            match.Team1Probability = Team1Probability;
-            match.Team2Probability = Team2Probability;
 
             statisticsDataService.SaveMatchStatistics(match);
             statusMessageService.UpdateStatusMessage($"Match saved.");

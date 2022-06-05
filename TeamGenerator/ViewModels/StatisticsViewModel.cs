@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
 using System;
@@ -8,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Windows;
 using TeamGenerator.Infrastructure.Events;
 using TeamGenerator.Infrastructure.Services;
 using TeamGenerator.Model;
@@ -71,12 +69,14 @@ namespace TeamGenerator.ViewModels
             LoadMatchesCommand = new DelegateCommand(LoadMatches);
             SaveMatchesCommand = new DelegateCommand(SaveMatches);
             UpdatePoolCommand = new DelegateCommand(UpdatePool);
+            ClearMatchesCommand = new DelegateCommand(ClearMatches);
         }
 
         public DelegateCommand RemoveMatchCommand { get; private set; }
         public DelegateCommand LoadMatchesCommand { get; private set; }
         public DelegateCommand SaveMatchesCommand { get; private set; }
         public DelegateCommand UpdatePoolCommand { get; private set; }
+        public DelegateCommand ClearMatchesCommand { get; private set; }
 
         private void UpdatePool()
         {
@@ -84,10 +84,15 @@ namespace TeamGenerator.ViewModels
             rankUpdateService.ProposeRankUpdates(Matches.ToList());
         }
 
+        private void ClearMatches()
+        {
+            Matches.Clear();
+            statusMessageService.UpdateStatusMessage($"All matches removed.");
+        }
+
         private void RemoveMatch()
         {
             Matches.Remove(SelectedMatch);
-
             statusMessageService.UpdateStatusMessage($"Match removed.");
         }
 

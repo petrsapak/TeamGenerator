@@ -51,9 +51,6 @@
     <Page Update="Styles\DefaultStyles.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Styles\ListViewItemStyle.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
     <Page Update="Styles\ListViewStyle.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

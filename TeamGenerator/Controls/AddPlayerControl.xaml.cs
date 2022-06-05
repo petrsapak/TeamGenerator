@@ -44,7 +44,5 @@ namespace TeamGenerator.Controls
             get { return (ObservableCollection<Rank>)GetValue(RanksProperty); }
             set { SetValue(RanksProperty, value); }
         }
-
-
     }
 }

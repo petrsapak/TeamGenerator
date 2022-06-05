@@ -18,68 +18,79 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="5*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Last matches" FontSize="16" Foreground="{StaticResource ForegroundColor}" Margin="10 5"/>
-                    <ListView ItemsSource="{Binding Matches}"
-                              SelectedItem="{Binding SelectedMatch}"
-                              Grid.Row = "1"
-                              ItemContainerStyle="{StaticResource PlayerPoolListViewItemStyle}"
-                              Margin="5"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ListView.InputBindings>
+                    <ListBox ItemsSource="{Binding Matches}"
+                             SelectedItem="{Binding SelectedMatch}"
+                             Grid.Row="1"
+                             ItemContainerStyle="{StaticResource MatchesListBoxItem}"
+                             Margin="5"
+                             BorderBrush="Transparent"
+                             Background="Transparent"
+                             ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                        <ListBox.InputBindings>
                             <KeyBinding Key="Delete" Command="{Binding RemoveMatchCommand}"/>
-                        </ListView.InputBindings>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="150" DisplayMemberBinding="{Binding CreationDate}"/>
-                                <GridViewColumn Width="250" DisplayMemberBinding="{Binding Team1, Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
-                                <GridViewColumn Width="250" DisplayMemberBinding="{Binding Team2, Converter={StaticResource ReduceStringLengthConverter}, ConverterParameter=40}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team1Probability}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team2Probability}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team1.Score}"/>
-                                <GridViewColumn Width="30" DisplayMemberBinding="{Binding Team2.Score}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Grid Grid.Row="2" HorizontalAlignment="Right">
+                        </ListBox.InputBindings>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}, Path=ActualWidth}"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    <Grid Grid.Row="2" Margin="0 0 0 5">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0"
                                 Padding="5"
-                                Command="{Binding SaveMatchesCommand}"
+                                Command="{Binding ClearMatchesCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="5 5 0 5">
+                                Margin="5 5 0 5"
+                                HorizontalAlignment="Left">
                             <Button.Content>
-                                <TextBlock Text="Save data" TextWrapping="Wrap"/>
+                                <TextBlock Text="Clear data" TextWrapping="Wrap"/>
                             </Button.Content>
                         </Button>
                         <Button Grid.Column="1"
                                 Padding="5"
-                                Command="{Binding LoadMatchesCommand}"
+                                Command="{Binding SaveMatchesCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="5 5 0 5">
+                                Margin="5 5 0 5"
+                                HorizontalAlignment="Right">
                             <Button.Content>
-                                <TextBlock Text="Load data" TextWrapping="Wrap"/>
+                                <TextBlock Text="Save data" TextWrapping="Wrap"/>
                             </Button.Content>
                         </Button>
                         <Button Grid.Column="2"
                                 Padding="5"
+                                Command="{Binding LoadMatchesCommand}"
+                                Height="80"
+                                Width="80"
+                                Margin="5 5 0 5"
+                                HorizontalAlignment="Right">
+                            <Button.Content>
+                                <TextBlock Text="Load data" TextWrapping="Wrap"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="3"
+                                Padding="5"
                                 Command="{Binding UpdatePoolCommand}"
                                 Height="80"
                                 Width="80"
-                                Margin="5 5 10 5">
+                                Margin="5 5 10 5"
+                                HorizontalAlignment="Right">
                             <Button.Content>
                                 <TextBlock Text="Update pool" TextWrapping="Wrap"/>
                             </Button.Content>
                         </Button>
-
                     </Grid>
                 </Grid>
             </Border>
