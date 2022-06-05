@@ -21,9 +21,10 @@
                        Margin="10 5"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
-            <Separator Grid.Row="1" Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"/>
+            <Separator Grid.Row="1"
+                       Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"/>
             <ListBox ItemsSource="{Binding Teams}"
-                     Background="Transparent"
+                     Background="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
                      BorderBrush="Transparent"
                      Margin="5"
                      Grid.Row="2"
