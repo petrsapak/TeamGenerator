@@ -5,10 +5,10 @@ namespace TeamGenerator.Model
 {
     public class Player : ICloneable
     {
-        public string Nick { get; private set; }
-        public string Name { get; private set; }
+        public string Nick { get; }
+        public string Name { get; }
         public Rank Rank { get; set; }
-        public bool? Bot { get; private set; }
+        public bool? Bot { get; }
 
         public Player(string nick, Rank rank, bool? bot = false)
         {
@@ -19,18 +19,10 @@ namespace TeamGenerator.Model
             Bot = bot ?? throw new ArgumentNullException(nameof(bot));
         }
 
-        private Player() { }
-
         public object Clone()
         {
-            Player clone = new Player()
-            {
-                Nick = Nick,
-                Rank = Rank,
-                Bot = Bot
-            };
-
-            return clone;
+            Player clonedPlayer = new Player(nick: Nick, rank: Rank, bot: Bot);
+            return clonedPlayer;
         }
 
         public override string ToString()
