@@ -28,7 +28,7 @@
                      BorderBrush="Transparent"
                      Margin="5"
                      Grid.Row="2"
-                     ItemContainerStyle="{StaticResource TeamsListBoxItem}">
+                     ItemContainerStyle="{StaticResource TeamsListBoxItemReadOnly}">
             </ListBox>
         </Grid>
     </Border>

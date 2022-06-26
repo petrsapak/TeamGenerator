@@ -12,12 +12,26 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                       Text="{Binding Name}"
-                       FontSize="16"
-                       HorizontalAlignment="Center"
-                       Margin="10 5"
-                       Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"/>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Text="{Binding Name}"
+                           FontSize="16"
+                           HorizontalAlignment="Center"
+                           Margin="10 5"
+                           Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"/>
+                <CheckBox Grid.Column="1"
+                          Margin="5"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          IsChecked="{Binding IsActive}"
+                          Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
+                          Background="{StaticResource BackgroundColor}"
+                          Style="{StaticResource PlayerActiveCheckBox}"/>
+            </Grid>
             <Separator Grid.Row="1" HorizontalAlignment="Stretch" Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"/>
             <TextBlock Grid.Row="2"
                        Text="{Binding Rank.Value}"

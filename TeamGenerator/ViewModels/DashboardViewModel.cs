@@ -320,7 +320,7 @@ namespace TeamGenerator.ViewModels
         {
             IGeneratorSettings settings = new GeneratorSettings()
             {
-                AvailablePlayerPool = PlayerPool,
+                AvailablePlayerPool = PlayerPool.Where(p => p.IsActive == true),
                 UseBots = EnableBots,
                 BotQuotient = BotQuotient,
                 MaxBotCount = MaxBotCount
