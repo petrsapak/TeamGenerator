@@ -8,7 +8,7 @@ namespace TeamGenerator.Model
 {
     public class Team : ICloneable
     {
-        public string Name { get; private set; }
+        public string Name { get; private init; }
         //this setter is public because of System.Text.Json bug - it won't deserialize otherwise
         public List<Player> Players { get; set; }
         public int BotCount { get; private set; }
@@ -34,7 +34,7 @@ namespace TeamGenerator.Model
                 throw new ArgumentNullException(nameof(player));
             }
 
-            if (!Players.Any(p => p.Nick == player.Nick))
+            if (Players.All(p => p.Nick != player.Nick))
             {
                 Players.Add(player);
             }

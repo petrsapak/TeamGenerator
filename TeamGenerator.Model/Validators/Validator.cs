@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace TeamGenerator.Model.Validators
 {
@@ -13,12 +14,7 @@ namespace TeamGenerator.Model.Validators
 
         private static bool IsWhiteSpace(string value)
         {
-            for(int i = 0; i < value.Length; i++)
-            {
-                if(!Char.IsWhiteSpace(value[i])) return false;
-            }
-
-            return true;
+            return value.All(char.IsWhiteSpace);
         }
 
         internal static void ValidateDouble(double? value)
@@ -28,7 +24,7 @@ namespace TeamGenerator.Model.Validators
 
         private static void ValidateNotNull(object value)
         {
-            if(value == null)
+            if (value is null)
                 throw new ArgumentNullException("Null values are not allowed.");
         }
     }

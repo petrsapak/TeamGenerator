@@ -5,7 +5,7 @@ namespace TeamGenerator.Model
 {
     public class Player : ICloneable
     {
-        public string Nick { get; private set; }
+        public string Nick { get; }
         public Rank Rank { get; set; }
         public bool? Bot { get; private set; }
         public bool IsActive { get; set; }
@@ -19,19 +19,9 @@ namespace TeamGenerator.Model
             IsActive = true;
         }
 
-        private Player() { }
-
         public object Clone()
         {
-            Player clone = new Player()
-            {
-                Nick = Nick,
-                Rank = Rank,
-                Bot = Bot,
-                IsActive = IsActive
-            };
-
-            return clone;
+            return new Player(Nick, Rank, Bot);
         }
 
         public override string ToString()
