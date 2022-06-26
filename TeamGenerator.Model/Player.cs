@@ -9,6 +9,7 @@ namespace TeamGenerator.Model
         public string Name { get; private set; }
         public Rank Rank { get; set; }
         public bool? Bot { get; private set; }
+        public bool IsActive { get; set; }
 
         public Player(string nick, Rank rank, bool? bot = false)
         {
@@ -17,6 +18,7 @@ namespace TeamGenerator.Model
             Name = nick;
             Rank = rank ?? throw new ArgumentNullException(nameof(rank));
             Bot = bot ?? throw new ArgumentNullException(nameof(bot));
+            IsActive = true;
         }
 
         private Player() { }
@@ -27,7 +29,8 @@ namespace TeamGenerator.Model
             {
                 Nick = Nick,
                 Rank = Rank,
-                Bot = Bot
+                Bot = Bot,
+                IsActive = IsActive
             };
 
             return clone;

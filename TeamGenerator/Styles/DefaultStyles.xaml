@@ -127,9 +127,21 @@
                     <BulletDecorator Background="Transparent">
                         <BulletDecorator.Bullet>
                             <Border x:Name="Border"
-                                    Width="13" 
-                                    Height="13" CornerRadius="0" Background="Transparent" BorderThickness="1" BorderBrush="{StaticResource ForegroundColor}">
-                                <Path Width="7" Height="7" x:Name="CheckMark" SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{StaticResource ForegroundColor}" StrokeThickness="2" Data="M 0 0 L 7 7 M 0 7 L 7 0"/>
+                                    Width="13"
+                                    Height="13"
+                                    CornerRadius="0"
+                                    Background="Transparent"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource ForegroundColor}">
+                                <Path Width="7"
+                                      Height="7"
+                                      x:Name="CheckMark"
+                                      SnapsToDevicePixels="True"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Stroke="{StaticResource ForegroundColor}"
+                                      StrokeThickness="2"
+                                      Data="M 0 0 L 7 7 M 0 7 L 7 0"/>
                             </Border>
                         </BulletDecorator.Bullet>
                         <ContentPresenter Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True"/>
@@ -141,7 +153,55 @@
                         <Trigger Property="IsChecked" Value="{x:Null}">
                             <Setter TargetName="CheckMark" Property="Data" Value="M 0 7 L 7 0" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource BackgroundColor}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PlayerActiveCheckBox" TargetType="{x:Type CheckBox}">
+        <Setter Property="FontFamily" Value="{StaticResource ChakraPetchMedium}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundColor}"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource CheckBoxFocusVisual}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <BulletDecorator Background="Transparent">
+                        <BulletDecorator.Bullet>
+                            <Border x:Name="Border"
+                                    Width="13"
+                                    Height="13"
+                                    CornerRadius="0"
+                                    Background="Transparent"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource ForegroundColor}">
+                                <Path Width="7"
+                                      Height="7"
+                                      x:Name="CheckMark"
+                                      SnapsToDevicePixels="True"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Stroke="{StaticResource ForegroundColor}"
+                                      StrokeThickness="2"
+                                      Data="M 0 0 L 7 7 M 0 7 L 7 0"/>
+                            </Border>
+                        </BulletDecorator.Bullet>
+                        <ContentPresenter Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True"/>
+                    </BulletDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter TargetName="CheckMark" Property="Data" Value="M 0 7 L 7 0" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource BackgroundColor}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -401,7 +461,37 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="TeamsListBoxItemReadOnly" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:TeamControl MinHeight="50" MinWidth="100" Margin="5"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="MatchesListBoxItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:MatchControl MinHeight="50" MinWidth="100" Margin="5"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MatchesListBoxItemReadOnly" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
@@ -419,7 +509,7 @@
     <Style x:Key="VerticalSeparatorStyle" 
            TargetType="{x:Type Separator}"
            BasedOn="{StaticResource {x:Type Separator}}">
-        <Setter Property="Margin" Value="6,0,6,0"/>
+        <Setter Property="Margin" Value="6,0,6,-2"/>
         <Setter Property="LayoutTransform">
             <Setter.Value>
                 <TransformGroup>
