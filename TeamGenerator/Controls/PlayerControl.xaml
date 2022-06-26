@@ -29,7 +29,7 @@
                           VerticalAlignment="Center"
                           IsChecked="{Binding IsActive}"
                           Foreground="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
-                          Background="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
+                          Background="{StaticResource BackgroundColor}"
                           Style="{StaticResource PlayerActiveCheckBox}"/>
             </Grid>
             <Separator Grid.Row="1" HorizontalAlignment="Stretch" Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"/>
