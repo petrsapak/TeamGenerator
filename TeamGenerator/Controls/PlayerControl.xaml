@@ -5,7 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TeamGenerator.Controls"
              mc:Ignorable="d">
-    <Border CornerRadius="5" BorderThickness="1" BorderBrush="{StaticResource ForegroundColor}" Background="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}">
+    <Border CornerRadius="5"
+            BorderThickness="{Binding BorderThickness, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}"
+            BorderBrush="{StaticResource ForegroundColor}"
+            Background="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -18,7 +21,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0"
-                           Text="{Binding Name}"
+                           Text="{Binding Nick}"
                            FontSize="16"
                            HorizontalAlignment="Center"
                            Margin="10 5"

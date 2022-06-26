@@ -420,6 +420,7 @@
         <Setter Property="IsHitTestVisible" Value="True" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundColor}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -430,12 +431,10 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource BackgroundColor}"/>
-                <Setter Property="Background" Value="{StaticResource ForegroundColor}"/>
+                <Setter Property="BorderThickness" Value="5"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource BackgroundColor}"/>
-                <Setter Property="Background" Value="{StaticResource ForegroundColor}"/>
+                <Setter Property="BorderThickness" Value="5"/>
             </Trigger>
         </Style.Triggers>
     </Style>
