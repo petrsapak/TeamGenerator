@@ -5,8 +5,8 @@ namespace TeamGenerator.Model
 {
     public class Player : ICloneable
     {
-        public string Nick { get; private set; }
-        public string Name { get; private set; }
+        public string Nick { get; }
+        public string Name { get; }
         public Rank Rank { get; set; }
         public bool? Bot { get; private set; }
         public bool IsActive { get; set; }
@@ -20,8 +20,6 @@ namespace TeamGenerator.Model
             Bot = bot ?? throw new ArgumentNullException(nameof(bot));
             IsActive = true;
         }
-
-        private Player() { }
 
         public object Clone()
         {
